@@ -1,0 +1,25 @@
+{
+  "suspensionForks": [
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "Paragon™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "Rudy™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "XPLR™*", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "XC™ 28", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "XC 30", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "30™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "Judy®", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "Recon™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "Sektor™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "35™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "Bluto™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "REBA®", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "SID®", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "RS-1™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "Revelation™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "PIKE®", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "Lyrik™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "Yari™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "Domain™*", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "ZEB™", "serviceInterval": "50 Hours" },
+    { "suspensionComponentType": "Suspension Fork", "manufacturer": "Rockshox", "productName": "BoXXer®", "serviceInterval": "50 Hours" }
+  ]
+}

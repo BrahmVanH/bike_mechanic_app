@@ -1,0 +1,9 @@
+{
+  "rearShocks": [
+    { "suspensionComponentType": "Rear Shock", "manufacturer": "Rockshox", "productName": "Monarch™", "serviceInterval": "50 Hours", "serviceType": "Air Can Service" },
+    { "suspensionComponentType": "Rear Shock", "manufacturer": "Rockshox", "productName": "Monarch Plus™", "serviceInterval": "50 Hours", "serviceType": "Air Can Service" },
+    { "suspensionComponentType": "Rear Shock", "manufacturer": "Rockshox", "productName": "Deluxe™", "serviceInterval": "50 Hours", "serviceType": "Air Can Service" },
+    { "suspensionComponentType": "Rear Shock", "manufacturer": "Rockshox", "productName": "Super Deluxe™", "serviceInterval": "50 Hours", "serviceType": "Air Can Service" },
+    { "suspensionComponentType": "Rear Shock", "manufacturer": "Rockshox", "productName": "Vivid Air™", "serviceInterval": "50 Hours", "serviceType": "Air Can Service" }
+  ]
+}
