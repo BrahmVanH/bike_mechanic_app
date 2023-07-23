@@ -1,0 +1,327 @@
+{
+  "models": [
+    {
+      "year": "2019",
+      "modelName": "30 Gold",
+      "model": "R 26",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "30 Gold",
+      "model": "R 27.5",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "30 Gold",
+      "model": "R 29",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "30 Silver",
+      "model": "TK 26",
+      "damper": "Turnkey",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "30 Silver",
+      "model": "TK 26",
+      "damper": "Turnkey",
+      "spring": "Coil"
+    },
+    {
+      "year": "2019",
+      "modelName": "30 Silver",
+      "model": "TK 27.5",
+      "damper": "Turnkey",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "30 Silver",
+      "model": "TK 27.5",
+      "damper": "Turnkey",
+      "spring": "Coil"
+    },
+    {
+      "year": "2019",
+      "modelName": "30 Silver",
+      "model": "TK 29",
+      "damper": "Turnkey",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "30 Silver",
+      "model": "TK 29",
+      "damper": "Turnkey",
+      "spring": "Coil"
+    },
+    {
+      "year": "2019",
+      "modelName": "Bluto",
+      "model": "RL",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Bluto",
+      "model": "RL",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Boxxer",
+      "model": "RC",
+      "damper": "Charger Damper RC",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "Boxxer",
+      "model": "World Cup (RC2)",
+      "damper": "Charger 2 Damper",
+      "spring": "DebonAir"
+    },
+    {
+      "year": "2019",
+      "modelName": "Judy Gold",
+      "model": "RL",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Judy Silver",
+      "model": "TK",
+      "damper": "Turnkey",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Lyrik",
+      "model": "RC",
+      "damper": "Charger 2 Damper",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "Lyrik",
+      "model": "RC2",
+      "damper": "Charger 2 Damper",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "Lyrik",
+      "model": "RCT3",
+      "damper": "Charger 2 Damper",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "Paragon Gold",
+      "model": "RL",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Paragon Silver",
+      "model": "TK",
+      "damper": "Turnkey",
+      "spring": "Coil"
+    },
+    {
+      "year": "2019",
+      "modelName": "Pike",
+      "model": "DJ",
+      "damper": "Charger Damper RC",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Pike",
+      "model": "RC",
+      "damper": "Charger 2 Damper",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "Pike",
+      "model": "RCT3",
+      "damper": "Charger 2 Damper",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "Reba",
+      "model": "RL 100",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Reba",
+      "model": "RL 120",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Reba",
+      "model": "RL 130-150",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Recon",
+      "model": "RL 27.5 80-120",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Recon",
+      "model": "RL 27.5 130-140",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Recon",
+      "model": "RL 29 80-120",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Recon",
+      "model": "RL 29 130-140",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Recon",
+      "model": "RL 27.5 Boost 80-150",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Recon",
+      "model": "RL 29 Boost 80-140",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Recon",
+      "model": "TK",
+      "damper": "Turnkey",
+      "spring": "Coil"
+    },
+    {
+      "year": "2019",
+      "modelName": "Recon Gold",
+      "model": "RL 27.5 80-120",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Recon Gold",
+      "model": "RL 27.5 130",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Recon Gold",
+      "model": "RL 29",
+      "damper": "Motion Control",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Revelation",
+      "model": "RC",
+      "damper": "Charger Damper RC",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "Revelation",
+      "model": "RC",
+      "damper": "Motion Control",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "RS-1",
+      "model": "RLC",
+      "damper": "Charger 2 Damper",
+      "spring": "Solo Air"
+    },
+    {
+      "year": "2019",
+      "modelName": "Sektor",
+      "model": "RL",
+      "damper": "Motion Control",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "SID",
+      "model": "RL",
+      "damper": "Charger 2 Damper",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "SID",
+      "model": "RLC",
+      "damper": "Charger 2 Damper",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "SID",
+      "model": "World Cup",
+      "damper": "Charger 2 Damper",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "XC 30",
+      "model": "TK",
+      "damper": "Turnkey",
+      "spring": "Coil"
+    },
+    {
+      "year": "2019",
+      "modelName": "Yari",
+      "model": "RC",
+      "damper": "Charger Damper RC",
+      "spring": "Debonair"
+    },
+    {
+      "year": "2019",
+      "modelName": "Yari",
+      "model": "RC",
+      "damper": "Motion Control",
+      "spring": "Debonair"
+    }
+  ]
+}
+
