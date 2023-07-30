@@ -1,0 +1,65 @@
+{
+  
+  "100 Hours": [
+    {
+      "model": "Paragon",
+      "serviceType": "Damper and Spring",
+      "year": "all"
+    },
+    {
+      "model": "XC 28",
+      "serviceType": "Damper and Spring",
+      "year": "all"
+    },
+    {
+      "model": "XC 30",
+      "serviceType": "Damper and Spring",
+      "year": "all"
+    },
+    {
+      "model": "30",
+      "serviceType": "Damper and Spring",
+      "year": "2015 and earlier"
+    },
+    {
+      "model": "Recon",
+      "serviceType": "Damper and Spring",
+      "year": "2015 and earlier"
+    },
+    {
+      "model": "Sektor",
+      "serviceType": "Damper and Spring",
+      "year": "2015 and earlier"
+    },
+    {
+      "model": "Bluto",
+      "serviceType": "Damper and Spring",
+      "year": "2016 and earlier"
+    },
+    {
+      "model": "Revelation",
+      "serviceType": "Damper and Spring",
+      "year": "2017 and earlier"
+    },
+    {
+      "model": "REBA",
+      "serviceType": "Damper and Spring",
+      "year": "2016 and earlier"
+    },
+    {
+      "model": "SID",
+      "serviceType": "Damper and Spring",
+      "year": "2016 and earlier"
+    },
+    {
+      "model": "RS-1",
+      "serviceType": "Damper and Spring",
+      "year": "2017 and earlier"
+    },
+    {
+      "model": "BoXXer",
+      "serviceType": "Damper and Spring",
+      "year": "2018 and earlier"
+    }
+  ]
+}
