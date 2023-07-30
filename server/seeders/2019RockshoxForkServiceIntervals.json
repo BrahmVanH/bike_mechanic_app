@@ -282,7 +282,7 @@
 			"wheelSize": "All",
 			"serviceIntervals": [
 				{ "timeDuration": "50 Hours", "serviceType": "Lower Leg" },
-				{ "timeDuration": "200 Hours", "serviceType": "Damper and Spring" }
+				{ "timeDuration": "100 Hours", "serviceType": "Damper and Spring" }
 			]
 		},
 		{
@@ -297,7 +297,7 @@
 			"wheelSize": "All",
 			"serviceIntervals": [
 				{ "timeDuration": "50 Hours", "serviceType": "Lower Leg" },
-				{ "timeDuration": "200 Hours", "serviceType": "Damper and Spring" }
+				{ "timeDuration": "100 Hours", "serviceType": "Damper and Spring" }
 			]
 		},
 		{
@@ -657,7 +657,7 @@
 			"wheelSize": "All",
 			"serviceIntervals": [
 				{ "timeDuration": "50 Hours", "serviceType": "Lower Leg" },
-				{ "timeDuration": "200 Hours", "serviceType": "Damper and Spring" }
+				{ "timeDuration": "100 Hours", "serviceType": "Damper and Spring" }
 			]
 		},
 		{
