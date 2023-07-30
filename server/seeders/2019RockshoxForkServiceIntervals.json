@@ -8,7 +8,6 @@
       "model": "R 26",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -19,7 +18,6 @@
       "model": "R 27.5",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -30,7 +28,6 @@
       "model": "R 29",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -41,7 +38,6 @@
       "model": "TK 26",
       "damperType": "Turnkey",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -52,7 +48,6 @@
       "model": "TK 26",
       "damperType": "Turnkey",
       "springType": "Coil",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -63,7 +58,6 @@
       "model": "TK 27.5",
       "damperType": "Turnkey",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -74,7 +68,6 @@
       "model": "TK 27.5",
       "damperType": "Turnkey",
       "springType": "Coil",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -85,7 +78,6 @@
       "model": "TK 29",
       "damperType": "Turnkey",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -96,7 +88,6 @@
       "model": "TK 29",
       "damperType": "Turnkey",
       "springType": "Coil",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -107,7 +98,6 @@
       "model": "RL",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -118,7 +108,6 @@
       "model": "RL",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -129,7 +118,6 @@
       "model": "RC",
       "damperType": "Charger Damper RC",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -140,7 +128,6 @@
       "model": "World Cup (RC2)",
       "damperType": "Charger 2 Damper",
       "springType": "DebonAir",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -151,7 +138,6 @@
       "model": "RL",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -162,7 +148,6 @@
       "model": "TK",
       "damperType": "Turnkey",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -173,7 +158,6 @@
       "model": "RC",
       "damperType": "Charger 2 Damper",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -184,7 +168,6 @@
       "model": "RC2",
       "damperType": "Charger 2 Damper",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -195,7 +178,6 @@
       "model": "RCT3",
       "damperType": "Charger 2 Damper",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -206,7 +188,6 @@
       "model": "RL",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -217,7 +198,6 @@
       "model": "TK",
       "damperType": "Turnkey",
       "springType": "Coil",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -228,7 +208,6 @@
       "model": "DJ",
       "damperType": "Charger Damper RC",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -239,7 +218,6 @@
       "model": "RC",
       "damperType": "Charger 2 Damper",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -250,7 +228,6 @@
       "model": "RCT3",
       "damperType": "Charger 2 Damper",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -261,7 +238,6 @@
       "model": "RL 100",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "100"
     },
     {
@@ -272,7 +248,6 @@
       "model": "RL 120",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "120"
     },
     {
@@ -283,7 +258,6 @@
       "model": "RL 130-150",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "130-150"
     },
     {
@@ -294,7 +268,6 @@
       "model": "RL 27.5 80-120",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "80-120"
     },
     {
@@ -305,7 +278,6 @@
       "model": "RL 27.5 130-140",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "130-140"
     },
     {
@@ -316,7 +288,6 @@
       "model": "RL 29 80-120",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "80-120"
     },
     {
@@ -327,7 +298,6 @@
       "model": "RL 29 130-140",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "130-140"
     },
     {
@@ -338,7 +308,6 @@
       "model": "RL 27.5 Boost 80-150",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "80-150"
     },
     {
@@ -349,7 +318,6 @@
       "model": "RL 29 Boost 80-140",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "80-140"
     },
     {
@@ -360,7 +328,6 @@
       "model": "TK",
       "damperType": "Turnkey",
       "springType": "Coil",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -371,7 +338,6 @@
       "model": "RL 27.5 80-120",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "80-120"
     },
     {
@@ -382,7 +348,6 @@
       "model": "RL 27.5 130",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "130"
     },
     {
@@ -393,7 +358,6 @@
       "model": "RL 29",
       "damperType": "Motion Control",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -404,7 +368,6 @@
       "model": "RC",
       "damperType": "Charger Damper RC",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -415,7 +378,6 @@
       "model": "RC",
       "damperType": "Motion Control",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -426,7 +388,6 @@
       "model": "RLC",
       "damperType": "Charger 2 Damper",
       "springType": "Solo Air",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -437,7 +398,6 @@
       "model": "RL",
       "damperType": "Motion Control",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -448,7 +408,6 @@
       "model": "RL",
       "damperType": "Charger 2 Damper",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -459,7 +418,6 @@
       "model": "RLC",
       "damperType": "Charger 2 Damper",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -470,7 +428,6 @@
       "model": "World Cup",
       "damperType": "Charger 2 Damper",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -481,7 +438,6 @@
       "model": "TK",
       "damperType": "Turnkey",
       "springType": "Coil",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -492,7 +448,6 @@
       "model": "RC",
       "damperType": "Charger Damper RC",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     },
     {
@@ -503,7 +458,6 @@
       "model": "RC",
       "damperType": "Motion Control",
       "springType": "Debonair",
-      "serviceInterval": [{ "timeInterval": "50 Hours", "serviceType": "Lower Leg"}, { "timeInterval": "100 Hours"}],
       "travel": "All"
     }
   ]
