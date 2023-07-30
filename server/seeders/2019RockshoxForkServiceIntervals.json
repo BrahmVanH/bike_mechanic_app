@@ -13,29 +13,7 @@
       "serviceIntervals": [
         { "timeDuration": "50 Hours", "serviceType": "Lower Leg" },
         { "timeDuration": "200 Hours", "serviceType": "Damper and Spring" }
-      ],
-      "oilVolumes": {
-        "damper": {
-          "upperTube": {
-            "volumeML": "85",
-            "oilWeight": "5"
-          },
-          "lowerLeg": {
-            "volumeML": "6",
-            "oilWeight": "15"
-          }
-        },
-        "spring": {
-          "upperTube": {
-            "volumeML": "5",
-            "oilWeight": "5"
-          },
-          "lowerLeg": {
-            "volumeML": "6",
-            "oilWeight": "15"
-          }
-        }
-      }
+      ]
     },
     {
       "componentType": "Suspension Fork",
