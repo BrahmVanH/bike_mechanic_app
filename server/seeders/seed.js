@@ -1,7 +1,8 @@
 const db = require("../config/connection");
-const { RockshoxForkOilBath, FoxForkOilBath } = require("../models");
+const { RockshoxForkOilBath, FoxForkOilBath, MarzocchiForkOilBath } = require("../models");
 const rockshoxForkOilBathSeeds = require("./webScraperData/forkOilBathVolumesRockshox.json");
 const foxForkOilBathSeeds = require("./webScraperData/forkOilBathVolumesFox.json");
+const marzocchiForkOilBathSeeds = require("./webScraperData/forkOilBathVolumesMarzocchi.json");
 
 (async () => {
   try {
@@ -9,9 +10,12 @@ const foxForkOilBathSeeds = require("./webScraperData/forkOilBathVolumesFox.json
 
     await RockshoxForkOilBath.deleteMany({});
     await FoxForkOilBath.deleteMany({});
+    await MarzocchiForkOilBath.deleteMany({});
+
 
     await RockshoxForkOilBath.create(rockshoxForkOilBathSeeds);
     await FoxForkOilBath.create(foxForkOilBathSeeds);
+    await MarzocchiForkOilBath.create(marzocchiForkOilBathSeeds);
 
     console.log("done seeding");
     process.exit(0);
