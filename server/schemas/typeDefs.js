@@ -22,7 +22,6 @@ const typeDefs = gql`
   type FoxForkOilBath {
     _id: ID!
     year: String
-    fork: String!
     model: String!
     damperType: String
     springType: String
@@ -72,6 +71,7 @@ const typeDefs = gql`
 
   type Query {
     allRockshoxForkOilBathInfo: [RockshoxForkOilBath]
+    allFoxForkOilBathInfo: [FoxForkOilBath]
   }
 `;
 

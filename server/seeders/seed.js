@@ -1,22 +1,24 @@
 const db = require("../config/connection");
-const RockshoxForkOilBath = require("../models/RockshoxForkOilBath");
+const { RockshoxForkOilBath, FoxForkOilBath } = require("../models");
 const rockshoxForkOilBathSeeds = require("./webScraperData/forkOilBathVolumesRockshox.json");
-
+const foxForkOilBathSeeds = require("./webScraperData/forkOilBathVolumesFox.json");
 
 (async () => {
-	try {
-		await db; // Wait for MongoDB connection to establish
+  try {
+    await db; // Wait for MongoDB connection to establish
 
-		await RockshoxForkOilBath.deleteMany({});
+    await RockshoxForkOilBath.deleteMany({});
+    await FoxForkOilBath.deleteMany({});
 
-		await RockshoxForkOilBath.create(rockshoxForkOilBathSeeds);
+    await RockshoxForkOilBath.create(rockshoxForkOilBathSeeds);
+    await FoxForkOilBath.create(foxForkOilBathSeeds);
 
-		console.log("done seeding");
-		process.exit(0);
-	} catch (err) {
-		console.error(err);
-		process.exit(1);
-	}
+    console.log("done seeding");
+    process.exit(0);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 })();
 // db.once("open", () => {
 //   try {
@@ -33,10 +35,9 @@ const rockshoxForkOilBathSeeds = require("./webScraperData/forkOilBathVolumesRoc
 // 			}
 // 		});
 
-
 //   } catch (err) {
 //     console.error(err);
 //     process.exit(1);
 //   }
-  
+
 // });
