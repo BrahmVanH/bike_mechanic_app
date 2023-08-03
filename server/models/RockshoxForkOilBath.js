@@ -54,6 +54,6 @@ const rockshoxForkOilBathSchema = new Schema(
   }
 );
 
-const RockshoxForkOilBath = model("rockshoxForkOilBath", rockshoxForkOilBathSchema);
+const RockshoxForkOilBath = model("RockshoxForkOilBath", rockshoxForkOilBathSchema);
 
 module.exports = RockshoxForkOilBath;
