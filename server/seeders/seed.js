@@ -1,14 +1,42 @@
-const db = require('../config/connection');
-const {} = require('../models');
+const db = require("../config/connection");
+const RockshoxForkOilBath = require("../models/RockshoxForkOilBath");
+const rockshoxForkOilBathSeeds = require("./webScraperData/forkOilBathVolumesRockshox.json");
 
-db.once('open', async () => {
+
+(async () => {
 	try {
-		// Add code to delete existing model entries in database
-		
+		await db; // Wait for MongoDB connection to establish
+
+		await RockshoxForkOilBath.deleteMany({});
+
+		await RockshoxForkOilBath.create(rockshoxForkOilBathSeeds);
+
+		console.log("done seeding");
+		process.exit(0);
 	} catch (err) {
 		console.error(err);
 		process.exit(1);
 	}
-	console.log('done seeding flashcard');
-	process.exit(0);
-});
+})();
+// db.once("open", () => {
+//   try {
+//     // Clear database of any entries of this model
+//     RockshoxForkOilBath.deleteMany({}, async () => {
+// 			try {
+// 				// Create database entries from provided seed data
+// 				await RockshoxForkOilBath.create(rockshoxForkOilBathSeeds);
+// 				console.log("done seeding");
+// 			} catch (err) {
+// 				console.error(err);
+// 			} finally {
+// 				process.exit(0);
+// 			}
+// 		});
+
+
+//   } catch (err) {
+//     console.error(err);
+//     process.exit(1);
+//   }
+  
+// });
