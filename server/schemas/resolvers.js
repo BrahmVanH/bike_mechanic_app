@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { RockshoxForkOilBath, FoxForkOilBath } = require("../models");
+const { RockshoxForkOilBath, FoxForkOilBath, MarzocchiForkOilBath } = require("../models");
 
 const resolvers = {
   Query: {
@@ -20,6 +20,15 @@ const resolvers = {
       }
 
       return allFoxForkOilBathInfo;
+    },
+    allMarzocchiForkOilBathInfo: async () => {
+      const allMarzocchiForkOilBathInfo = await MarzocchiForkOilBath.find({});
+      console.log(allMarzocchiForkOilBathInfo);
+      if (!allMarzocchiForkOilBathInfo) {
+        throw new Error("Something went wrong querying all marzocchi fork oil bath information");
+      }
+
+      return allMarzocchiForkOilBathInfo;
     },
   },
 };

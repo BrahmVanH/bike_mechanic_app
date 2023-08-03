@@ -36,6 +36,17 @@ const typeDefs = gql`
     springLowerWt: String
   }
 
+  type MarzocchiForkOilBath {
+    _id: ID!
+    year: String
+    forkModelAndOilType: String!
+    measurement: String
+    locationOne: String
+    volumeOne: String
+    locationTwo: String
+    volumeTwo: String
+  }
+
   # type suspension {
   # 	_id: ID!
   # 	suspensionComponentType: String
@@ -72,6 +83,7 @@ const typeDefs = gql`
   type Query {
     allRockshoxForkOilBathInfo: [RockshoxForkOilBath]
     allFoxForkOilBathInfo: [FoxForkOilBath]
+    allMarzocchiForkOilBathInfo: [MarzocchiForkOilBath]
   }
 `;
 
