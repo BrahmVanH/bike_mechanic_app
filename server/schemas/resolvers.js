@@ -13,7 +13,6 @@ const resolvers = {
       return allRockshoxForkOilBathInfo;
     },
   },
-  Mutation: {},
 };
 
 module.exports = resolvers;
