@@ -1,0 +1,41 @@
+.main-container {
+  display: flex;
+    height: 100vh;
+    width: 100vw;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.welcome-message {
+  padding: .5rem;
+  margin: 1rem;
+}
+
+.search-container {
+  display: flex;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.fork-search-form {
+  padding: 0rem 1rem;
+}
+
+.featured-forks-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.featured-rockshox-fork {
+  margin: .5rem 0rem;
+}
+
+.featured-fox-fork {
+  margin: .5rem 0rem;
+}
+
+.featured-marzocchi-fork {
+  margin: .5rem 0rem;
+}

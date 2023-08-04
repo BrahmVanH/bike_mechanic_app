@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Nav, Container, Tab } from 'react-bootstrap';
 import { disableFragmentWarnings } from '@apollo/client';
 
-import "./style.css";
+import './style.css';
 
 function Navbar() {
 	return (
@@ -12,8 +12,7 @@ function Navbar() {
 				Bike Guru
 			</Link>
 			<Link className='home-btn' to='/'>
-				{' '}
-				Home{' '}
+				Home
 			</Link>
 		</Nav>
 	);

@@ -1,0 +1,29 @@
+{
+  "name": "bike_mechanic_app",
+  "version": "1.0.0",
+  "description": "A full-stack progressive web app that caters to bike mechanics and those who service their own mountain bikes.",
+  "main": "index.js",
+  "dependencies": {
+    "graphql": "^16.7.1",
+    "graphql-tag": "^2.12.6",
+    "hoist-non-react-statics": "^3.3.2",
+    "js-tokens": "^4.0.0",
+    "loose-envify": "^1.4.0",
+    "object-assign": "^4.1.1",
+    "optimism": "^0.16.2",
+    "prop-types": "^15.8.1",
+    "react-is": "^16.13.1",
+    "response-iterator": "^0.2.6",
+    "symbol-observable": "^4.0.0",
+    "ts-invariant": "^0.10.3",
+    "tslib": "^2.6.1",
+    "zen-observable": "^0.8.15",
+    "zen-observable-ts": "^1.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brahm Van Houzen",
+  "license": "ISC"
+}
