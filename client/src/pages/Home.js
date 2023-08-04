@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { Button, Form, Dropdown, Alert } from 'react-bootstrap';
 
+import { useQuery, useMutation } from '@apollo/client';
+import { allRockshoxForkOilBathInfo, allFoxForkOilBathInfo, rockshoxForkOilBathInfoByYear, foxForkOilBathInfoByYear } from '../utils/queries';
+
 import './home.css';
 
 function Home() {
 	const [showAlert, setShowAlert] = useState(false);
+	const [initialQueryParameters, setInitialQueryParameters] = useState({
+		year: '',
+		manufacturer: '',
+	});
 	const [yearInput, setYearInput] = useState('');
 	const [selectedManufacturer, setSelectedManufacturer] = useState('');
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
@@ -21,6 +28,26 @@ function Home() {
 	const handleManufacturerMenuSelect = (event) => {
 		setSelectedManufacturer(event.target.value);
 	};
+
+	const handleManufacturerYearSearch = (event) => {
+		event.preventDefault();
+		setInitialQueryParameters({
+			year: yearInput,
+			manufacturer: selectedManufacturer,
+		});
+	};
+
+	const queryRockshoxForks = async () => {
+		const forkResults = useQuery(rockshoxForkOilBathInfoByYear, {
+			variables: { year: initialQueryParameters.yearInput, manufacturer: initialQueryParameters.manufacturer },
+		});
+	};
+
+	const queryFoxForks = async () => {
+		const forkResults = await useQuery(foxForkOilBathInfoByYear, {
+			variables: { year: initialQueryParameters.year, manufacturer: initialQueryParameters.manufacturer}
+		})
+	}
 
 	return (
 		<div className='main-container'>
@@ -45,7 +72,7 @@ function Home() {
 							<option value='rockshox'>Rockshox</option>
 						</Form.Select>
 					</Form.Group>
-					
+
 					<Form.Group>{/* Add form group dropdown menu for fork name */}</Form.Group>
 					<Form.Group>{/* Add form group dropdown menu for model */}</Form.Group>
 					{/* Button to initiate search */}
