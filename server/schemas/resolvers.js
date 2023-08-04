@@ -12,6 +12,20 @@ const resolvers = {
 
       return allRockshoxForkOilBathInfo;
     },
+    rockshoxForkOilBathInfoByYear: async (parent, { year }) => {
+      const forks = await RockshoxForkOilBath.find({ year: year});
+      if (!forks) {
+        throw new Error("Something went wrong querying rockshox forks by year");
+      }
+      return forks;
+    },
+    rockshoxFOBIByYearFork: async (parent, { year, fork }) => {
+      const forks = await RockshoxForkOilBath.find({ year: year, fork: fork});
+      if (!forks) {
+        throw new Error("Something went wrong querying rockshox forks by year and fork");
+      }
+      return forks;
+    }
     allFoxForkOilBathInfo: async () => {
       const allFoxForkOilBathInfo = await FoxForkOilBath.find({});
       console.log(allFoxForkOilBathInfo);

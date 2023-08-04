@@ -82,7 +82,18 @@ const typeDefs = gql`
 
   type Query {
     allRockshoxForkOilBathInfo: [RockshoxForkOilBath]
+    rockshoxForkOilBathInfoByYear(year: String!): [RockshoxForkOilBath]
+    rockshoxFOBIByYearFork(year: String!, fork: String!): [RockshoxForkOilBath]
+    rockshoxFOBIByYearForkModel(year: String, fork: String, model: String): [RockshoxForkOilBath]
+    rockshoxFOBIByYearForkModelDamper(year: String, fork: String, model: String, damperType: String): [RockshoxForkOilBath]
+    rockshoxFOBIByYearForkModelDamperSpring(year: String, fork: String, model: String, damperType: String, springType: String): [RockshoxForkOilBath]
+    rockshoxFOBIByYearForkModelDamperSpringWheelSize(year: String, fork: String, model: String, damperType: String, springType: String, wheelSize: String): [RockshoxForkOilBath]
     allFoxForkOilBathInfo: [FoxForkOilBath]
+    foxForkOilBathInfoByYear(year: String!): [FoxForkOilBath]
+    foxFOBIByYearModel(year: String, model: String): [FoxForkOilBath]
+    foxFOBIByYearModelDamper(year: String, model: String, damperType: String): [FoxForkOilBath]
+    foxFOBIByYearModelDamperSpring(year: String, model: String, damperType: String, springType: String): [FoxForkOilBath]
+    foxFOBIByYearModelDamperSpringWheelSize(year: String, model: String, damperType: String, springType: String, wheelSize: String): [FoxForkOilBath]
     allMarzocchiForkOilBathInfo: [MarzocchiForkOilBath]
   }
 `;
