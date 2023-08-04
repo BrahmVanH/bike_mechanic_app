@@ -1,0 +1,18 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  background-color: #959D8A;
+  color: black;
+  height: 44px;
+  padding: 1rem;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.home-btn {
+  font-size: 1rem;
+}
