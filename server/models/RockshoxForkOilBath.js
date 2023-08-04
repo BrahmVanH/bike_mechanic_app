@@ -43,7 +43,7 @@ const rockshoxForkOilBathSchema = new Schema(
     springLowerVolume: {
       type: String,
     },
-    springLowerWt: {
+    springLowerOilWt: {
       type: String,
     },
   },

@@ -5,12 +5,6 @@ import './home.css';
 
 function Home() {
 	const [showAlert, setShowAlert] = useState(false);
-	const [userSearchInput, setUserSearchInput] = useState({
-		year: '',
-		manufacturer: '',
-		fork: '',
-		model: '',
-	});
 	const [yearInput, setYearInput] = useState('');
 	const [selectedManufacturer, setSelectedManufacturer] = useState('');
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');

@@ -4,45 +4,45 @@ const { RockshoxForkOilBath, FoxForkOilBath, MarzocchiForkOilBath } = require(".
 const resolvers = {
   Query: {
     allRockshoxForkOilBathInfo: async () => {
-      const allRockshoxForkOilBathInfo = await RockshoxForkOilBath.find({});
+      const forks = await RockshoxForkOilBath.find({});
       console.log(allRockshoxForkOilBathInfo);
       if (!allRockshoxForkOilBathInfo) {
         throw new Error("Something went wrong in querying all rockshox fork oil bath information");
       }
 
-      return allRockshoxForkOilBathInfo;
+      return forks;
     },
     rockshoxForkOilBathInfoByYear: async (parent, { year }) => {
-      const forks = await RockshoxForkOilBath.find({ year: year});
+      const forks = await RockshoxForkOilBath.find({ year: year });
       if (!forks) {
         throw new Error("Something went wrong querying rockshox forks by year");
       }
       return forks;
     },
-    rockshoxFOBIByYearFork: async (parent, { year, fork }) => {
-      const forks = await RockshoxForkOilBath.find({ year: year, fork: fork});
-      if (!forks) {
-        throw new Error("Something went wrong querying rockshox forks by year and fork");
-      }
-      return forks;
-    }
     allFoxForkOilBathInfo: async () => {
-      const allFoxForkOilBathInfo = await FoxForkOilBath.find({});
+      const forks = await FoxForkOilBath.find({});
       console.log(allFoxForkOilBathInfo);
       if (!allFoxForkOilBathInfo) {
         throw new Error("something went wrong querying all fox fork oil bath information");
       }
 
-      return allFoxForkOilBathInfo;
+      return forks;
+    },
+    rockshoxForkOilBathInfoByYear: async (parent, { year }) => {
+      const forks = await FoxForkOilBath.find({ year: year });
+      if (!forks) {
+        throw new Error("Something went wrong querying fox forks by year");
+      }
+      return forks;
     },
     allMarzocchiForkOilBathInfo: async () => {
-      const allMarzocchiForkOilBathInfo = await MarzocchiForkOilBath.find({});
+      const forks = await MarzocchiForkOilBath.find({});
       console.log(allMarzocchiForkOilBathInfo);
       if (!allMarzocchiForkOilBathInfo) {
         throw new Error("Something went wrong querying all marzocchi fork oil bath information");
       }
 
-      return allMarzocchiForkOilBathInfo;
+      return forks;
     },
   },
 };
