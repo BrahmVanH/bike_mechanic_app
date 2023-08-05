@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Dropdown, Alert } from 'react-bootstrap';
 
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { allRockshoxForkOilBathInfo, allFoxForkOilBathInfo, rockshoxForkOilBathInfoByYear, foxForkOilBathInfoByYear } from '../utils/queries';
 
 import './home.css';
@@ -19,10 +19,12 @@ function Home() {
 	const [selectedDamperType, setSelectedDamperType] = useState('');
 	const [selectedSpringType, setSelectedSpringType] = useState('');
 	const [selectedWheelSize, setSelectedWheelSize] = useState('');
+	const [initialRockShoxQuery, setInitialRockshoxQuery] = useState(null);
+	const [initialFoxQuery, setInitialFoxQuery] = useState(null);
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
-		setUserSearchInput({ ...userSearchInput, [name]: value });
+		setYearInput({ ...yearInput, [name]: value });
 	};
 
 	const handleManufacturerMenuSelect = (event) => {
@@ -37,17 +39,26 @@ function Home() {
 		});
 	};
 
-	const queryRockshoxForks = async () => {
-		const forkResults = useQuery(rockshoxForkOilBathInfoByYear, {
-			variables: { year: initialQueryParameters.yearInput, manufacturer: initialQueryParameters.manufacturer },
-		});
-	};
+	const [queryFoxForksByYear, { foxQueryResults }] = useLazyQuery(foxForkOilBathInfoByYear);
 
-	const queryFoxForks = async () => {
-		const forkResults = await useQuery(foxForkOilBathInfoByYear, {
-			variables: { year: initialQueryParameters.year, manufacturer: initialQueryParameters.manufacturer}
-		})
-	}
+	const [queryRockshoxForksByYear, { rockshoxQueryResults }] = useLazyQuery(rockshoxForkOilBathInfoByYear);
+
+
+	useEffect(() => {
+		if (initialQueryParameters.manufacturer === 'rockshox') {
+			const queriedRockshoxForksByYear = queryRockshoxForksByYear({ 
+				variables: { year: initialQueryParameters.year } 
+			});
+			// setInitialRockshoxQuery(queriedRockshoxForksByYear);
+			console.log(queriedRockshoxForksByYear);
+		} else if (initialQueryParameters.manufacturer === 'fox') {
+			const queriedFoxForksByYear = queryFoxForksByYear({
+				variables: { year: initialQueryParameters.year },
+			});
+			// setInitialFoxQuery(queriedFoxForksByYear);
+			console.log(queriedFoxForksByYear);
+		}
+	}, [initialQueryParameters]);
 
 	return (
 		<div className='main-container'>
@@ -61,7 +72,7 @@ function Home() {
 						You must complete all fields before searching
 					</Alert>
 					<Form.Group>
-						<Form.Control style={{ userSelect: 'all' }} type='text' size='sm' placeholder='Year' name='year' onChange={handleInputChange} value={userSearchInput.year} />
+						<Form.Control style={{ userSelect: 'all' }} type='text' size='sm' placeholder='Year' name='year' onChange={handleInputChange} value={yearInput} />
 						{/* <Form.Control.Feedback type='invalid'>Year is required for search</Form.Control.Feedback> */}
 					</Form.Group>
 					<Form.Group>
@@ -73,8 +84,7 @@ function Home() {
 						</Form.Select>
 					</Form.Group>
 
-					<Form.Group>{/* Add form group dropdown menu for fork name */}</Form.Group>
-					<Form.Group>{/* Add form group dropdown menu for model */}</Form.Group>
+					<Button onClick={handleManufacturerYearSearch}>Search</Button>
 					{/* Button to initiate search */}
 				</Form>
 			</div>
