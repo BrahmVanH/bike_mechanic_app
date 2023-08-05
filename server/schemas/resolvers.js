@@ -4,15 +4,16 @@ const { RockshoxForkOilBath, FoxForkOilBath, MarzocchiForkOilBath } = require(".
 const resolvers = {
   Query: {
     allRockshoxForkOilBathInfo: async () => {
+      console.log("querying all rockshox fork oil bath info in resolvers...");
       const forks = await RockshoxForkOilBath.find({});
-      console.log(allRockshoxForkOilBathInfo);
-      if (!allRockshoxForkOilBathInfo) {
+      if (!forks) {
         throw new Error("Something went wrong in querying all rockshox fork oil bath information");
       }
-
+      console.log(forks);
       return forks;
     },
     rockshoxForkOilBathInfoByYear: async (parent, { year }) => {
+      console.log("querying rockshox fork oil bath info by year in resolvers");
       const forks = await RockshoxForkOilBath.find({ year: year });
       if (!forks) {
         throw new Error("Something went wrong querying rockshox forks by year");
@@ -21,14 +22,18 @@ const resolvers = {
     },
     allFoxForkOilBathInfo: async () => {
       const forks = await FoxForkOilBath.find({});
-      console.log(allFoxForkOilBathInfo);
-      if (!allFoxForkOilBathInfo) {
+      console.log("querying fox fork oil bath info in resolvers");
+
+      console.log(forks);
+      if (!forks) {
         throw new Error("something went wrong querying all fox fork oil bath information");
       }
 
       return forks;
     },
-    rockshoxForkOilBathInfoByYear: async (parent, { year }) => {
+    foxForkOilBathInfoByYear: async (parent, { year }) => {
+      console.log("querying fox fork oil bath info by year in resolvers");
+
       const forks = await FoxForkOilBath.find({ year: year });
       if (!forks) {
         throw new Error("Something went wrong querying fox forks by year");
@@ -37,8 +42,8 @@ const resolvers = {
     },
     allMarzocchiForkOilBathInfo: async () => {
       const forks = await MarzocchiForkOilBath.find({});
-      console.log(allMarzocchiForkOilBathInfo);
-      if (!allMarzocchiForkOilBathInfo) {
+      console.log(forks);
+      if (!forks) {
         throw new Error("Something went wrong querying all marzocchi fork oil bath information");
       }
 

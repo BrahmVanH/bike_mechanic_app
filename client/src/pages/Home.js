@@ -12,7 +12,9 @@ function Home() {
 		year: '',
 		manufacturer: '',
 	});
-	const [yearInput, setYearInput] = useState('');
+	const [yearInput, setYearInput] = useState({
+		year: '',
+	});
 	const [selectedManufacturer, setSelectedManufacturer] = useState('');
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
 	const [selectedModel, setSelectedModel] = useState('');
@@ -31,6 +33,12 @@ function Home() {
 		setSelectedManufacturer(event.target.value);
 	};
 
+	const { data } = useQuery(allRockshoxForkOilBathInfo);
+
+	useEffect(() => {
+		console.log(data);
+	}, [data]);
+
 	const handleManufacturerYearSearch = (event) => {
 		event.preventDefault();
 		setInitialQueryParameters({
@@ -43,11 +51,10 @@ function Home() {
 
 	const [queryRockshoxForksByYear, { rockshoxQueryResults }] = useLazyQuery(rockshoxForkOilBathInfoByYear);
 
-
 	useEffect(() => {
 		if (initialQueryParameters.manufacturer === 'rockshox') {
-			const queriedRockshoxForksByYear = queryRockshoxForksByYear({ 
-				variables: { year: initialQueryParameters.year } 
+			const queriedRockshoxForksByYear = queryRockshoxForksByYear({
+				variables: { year: initialQueryParameters.year },
 			});
 			// setInitialRockshoxQuery(queriedRockshoxForksByYear);
 			console.log(queriedRockshoxForksByYear);
@@ -72,7 +79,7 @@ function Home() {
 						You must complete all fields before searching
 					</Alert>
 					<Form.Group>
-						<Form.Control style={{ userSelect: 'all' }} type='text' size='sm' placeholder='Year' name='year' onChange={handleInputChange} value={yearInput} />
+						<Form.Control style={{ userSelect: 'all' }} type='text' size='sm' placeholder='Year' name='year' onChange={handleInputChange} value={yearInput.year} />
 						{/* <Form.Control.Feedback type='invalid'>Year is required for search</Form.Control.Feedback> */}
 					</Form.Group>
 					<Form.Group>
