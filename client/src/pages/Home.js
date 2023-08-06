@@ -21,7 +21,7 @@ function Home() {
 	const [selectedDamperType, setSelectedDamperType] = useState('');
 	const [selectedSpringType, setSelectedSpringType] = useState('');
 	const [selectedWheelSize, setSelectedWheelSize] = useState('');
-	const [initialRockShoxQuery, setInitialRockshoxQuery] = useState(null);
+	const [initialRockshoxQuery, setinitialRockshoxQuery] = useState(null);
 	const [initialFoxQuery, setInitialFoxQuery] = useState(null);
 	const [dropdownListRockshoxForks, setDropdownListRockshoxForks] = useState([]);
 	const [dropdownListRockshoxModels, setDropdownListRockshoxModels] = useState([]);
@@ -29,6 +29,12 @@ function Home() {
 	const [dropdownListDamperTypes, setDropdownListDamperTypes] = useState([]);
 	const [dropdownListSpringTypes, setDropdownListSpringTypes] = useState([]);
 	const [dropdownListWheelSizes, setDropdownListWheelSizes] = useState([]);
+
+	const removeRepeatingNamesFromList = (array) => {
+		console.log(array);
+		console.log([...new Set(array)]);
+		return [...new Set(array)];
+	};
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
@@ -38,7 +44,7 @@ function Home() {
 	const handleManufacturerMenuSelect = (event) => {
 		setSelectedManufacturer(event.target.value);
 	};
-
+	
 	const handleManufacturerYearSearch = () => {
 		setInitialQueryParameters({
 			year: yearInput.year.toString(),
@@ -46,20 +52,16 @@ function Home() {
 		});
 	};
 
+	const [queryRockshoxForksByYear, rockshoxQueryResults] = useLazyQuery(rockshoxForkOilBathInfoByYear);
+
 	const handleRockshoxForkSelect = (event) => {
 		event.preventDefault();
 		setSelectedRockshoxFork(event.target.value);
 	};
 
-	const removeRepeatingNamesFromList = (array) => {
-		console.log(array);
-		console.log([...new Set(array)]);
-		return [...new Set(array)];
-	};
 
 	const [queryFoxForksByYear, foxQueryResults] = useLazyQuery(foxForkOilBathInfoByYear);
 
-	const [queryRockshoxForksByYear, rockshoxQueryResults] = useLazyQuery(rockshoxForkOilBathInfoByYear);
 
 	useEffect(() => {
 		if (initialQueryParameters.manufacturer === 'rockshox') {
@@ -79,21 +81,21 @@ function Home() {
 
 	useEffect(() => {
 		if (rockshoxQueryResults.data) {
-			setInitialRockshoxQuery(rockshoxQueryResults.data);
+			setinitialRockshoxQuery(rockshoxQueryResults.data);
 		}
 	}, [rockshoxQueryResults]);
 
 	useEffect(() => {
-		if (initialRockShoxQuery) {
+		if (initialRockshoxQuery) {
 			const listOfForks = [];
-			initialRockShoxQuery.map((product) => {
+			initialRockshoxQuery.map((product) => {
 				console.log(product.fork);
 				listOfForks.push(product.fork);
 			});
 			const filteredRockshoxQuery = removeRepeatingNamesFromList(listOfForks);
 			setDropdownListRockshoxForks(filteredRockshoxQuery);
 		}
-	}, [initialRockShoxQuery]);
+	}, [initialRockshoxQuery]);
 
 	useEffect(() => {
 		if (rockshoxQueryResults.loading) {
@@ -101,7 +103,7 @@ function Home() {
 		} else if (rockshoxQueryResults.error) {
 			console.log('error querying rockshox fork oil bath volume by year');
 		} else if (rockshoxQueryResults.data) {
-			setInitialRockshoxQuery(rockshoxQueryResults?.data?.rockshoxForkOilBathInfoByYear);
+			setinitialRockshoxQuery(rockshoxQueryResults?.data?.rockshoxForkOilBathInfoByYear);
 		}
 	}, [rockshoxQueryResults]);
 
@@ -122,8 +124,8 @@ function Home() {
 	}, [foxQueryResults]);
 
 	useEffect(() => {
-		console.log(initialRockShoxQuery);
-	}, [initialRockShoxQuery]);
+		console.log(initialRockshoxQuery);
+	}, [initialRockshoxQuery]);
 
 	useEffect(() => {
 		console.log(initialFoxQuery);
@@ -152,7 +154,7 @@ function Home() {
 							<option value='rockshox'>Rockshox</option>
 						</Form.Select>
 					</Form.Group>
-					{dropdownListRockshoxForks != [] ? (
+					{dropdownListRockshoxForks.length > 0 ? (
 						<Form.Group>
 							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={handleRockshoxForkSelect}>
 								{dropdownListRockshoxForks.map((fork) => (
