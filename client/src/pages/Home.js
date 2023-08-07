@@ -21,6 +21,7 @@ function Home() {
 	const [selectedDamperType, setSelectedDamperType] = useState('');
 	const [selectedSpringType, setSelectedSpringType] = useState('');
 	const [selectedWheelSize, setSelectedWheelSize] = useState('');
+	const [selectedProduct, setSelectedProduct] = useState({});
 	const [initialRockshoxQuery, setinitialRockshoxQuery] = useState(null);
 	const [initialFoxQuery, setInitialFoxQuery] = useState(null);
 	const [dropdownListRockshoxForks, setDropdownListRockshoxForks] = useState([]);
@@ -30,7 +31,7 @@ function Home() {
 	const [dropdownListSpringTypes, setDropdownListSpringTypes] = useState([]);
 	const [dropdownListWheelSizes, setDropdownListWheelSizes] = useState([]);
 
-	// Filters through array to remove repeating elements 
+	// Filters through array to remove repeating elements
 
 	const removeRepeatingNamesFromList = (array) => {
 		console.log(array);
@@ -52,7 +53,7 @@ function Home() {
 	};
 
 	// Sets the initial query parameters for querying the database for forks
-	
+
 	const handleManufacturerYearSearch = () => {
 		setInitialQueryParameters({
 			year: yearInput.year.toString(),
@@ -64,27 +65,68 @@ function Home() {
 
 	const [queryRockshoxForksByYear, rockshoxQueryResults] = useLazyQuery(rockshoxForkOilBathInfoByYear);
 
-
 	// When the user clicks a rockshox fork from the list sets the state variable for the selected fork
 
 	const handleRockshoxForkSelect = (selectedValue) => {
 		setSelectedRockshoxFork(selectedValue);
 	};
 
+	// When user clicks on fork model, sets model state
+
+	const handleRockshoxModelSelect = (selectedValue) => {
+		console.log(selectedValue);
+		setSelectedModel(selectedValue);
+	};
+
+	// When model is selected, filter through forks and set damper, spring, wheelsize states for oil bath volume chart
+
+	const compileForkInformation = () => {
+		if (selectedModel != '') {
+			const selectedRockshoxProduct = initialRockshoxQuery?.filter((fork) => fork.fork === selectedRockshoxFork || fork.model === selectedModel || fork.year === initialQueryParameters.year);
+			console.log(selectedRockshoxProduct);
+			setSelectedProduct(selectedRockshoxProduct);
+		}
+	};
+
+	useEffect(() => {
+		compileForkInformation();
+	}, [selectedModel]);
+
+	// Filter through initial rockshox query to find all forks based on selected rockshox fork
+
 	useEffect(() => {
 		const forkModels = [];
 		console.log(selectedRockshoxFork);
 		const selectedForkOptions = initialRockshoxQuery?.filter((fork) => fork.fork === selectedRockshoxFork);
 		selectedForkOptions?.map((fork) => {
+			console.log(fork.model);
 			forkModels.push(fork.model);
-		})
+		});
+		console.log(forkModels);
 		setDropdownListRockshoxModels(forkModels);
-	}, [selectedRockshoxFork])
+	}, [selectedRockshoxFork]);
+
+	useEffect(() => {});
+
+	// Sets the state variable of products for rockshox query if there is a positive response from db query
+
+	useEffect(() => {
+		if (rockshoxQueryResults.data) {
+			setinitialRockshoxQuery(rockshoxQueryResults.data);
+		}
+	}, [rockshoxQueryResults]);
+
+	useEffect(() => {
+		if (rockshoxQueryResults.loading) {
+			// handle loading state
+		} else if (rockshoxQueryResults.error) {
+			console.log('error querying rockshox fork oil bath volume by year');
+		} else if (rockshoxQueryResults.data) {
+			setinitialRockshoxQuery(rockshoxQueryResults?.data?.rockshoxForkOilBathInfoByYear);
+		}
+	}, [rockshoxQueryResults]);
 
 
-	// Define the initiation function and data variable name for querying fox forks
-
-	const [queryFoxForksByYear, foxQueryResults] = useLazyQuery(foxForkOilBathInfoByYear);
 
 	// Queries database for products based on selected manufacturer
 
@@ -100,26 +142,15 @@ function Home() {
 		}
 	}, [initialQueryParameters]);
 
-	// Sets the state variable of products for rockshox query if there is a positive response from db query
-
-	useEffect(() => {
-		if (rockshoxQueryResults.data) {
-			setinitialRockshoxQuery(rockshoxQueryResults.data);
-		}
-	}, [rockshoxQueryResults]);
-
 	// Initiates initial db query when user selects a manufacturer
 
 	useEffect(() => {
 		handleManufacturerYearSearch();
 	}, [selectedManufacturer]);
 
-	
-	// useEffect(() => {
-	// 	handleRockshoxForkSelect();
-	// }, [selectedRockshoxFork]);
 
-	// Filters through rockshox products and creates list of forks to put in dropdown menu 
+
+	// Filters through rockshox products and creates list of forks to put in dropdown menu
 
 	useEffect(() => {
 		if (initialRockshoxQuery) {
@@ -132,22 +163,7 @@ function Home() {
 			setDropdownListRockshoxForks(filteredRockshoxQuery);
 		}
 	}, [initialRockshoxQuery]);
-	
-	useEffect(() => {
-		if (rockshoxQueryResults.loading) {
-			// handle loading state
-		} else if (rockshoxQueryResults.error) {
-			console.log('error querying rockshox fork oil bath volume by year');
-		} else if (rockshoxQueryResults.data) {
-			setinitialRockshoxQuery(rockshoxQueryResults?.data?.rockshoxForkOilBathInfoByYear);
-		}
-	}, [rockshoxQueryResults]);
 
-	useEffect(() => {
-		if (foxQueryResults.data) {
-			setInitialFoxQuery(foxQueryResults.data);
-		}
-	}, [foxQueryResults]);
 
 	useEffect(() => {
 		if (foxQueryResults.loading) {
@@ -163,9 +179,7 @@ function Home() {
 		console.log(initialRockshoxQuery);
 	}, [initialRockshoxQuery]);
 
-	useEffect(() => {
-		console.log(initialFoxQuery);
-	}, [initialFoxQuery]);
+
 
 	return (
 		<div className='main-container'>
@@ -183,7 +197,7 @@ function Home() {
 						{/* <Form.Control.Feedback type='invalid'>Year is required for search</Form.Control.Feedback> */}
 					</Form.Group>
 					<Form.Group>
-						<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='manufacturer' value={selectedManufacturer} onChange={event => handleManufacturerMenuSelect(event.target.value)}>
+						<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='manufacturer' value={selectedManufacturer} onChange={(event) => handleManufacturerMenuSelect(event.target.value)}>
 							<option value=''>Manufacturer</option>
 							<option value='fox'>Fox</option>
 							{/* <option value='marzocchi'>Marzocchi</option> */}
@@ -192,7 +206,7 @@ function Home() {
 					</Form.Group>
 					{dropdownListRockshoxForks.length > 0 ? (
 						<Form.Group>
-							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={event => handleRockshoxForkSelect(event.target.value)}>
+							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxForkSelect(event.target.value)}>
 								{dropdownListRockshoxForks.map((fork) => (
 									<option key={fork} value={fork}>
 										{fork}
@@ -205,8 +219,8 @@ function Home() {
 					)}
 					{dropdownListRockshoxModels.length > 0 ? (
 						<Form.Group>
-							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={event => handleRockshoxForkSelect(event.target.value)}>
-								{dropdownListRockshoxForks.map((fork) => (
+							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxModelSelect(event.target.value)}>
+								{dropdownListRockshoxModels.map((fork) => (
 									<option key={fork} value={fork}>
 										{fork}
 									</option>
