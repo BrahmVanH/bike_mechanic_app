@@ -18,10 +18,9 @@ function HomeRedo() {
 	const [selectedWheelSize, setSelectedWheelsize] = useState('');
 	const [selectedProduct, setSelectedProduct] = useState({});
 
-    
-  // Utility functions 
+	// Utility functions
 
-  const removeRepeatingItemsFromList = (array) => {
+	const removeRepeatingItemsFromList = (array) => {
 		console.log(array);
 		console.log([...new Set(array)]);
 		return [...new Set(array)];
@@ -50,42 +49,69 @@ function HomeRedo() {
 		} else if (selectedManufacturer === 'fox') {
 			queryFoxProducts();
 		} else {
-      console.log("Something went wrong in the initial query of the db...");
-    }
+			console.log('Something went wrong in the initial query of the db...');
+		}
 	}, [initialQueryParameters]);
 
 	// Set initialQueryResponse state
 
-  useEffect(() => {
-    if (rockshoxQueryResults.data) {
-      setInitialQueryResponse(rockshoxQueryResults.data);
-    } else if (foxQueryResults.data) {
-      setInitialQueryResponse(foxQueryResults.data);
+	useEffect(() => {
+		if (rockshoxQueryResults.data) {
+			setInitialQueryResponse(rockshoxQueryResults.data);
+		} else if (foxQueryResults.data) {
+			setInitialQueryResponse(foxQueryResults.data);
+		}
+	}, [rockshoxQueryResults, foxQueryResults]);
+
+	// ** Map through intialQueryReponse and grab all years, filter through years and remove repeats
+	// ** set yearDropdownOptions state
+	// ** Year options dropdown appears
+
+	// When manufacturer is selected, map through all products in query response and grab the product years that are available
+	useEffect(() => {
+		if (selectedManufacturer) {
+			console.log(`selected manufacturer: ${selectedManufacturer}, grabbing year options`);
+			const yearOptions = [];
+			initialQueryResponse?.map((product) => {
+				yearOptions.push(product.year);
+			});
+			const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
+			setYearDropdownOptions(yearOptionsWithoutRepeats);
+		} else {
+			console.log('no manufacturer selected yet...');
+		}
+	}, [selectedManufacturer]);
+
+	// ** User selects year from dropdown
+	// ** Set yearInput state
+	// ** Filter initialQueryResponse by year
+  // ** If manufacturer = fox , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
+  // ** if manufacturer = rockshox, filter through "" , add product "forks" to array, set forkDropdownOptions
+
+  // When user selects a year, changes year, or changes manufacturer filters through intitialQuery response to find products based on parameters
+	useEffect(() => {
+		if (selectedManufacturer === 'fox' && selectedYear != "") {
+			const modelOptions = [];
+			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
+			productsByYear?.map((product) => {
+				console.log(product);
+				productOptions.push(product.model);
+			});
+			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
+			setModelDropdownOptions(modelOptionsWithoutRepeats);
+		} else if (selectedManufacturer === 'rockshox' && selectedYear != "") {
+			forkOptions - [];
+			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
+			productsByYear?.map((product) => {
+				console.log(product);
+				forkOptions.push(product.fork);
+			});
+			const forkOptionsWithoutRepeats = removeRepeatingItemsFromList(forkOptions);
+			setRockshoxForkDowndownOptions(forkOptionsWithoutRepeats);
+		} else {
+      console.log("no year has been selected yet...")
     }
-  }, [rockshoxQueryResults, foxQueryResults]);
-
-
-	// Map through intialQueryReponse and grab all years, filter through years and remove repeats
-
-  useEffect(() => {
-    if (selectedManufacturer === "fox") {
-      console.log(`selected manufacturer: ${selectedManufacturer}, filtering through "models"`);
-      const yearOptions = [];
-      initialQueryResponse?.map((product) => {
-        yearOptions.push(product.year);
-      });
-      const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
-
-    }
-  })
-	// set yearDropdownOptions state
-	// Year options dropdown appears
-
-	// User selects year from dropdown
-	// Set yearInput state
-	// Filter initialQueryResponse by year
-	// If manufacturer = fox , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
-	// if manufacturer = rockshox, filter through "" , add product "forks" to array, set forkDropdownOptions
+	}, [selectedYear, selectedManufacturer]);
 
 	// If manufacturer = rockshox , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
 
