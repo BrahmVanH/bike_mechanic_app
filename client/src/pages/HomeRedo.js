@@ -18,8 +18,21 @@ function HomeRedo() {
 	const [selectedWheelSize, setSelectedWheelsize] = useState('');
 	const [selectedProduct, setSelectedProduct] = useState({});
 
+    
+  // Utility functions 
+
+  const removeRepeatingItemsFromList = (array) => {
+		console.log(array);
+		console.log([...new Set(array)]);
+		return [...new Set(array)];
+	};
+
+	// Define the initiation function and data variable name for querying products from db
+	const [queryRockshoxProducts, rockshoxQueryResults] = useLazyQuery(allRockshoxForkOilBathInfo);
+	const [queryFoxProducts, foxQueryResults] = useLazyQuery(allFoxForkOilBathInfo);
+
 	// ** User selects manufacturer from dropdown
-  // ** Set selectedManufacturer state
+	// ** Set selectedManufacturer state
 
 	// Sets the manufacturer selected by user in dropdown menu
 
@@ -28,8 +41,43 @@ function HomeRedo() {
 	};
 
 	// Query db based on manufacturer
+
+	// Queries database for products based on selected manufacturer
+
+	useEffect(() => {
+		if (selectedManufacturer === 'rockshox') {
+			queryRockshoxProducts();
+		} else if (selectedManufacturer === 'fox') {
+			queryFoxProducts();
+		} else {
+      console.log("Something went wrong in the initial query of the db...");
+    }
+	}, [initialQueryParameters]);
+
 	// Set initialQueryResponse state
-	// Filter through intialQueryReponse and grab all years, filter through years and remove repeats
+
+  useEffect(() => {
+    if (rockshoxQueryResults.data) {
+      setInitialQueryResponse(rockshoxQueryResults.data);
+    } else if (foxQueryResults.data) {
+      setInitialQueryResponse(foxQueryResults.data);
+    }
+  }, [rockshoxQueryResults, foxQueryResults]);
+
+
+	// Map through intialQueryReponse and grab all years, filter through years and remove repeats
+
+  useEffect(() => {
+    if (selectedManufacturer === "fox") {
+      console.log(`selected manufacturer: ${selectedManufacturer}, filtering through "models"`);
+      const yearOptions = [];
+      initialQueryResponse?.map((product) => {
+        yearOptions.push(product.year);
+      });
+      const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
+
+    }
+  })
 	// set yearDropdownOptions state
 	// Year options dropdown appears
 

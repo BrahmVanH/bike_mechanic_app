@@ -33,7 +33,7 @@ function Home() {
 
 	// Filters through array to remove repeating elements
 
-	const removeRepeatingNamesFromList = (array) => {
+	const removeRepeatingItemsFromList = (array) => {
 		console.log(array);
 		console.log([...new Set(array)]);
 		return [...new Set(array)];
