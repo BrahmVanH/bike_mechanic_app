@@ -61,9 +61,7 @@ function Home() {
 		});
 	};
 
-	// Define the initiation function and data variable name for querying rockshox forks
-
-	const [queryRockshoxForksByYear, rockshoxQueryResults] = useLazyQuery(rockshoxForkOilBathInfoByYear);
+	
 
 	// When the user clicks a rockshox fork from the list sets the state variable for the selected fork
 

@@ -1,0 +1,125 @@
+import React, { useEffect, useState } from 'react';
+import { Button, Form, Dropdown, Alert } from 'react-bootstrap';
+
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { allRockshoxForkOilBathInfo, allFoxForkOilBathInfo, rockshoxForkOilBathInfoByYear, foxForkOilBathInfoByYear } from '../utils/queries';
+
+import './home.css';
+
+function HomeRedo() {
+	const [selectedManufacturer, setSelectedManufacturer] = useState('');
+	const [initialQueryResponse, setInitialQueryResponse] = useState([]);
+	const [yearDropdownOptions, setYearDropdownOptions] = useState([]);
+	const [yearInput, setYearInput] = useState('');
+	const [modelDropDownOptions, setModelDropdownOptions] = useState([]);
+	const [rockshoxForkDropdownOptions, setRockshoxForkDowndownOptions] = useState([]);
+	const [selectedModel, setSelectedModel] = useState('');
+	const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
+	const [selectedWheelSize, setSelectedWheelsize] = useState('');
+	const [selectedProduct, setSelectedProduct] = useState({});
+
+	// ** User selects manufacturer from dropdown
+  // ** Set selectedManufacturer state
+
+	// Sets the manufacturer selected by user in dropdown menu
+
+	const handleManufacturerMenuSelect = (selectedValue) => {
+		setSelectedManufacturer(selectedValue);
+	};
+
+	// Query db based on manufacturer
+	// Set initialQueryResponse state
+	// Filter through intialQueryReponse and grab all years, filter through years and remove repeats
+	// set yearDropdownOptions state
+	// Year options dropdown appears
+
+	// User selects year from dropdown
+	// Set yearInput state
+	// Filter initialQueryResponse by year
+	// If manufacturer = fox , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
+	// if manufacturer = rockshox, filter through "" , add product "forks" to array, set forkDropdownOptions
+
+	// If manufacturer = rockshox , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
+
+	// User selects model
+	// set selectedModel state
+	// Filter initialQueryResponse by year and model (or year, model, and fork) for wheelSize options if != null
+	// set wheelSizeDropdownOptions
+
+	// User selects wheelSize
+	// set selectedWheelSize state
+	// filter initialQueryResponse by year, model/fork, wheelSize
+	// set selectedProduct state
+	// pass selectedProduct object into product information component
+
+	return (
+		<div className='main-container'>
+			<div className='welcome-message'>
+				<p>The Bike Guru welcomes you. Please search for your fork below</p>
+			</div>
+
+			<div className='search-container'>
+				<Form className='fork-search-form'>
+					<Alert dismissible onClose={() => setShowAlert(true)} show={showAlert} variant='danger'>
+						You must complete all fields before searching
+					</Alert>
+					<Form.Group>
+						<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='manufacturer' value={selectedManufacturer} onChange={(event) => handleManufacturerMenuSelect(event.target.value)}>
+							<option value=''>Manufacturer</option>
+							<option value='fox'>Fox</option>
+							{/* <option value='marzocchi'>Marzocchi</option> */}
+							<option value='rockshox'>Rockshox</option>
+						</Form.Select>
+					</Form.Group>
+					<Form.Group>
+						<Form.Control style={{ userSelect: 'all' }} type='text' size='sm' placeholder='Year' name='year' onChange={handleInputChange} value={yearInput.year} />
+						{/* <Form.Control.Feedback type='invalid'>Year is required for search</Form.Control.Feedback> */}
+					</Form.Group>
+					{dropdownListRockshoxForks.length > 0 ? (
+						<Form.Group>
+							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxForkSelect(event.target.value)}>
+								{dropdownListRockshoxForks.map((fork) => (
+									<option key={fork} value={fork}>
+										{fork}
+									</option>
+								))}
+							</Form.Select>
+						</Form.Group>
+					) : (
+						<></>
+					)}
+					{dropdownListRockshoxModels.length > 0 ? (
+						<Form.Group>
+							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxModelSelect(event.target.value)}>
+								{dropdownListRockshoxModels.map((fork) => (
+									<option key={fork} value={fork}>
+										{fork}
+									</option>
+								))}
+							</Form.Select>
+						</Form.Group>
+					) : (
+						<></>
+					)}
+
+					{/* <Button onClick={handleManufacturerYearSearch}>Search</Button> */}
+					{/* Button to initiate search */}
+				</Form>
+			</div>
+			<div className='featured-forks-container'>
+				<div className='featured-rockshox-fork'>
+					{/* Randomly selected rockshox fork from DB */}
+					2020 Rockshox Lyrik Ultimate
+				</div>
+				<div className='featured-fox-forks'>
+					{/* Randomly selected fox fork */}
+					2020 Fox 36 Factory
+				</div>
+				<div className='featured-marzocchi-fork'>
+					{/* randomly selected Marzocchi fork */}
+					2020 Marzocchi Bomber
+				</div>
+			</div>
+		</div>
+	);
+}
