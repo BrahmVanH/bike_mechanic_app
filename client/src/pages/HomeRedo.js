@@ -85,12 +85,12 @@ function HomeRedo() {
 	// ** User selects year from dropdown
 	// ** Set yearInput state
 	// ** Filter initialQueryResponse by year
-  // ** If manufacturer = fox , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
-  // ** if manufacturer = rockshox, filter through "" , add product "forks" to array, set forkDropdownOptions
+	// ** If manufacturer = fox , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
+	// ** if manufacturer = rockshox, filter through "" , add product "forks" to array, set forkDropdownOptions
 
-  // When user selects a year, changes year, or changes manufacturer filters through intitialQuery response to find products based on parameters
+	// When user selects a year, changes year, or changes manufacturer filters through intitialQuery response to find products based on parameters
 	useEffect(() => {
-		if (selectedManufacturer === 'fox' && selectedYear != "") {
+		if (selectedManufacturer === 'fox' && selectedYear != '') {
 			const modelOptions = [];
 			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
 			productsByYear?.map((product) => {
@@ -99,7 +99,7 @@ function HomeRedo() {
 			});
 			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
 			setModelDropdownOptions(modelOptionsWithoutRepeats);
-		} else if (selectedManufacturer === 'rockshox' && selectedYear != "") {
+		} else if (selectedManufacturer === 'rockshox' && selectedYear != '') {
 			forkOptions - [];
 			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
 			productsByYear?.map((product) => {
@@ -109,11 +109,11 @@ function HomeRedo() {
 			const forkOptionsWithoutRepeats = removeRepeatingItemsFromList(forkOptions);
 			setRockshoxForkDowndownOptions(forkOptionsWithoutRepeats);
 		} else {
-      console.log("no year has been selected yet...")
-    }
+			console.log('no year has been selected yet...');
+		}
 	}, [selectedYear, selectedManufacturer]);
 
-	// If manufacturer = rockshox , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
+	// If manufacturer = rockshox && fork has been selected , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
 
 	// User selects model
 	// set selectedModel state
