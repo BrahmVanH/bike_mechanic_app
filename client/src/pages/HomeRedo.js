@@ -9,13 +9,14 @@ import './home.css';
 function HomeRedo() {
 	const [selectedManufacturer, setSelectedManufacturer] = useState('');
 	const [initialQueryResponse, setInitialQueryResponse] = useState([]);
+	const [selectedYear, setSelectedYear] = useState('');
 	const [yearDropdownOptions, setYearDropdownOptions] = useState([]);
-	const [yearInput, setYearInput] = useState('');
-	const [modelDropDownOptions, setModelDropdownOptions] = useState([]);
-	const [rockshoxForkDropdownOptions, setRockshoxForkDowndownOptions] = useState([]);
 	const [selectedModel, setSelectedModel] = useState('');
-	const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
+	const [modelDropDownOptions, setModelDropdownOptions] = useState([]);
+	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
+	const [rockshoxForkDropdownOptions, setRockshoxForkDowndownOptions] = useState([]);
 	const [selectedWheelSize, setSelectedWheelsize] = useState('');
+	const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
 	const [selectedProduct, setSelectedProduct] = useState({});
 
 	// Utility functions
@@ -39,6 +40,29 @@ function HomeRedo() {
 		setSelectedManufacturer(selectedValue);
 	};
 
+	// Sets year selected by user in dropdown menu
+
+	const handleYearSelect = (selectedValue) => {
+		setSelectedYear(selectedValue);
+	};
+
+	// Sets model by user in dropdown menu
+
+	const handleModelSelect = (selectedValue) => {
+		setSelectedModel(selectedValue);
+	};
+
+	// Sets rockshox fork by user in dropdown menu
+
+	const handleRockshoxForkSelect = (selectedValue) => {
+		setSelectedRockshoxFork(selectedValue);
+	};
+
+	// Sets wheel size by user in dropdown menu
+
+	const handleWheelSizeSelect = (selectedValue) => {
+		setSelectedWheelsize(selectedValue);
+	};
 	// Query db based on manufacturer
 
 	// Queries database for products based on selected manufacturer
@@ -49,14 +73,14 @@ function HomeRedo() {
 		} else if (selectedManufacturer === 'fox') {
 			queryFoxProducts();
 		} else {
-			console.log('Something went wrong in the initial query of the db...');
+			console.log('selectedManufacturer object has unrecognized value...');
 		}
 	}, [initialQueryParameters]);
 
 	// Set initialQueryResponse state
 
 	useEffect(() => {
-		if (rockshoxQueryResults.data) {
+		if (rockshoxQueryResults?.data) {
 			setInitialQueryResponse(rockshoxQueryResults.data);
 		} else if (foxQueryResults.data) {
 			setInitialQueryResponse(foxQueryResults.data);
@@ -69,7 +93,7 @@ function HomeRedo() {
 
 	// When manufacturer is selected, map through all products in query response and grab the product years that are available
 	useEffect(() => {
-		if (selectedManufacturer) {
+		if (selectedManufacturer != '') {
 			console.log(`selected manufacturer: ${selectedManufacturer}, grabbing year options`);
 			const yearOptions = [];
 			initialQueryResponse?.map((product) => {
@@ -100,7 +124,7 @@ function HomeRedo() {
 			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
 			setModelDropdownOptions(modelOptionsWithoutRepeats);
 		} else if (selectedManufacturer === 'rockshox' && selectedYear != '') {
-			forkOptions - [];
+			const forkOptions = [];
 			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
 			productsByYear?.map((product) => {
 				console.log(product);
@@ -114,17 +138,55 @@ function HomeRedo() {
 	}, [selectedYear, selectedManufacturer]);
 
 	// If manufacturer = rockshox && fork has been selected , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
+	useEffect(() => {
+		if (selectedManufacturer && selectedRockshoxFork != '') {
+			const modelOptions = [];
+			const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear, product.fork === selectedRockshoxFork);
+			rockshoxModelOptions?.map((product) => {
+				console.log(product);
+				modelOptions.push(product.model);
+			});
+			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
+			setModelDropdownOptions(modelOptionsWithoutRepeats);
+		} else {
+			console.log('no rockshox fork has been selected...');
+		}
+	}, [selectedYear, selectedManufacturer, selectedRockshoxFork]);
 
-	// User selects model
-	// set selectedModel state
-	// Filter initialQueryResponse by year and model (or year, model, and fork) for wheelSize options if != null
-	// set wheelSizeDropdownOptions
+	// ** User selects model
+	// ** set selectedModel state
+	// ** Filter initialQueryResponse by year and model (or year, model, and fork) for wheelSize options if != null
+	// ** set wheelSizeDropdownOptions
 
-	// User selects wheelSize
-	// set selectedWheelSize state
-	// filter initialQueryResponse by year, model/fork, wheelSize
-	// set selectedProduct state
-	// pass selectedProduct object into product information component
+	// If a model has been selected,
+	useEffect(() => {
+		if (selectedModel != '') {
+			const wheelSizeOptions = [];
+			const wheelSizes = initialQueryResponse?.filter((product) => product.year === selectedYear, product.model === selectedModel);
+			wheelSizes.map((product) => {
+				modelOptions.push(product.wheelSize);
+			});
+			const wheelSizeOptionsWithoutRepeats = removeRepeatingItemsFromList(wheelSizeOptions);
+			setWheelSizeDropdownOptions(wheelSizeOptionsWithoutRepeats);
+		} else {
+			console.log('no model has been selected yet...');
+		}
+	});
+
+	// ** User selects wheelSize
+	// ** set selectedWheelSize state
+	// ** filter initialQueryResponse by year, model/fork, wheelSize
+	// ** set selectedProduct state
+	// ** pass selectedProduct object into product information component
+
+	useEffect(() => {
+		if (selectedWheelSize != '') {
+			const matchingProduct = initialQueryResponse?.filter((product) => product.year === selectedYear, product.model === selectedModel, product.wheelSize === selectedWheelSize);
+			console.log(matchingProduct);
+		} else {
+			console.log('wheelSize has not been selected yet...');
+		}
+	});
 
 	return (
 		<div className='main-container'>
@@ -145,10 +207,21 @@ function HomeRedo() {
 							<option value='rockshox'>Rockshox</option>
 						</Form.Select>
 					</Form.Group>
-					<Form.Group>
-						<Form.Control style={{ userSelect: 'all' }} type='text' size='sm' placeholder='Year' name='year' onChange={handleInputChange} value={yearInput.year} />
-						{/* <Form.Control.Feedback type='invalid'>Year is required for search</Form.Control.Feedback> */}
-					</Form.Group>
+					{yearDropdownOptions.length > 0 ? (
+						<Form.Group>
+							<Form.Control style={{ userSelect: 'all' }} type='text' size='sm' placeholder='Year' name='year' onChange={handleInputChange} value={selectedYear} />
+							{/* <Form.Control.Feedback type='invalid'>Year is required for search</Form.Control.Feedback> */}
+							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
+								{yearDropdownOptions.map((year) => (
+									<option key={year} value={year}>
+										{year}
+									</option>
+								))}
+							</Form.Select>
+						</Form.Group>
+					) : (
+						<></>
+					)}
 					{dropdownListRockshoxForks.length > 0 ? (
 						<Form.Group>
 							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxForkSelect(event.target.value)}>
