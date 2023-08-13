@@ -7,6 +7,7 @@ import { allRockshoxForkOilBathInfo, allFoxForkOilBathInfo, rockshoxForkOilBathI
 import './home.css';
 
 function HomeRedo() {
+	const [showAlert, setShowAlert] = useState(false);
 	const [selectedManufacturer, setSelectedManufacturer] = useState('');
 	const [initialQueryResponse, setInitialQueryResponse] = useState([]);
 	const [selectedYear, setSelectedYear] = useState('');
@@ -15,8 +16,8 @@ function HomeRedo() {
 	const [modelDropDownOptions, setModelDropdownOptions] = useState([]);
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
 	const [rockshoxForkDropdownOptions, setRockshoxForkDowndownOptions] = useState([]);
-	const [selectedWheelSize, setSelectedWheelsize] = useState('');
-	const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
+	// const [selectedWheelSize, setSelectedWheelsize] = useState('');
+	// const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
 	const [selectedProduct, setSelectedProduct] = useState({});
 
 	// Utility functions
@@ -60,9 +61,9 @@ function HomeRedo() {
 
 	// Sets wheel size by user in dropdown menu
 
-	const handleWheelSizeSelect = (selectedValue) => {
-		setSelectedWheelsize(selectedValue);
-	};
+	// const handleWheelSizeSelect = (selectedValue) => {
+	// 	setSelectedWheelsize(selectedValue);
+	// };
 	// Query db based on manufacturer
 
 	// Queries database for products based on selected manufacturer
@@ -70,41 +71,65 @@ function HomeRedo() {
 	useEffect(() => {
 		if (selectedManufacturer === 'rockshox') {
 			queryRockshoxProducts();
+			
 		} else if (selectedManufacturer === 'fox') {
 			queryFoxProducts();
 		} else {
 			console.log('selectedManufacturer object has unrecognized value...');
 		}
-	}, [initialQueryParameters]);
+	}, [selectedManufacturer]);
 
 	// Set initialQueryResponse state
 
 	useEffect(() => {
 		if (rockshoxQueryResults?.data) {
-			setInitialQueryResponse(rockshoxQueryResults.data);
+			const data = rockshoxQueryResults.data.allRockshoxForkOilBathInfo;
+			setInitialQueryResponse(data);
+
+			const yearOptions = data.map((product) => product.year);
+			const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
+			setYearDropdownOptions(yearOptionsWithoutRepeats);
 		} else if (foxQueryResults.data) {
-			setInitialQueryResponse(foxQueryResults.data);
+			const data = foxQueryResults.data.allFoxForkOilBathInfo;
+			setInitialQueryResponse(data);
+
+			const yearOptions = data.map((product) => product.year);
+			const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
+			setYearDropdownOptions(yearOptionsWithoutRepeats);
 		}
 	}, [rockshoxQueryResults, foxQueryResults]);
 
-	// ** Map through intialQueryReponse and grab all years, filter through years and remove repeats
-	// ** set yearDropdownOptions state
-	// ** Year options dropdown appears
 
-	// When manufacturer is selected, map through all products in query response and grab the product years that are available
-	useEffect(() => {
-		if (selectedManufacturer != '') {
-			console.log(`selected manufacturer: ${selectedManufacturer}, grabbing year options`);
-			const yearOptions = [];
-			initialQueryResponse?.map((product) => {
-				yearOptions.push(product.year);
-			});
-			const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
-			setYearDropdownOptions(yearOptionsWithoutRepeats);
-		} else {
-			console.log('no manufacturer selected yet...');
-		}
-	}, [selectedManufacturer]);
+	// useEffect(() => {
+	// 	if (rockshoxQueryResults?.data) {
+	// 		console.log(rockshoxQueryResults);
+	// 		setInitialQueryResponse(rockshoxQueryResults.data.allRockshoxForkOilBathInfo);
+	// 		console.log(initialQueryResponse);
+	// 	} else if (foxQueryResults.data) {
+	// 		console.log(foxQueryResults);
+	// 		setInitialQueryResponse(foxQueryResults.data.allFoxForkOilBathInfo);
+	// 		console.log(initialQueryResponse);
+	// 	}
+	// }, [rockshoxQueryResults, foxQueryResults]);
+
+	// // ** Map through intialQueryReponse and grab all years, filter through years and remove repeats
+	// // ** set yearDropdownOptions state
+	// // ** Year options dropdown appears
+
+	// // When manufacturer is selected, map through all products in query response and grab the product years that are available
+	// useEffect(() => {
+	// 	if (selectedManufacturer !== '') {
+	// 		console.log(`selected manufacturer: ${selectedManufacturer}, grabbing year options`);
+	// 		const yearOptions = [];
+	// 		initialQueryResponse?.map((product) => {
+	// 			yearOptions.push(product.year);
+	// 		});
+	// 		const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
+	// 		setYearDropdownOptions(yearOptionsWithoutRepeats);
+	// 	} else {
+	// 		console.log('no manufacturer selected yet...');
+	// 	}
+	// }, [selectedManufacturer]);
 
 	// ** User selects year from dropdown
 	// ** Set yearInput state
@@ -114,16 +139,16 @@ function HomeRedo() {
 
 	// When user selects a year, changes year, or changes manufacturer filters through intitialQuery response to find products based on parameters
 	useEffect(() => {
-		if (selectedManufacturer === 'fox' && selectedYear != '') {
+		if (selectedManufacturer === 'fox' && selectedYear !== '') {
 			const modelOptions = [];
 			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
 			productsByYear?.map((product) => {
 				console.log(product);
-				productOptions.push(product.model);
+				modelOptions.push(product.model);
 			});
 			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
 			setModelDropdownOptions(modelOptionsWithoutRepeats);
-		} else if (selectedManufacturer === 'rockshox' && selectedYear != '') {
+		} else if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
 			const forkOptions = [];
 			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
 			productsByYear?.map((product) => {
@@ -135,43 +160,43 @@ function HomeRedo() {
 		} else {
 			console.log('no year has been selected yet...');
 		}
-	}, [selectedYear, selectedManufacturer]);
+	}, [selectedYear, selectedManufacturer, selectedModel, selectedRockshoxFork]);
 
 	// If manufacturer = rockshox && fork has been selected , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
 	useEffect(() => {
-		if (selectedManufacturer && selectedRockshoxFork != '') {
+		if (selectedManufacturer !== '' && selectedRockshoxFork !== '') {
 			const modelOptions = [];
-			const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear, product.fork === selectedRockshoxFork);
-			rockshoxModelOptions?.map((product) => {
-				console.log(product);
-				modelOptions.push(product.model);
+			const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear && product.fork === selectedRockshoxFork);
+			rockshoxModelOptions?.map((model) => {
+				console.log(model);
+				modelOptions.push(model.model);
 			});
 			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
 			setModelDropdownOptions(modelOptionsWithoutRepeats);
 		} else {
 			console.log('no rockshox fork has been selected...');
 		}
-	}, [selectedYear, selectedManufacturer, selectedRockshoxFork]);
+	}, [selectedYear, selectedManufacturer, selectedRockshoxFork,]);
 
 	// ** User selects model
 	// ** set selectedModel state
-	// ** Filter initialQueryResponse by year and model (or year, model, and fork) for wheelSize options if != null
+	// ** Filter initialQueryResponse by year and model (or year, model, and fork) for wheelSize options if !== null
 	// ** set wheelSizeDropdownOptions
 
 	// If a model has been selected,
-	useEffect(() => {
-		if (selectedModel != '') {
-			const wheelSizeOptions = [];
-			const wheelSizes = initialQueryResponse?.filter((product) => product.year === selectedYear, product.model === selectedModel);
-			wheelSizes.map((product) => {
-				modelOptions.push(product.wheelSize);
-			});
-			const wheelSizeOptionsWithoutRepeats = removeRepeatingItemsFromList(wheelSizeOptions);
-			setWheelSizeDropdownOptions(wheelSizeOptionsWithoutRepeats);
-		} else {
-			console.log('no model has been selected yet...');
-		}
-	});
+	// useEffect(() => {
+	// 	if (selectedModel !== '') {
+	// 		const wheelSizeOptions = [];
+	// 		const wheelSizes = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel);
+	// 		wheelSizes.map((product) => {
+	// 			wheelSizeOptions.push(product.wheelSize);
+	// 		});
+	// 		const wheelSizeOptionsWithoutRepeats = removeRepeatingItemsFromList(wheelSizeOptions);
+	// 		setWheelSizeDropdownOptions(wheelSizeOptionsWithoutRepeats);
+	// 	} else {
+	// 		console.log('no model has been selected yet...');
+	// 	}
+	// }, [selectedModel, selectedYear, selectedManufacturer, selectedRockshoxFork]);
 
 	// ** User selects wheelSize
 	// ** set selectedWheelSize state
@@ -179,14 +204,14 @@ function HomeRedo() {
 	// ** set selectedProduct state
 	// ** pass selectedProduct object into product information component
 
-	useEffect(() => {
-		if (selectedWheelSize != '') {
-			const matchingProduct = initialQueryResponse?.filter((product) => product.year === selectedYear, product.model === selectedModel, product.wheelSize === selectedWheelSize);
-			console.log(matchingProduct);
-		} else {
-			console.log('wheelSize has not been selected yet...');
-		}
-	});
+	// useEffect(() => {
+	// 	if (selectedWheelSize !== '') {
+	// 		const matchingProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.wheelSize === selectedWheelSize);
+	// 		console.log(matchingProduct);
+	// 	} else {
+	// 		console.log('wheelSize has not been selected yet...');
+	// 	}
+	// }, [selectedWheelSize]);
 
 	return (
 		<div className='main-container'>
@@ -209,8 +234,6 @@ function HomeRedo() {
 					</Form.Group>
 					{yearDropdownOptions.length > 0 ? (
 						<Form.Group>
-							<Form.Control style={{ userSelect: 'all' }} type='text' size='sm' placeholder='Year' name='year' onChange={handleInputChange} value={selectedYear} />
-							{/* <Form.Control.Feedback type='invalid'>Year is required for search</Form.Control.Feedback> */}
 							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
 								{yearDropdownOptions.map((year) => (
 									<option key={year} value={year}>
@@ -222,10 +245,10 @@ function HomeRedo() {
 					) : (
 						<></>
 					)}
-					{dropdownListRockshoxForks.length > 0 ? (
+					{rockshoxForkDropdownOptions.length > 0 ? (
 						<Form.Group>
 							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxForkSelect(event.target.value)}>
-								{dropdownListRockshoxForks.map((fork) => (
+								{rockshoxForkDropdownOptions.map((fork) => (
 									<option key={fork} value={fork}>
 										{fork}
 									</option>
@@ -235,10 +258,10 @@ function HomeRedo() {
 					) : (
 						<></>
 					)}
-					{dropdownListRockshoxModels.length > 0 ? (
+					{modelDropDownOptions.length > 0 ? (
 						<Form.Group>
-							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxModelSelect(event.target.value)}>
-								{dropdownListRockshoxModels.map((fork) => (
+							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedModel} onChange={(event) => handleModelSelect(event.target.value)}>
+								{modelDropDownOptions.map((fork) => (
 									<option key={fork} value={fork}>
 										{fork}
 									</option>
@@ -248,6 +271,19 @@ function HomeRedo() {
 					) : (
 						<></>
 					)}
+					{/* {wheelSizeDropdownOptions.length > 0 ? (
+						<Form.Group>
+							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='wheelSize' value={selectedWheelSize} onChange={(event) => handleWheelSizeSelect(event.target.value)}>
+								{wheelSizeDropdownOptions.map((fork) => (
+									<option key={fork} value={fork}>
+										{fork}
+									</option>
+								))}
+							</Form.Select>
+						</Form.Group>
+					) : (
+						<></>
+					)} */}
 
 					{/* <Button onClick={handleManufacturerYearSearch}>Search</Button> */}
 					{/* Button to initiate search */}
@@ -270,3 +306,5 @@ function HomeRedo() {
 		</div>
 	);
 }
+
+export default HomeRedo;

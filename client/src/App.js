@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Routes, Route } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
+import HomeRedo from './pages/HomeRedo'
 
 const client = new ApolloClient({
 	uri: 'http://localhost:3001/graphql',
@@ -16,7 +16,7 @@ function App() {
 			<Navbar />
 				{/* Navbar component should be rendered here */}
 				<Routes>
-					<Route path='/' element={<Home />} />
+					<Route path='/' element={<HomeRedo />} />
 					</Routes>
 			</Router>
 		</ApolloProvider>
