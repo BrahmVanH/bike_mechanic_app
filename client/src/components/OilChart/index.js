@@ -1,7 +1,8 @@
 import React from 'react';
-import { Table } from 'react-bootstrap/Table';
+import { Table } from 'react-bootstrap';
 
-function OilChart(product) {
+function OilChart({damperUpperVolume, damperLowerVolume, springUpperVolume, springLowerVolume, damperUpperOilWt, damperLowerOilWt, springUpperOilWt, springLowerOilWt}) {
+ 
 	return (
 		<Table>
 			<thead>
@@ -9,27 +10,29 @@ function OilChart(product) {
 					<th>Damper Side</th>
 					<th>Spring Size</th>
 				</tr>
-				<tbody>
-					<tr>
-						<td>Upper Tube</td>
-						<td>Lower Tube</td>
-						<td>Upper Tube</td>
-						<td>Lower Tube</td>
-					</tr>
-					<tr>
-						<td>{product.damperUpperVolume} mL</td>
-						<td>{product.damperLowerVolume} mL</td>
-						<td>{product.springUpperVolume} mL</td>
-						<td>{product.springLowerVolume} mL</td>
-					</tr>
-					<tr>
-						<td>{product.damperUpperOilWt} wt</td>
-						<td>{product.damperLowerWt} wt</td>
-						<td>{product.springUpperOilWt}</td>
-						<td>{product.springLowerOilWt} wt</td>
-					</tr>
-				</tbody>
 			</thead>
+			<tbody>
+				<tr>
+					<td>Upper Tube</td>
+					<td>Lower Tube</td>
+					<td>Upper Tube</td>
+					<td>Lower Tube</td>
+				</tr>
+				<tr>
+					<td>{{damperUpperVolume}} mL</td>
+					<td>{{damperLowerVolume}} mL</td>
+					<td>{{springUpperVolume}} mL</td>
+					<td>{{springLowerVolume}} mL</td>
+				</tr>
+				<tr>
+					<td>{damperUpperOilWt} wt</td>
+					<td>{{damperLowerOilWt}} wt</td>
+					<td>{{springUpperOilWt}}</td>
+					<td>{{springLowerOilWt}} wt</td>
+				</tr>
+			</tbody>
 		</Table>
 	);
 }
+
+export default OilChart;

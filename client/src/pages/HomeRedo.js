@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Dropdown, Alert } from 'react-bootstrap';
+import OilChart from '../components/OilChart';
 
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { allRockshoxForkOilBathInfo, allFoxForkOilBathInfo, rockshoxForkOilBathInfoByYear, foxForkOilBathInfoByYear } from '../utils/queries';
@@ -18,6 +19,7 @@ function HomeRedo() {
 	const [rockshoxForkDropdownOptions, setRockshoxForkDowndownOptions] = useState([]);
 	// const [selectedWheelSize, setSelectedWheelsize] = useState('');
 	// const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
+	const [productSelected, setProductSelected] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState({});
 
 	// Utility functions
@@ -39,6 +41,8 @@ function HomeRedo() {
 
 	const handleManufacturerMenuSelect = (selectedValue) => {
 		setSelectedManufacturer(selectedValue);
+		setRockshoxForkDowndownOptions('');
+		setModelDropdownOptions('');
 	};
 
 	// Sets year selected by user in dropdown menu
@@ -59,6 +63,11 @@ function HomeRedo() {
 		setSelectedRockshoxFork(selectedValue);
 	};
 
+	const handleSetSelectedProduct = (event) => {
+		event.preventDefault();
+		setProductSelected(true);
+	};
+
 	// Sets wheel size by user in dropdown menu
 
 	// const handleWheelSizeSelect = (selectedValue) => {
@@ -71,7 +80,6 @@ function HomeRedo() {
 	useEffect(() => {
 		if (selectedManufacturer === 'rockshox') {
 			queryRockshoxProducts();
-			
 		} else if (selectedManufacturer === 'fox') {
 			queryFoxProducts();
 		} else {
@@ -92,13 +100,11 @@ function HomeRedo() {
 		} else if (foxQueryResults.data) {
 			const data = foxQueryResults.data.allFoxForkOilBathInfo;
 			setInitialQueryResponse(data);
-
 			const yearOptions = data.map((product) => product.year);
 			const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
 			setYearDropdownOptions(yearOptionsWithoutRepeats);
 		}
 	}, [rockshoxQueryResults, foxQueryResults]);
-
 
 	// useEffect(() => {
 	// 	if (rockshoxQueryResults?.data) {
@@ -148,6 +154,9 @@ function HomeRedo() {
 			});
 			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
 			setModelDropdownOptions(modelOptionsWithoutRepeats);
+			if (selectedManufacturer === 'fox') {
+				setRockshoxForkDowndownOptions('');
+			}
 		} else if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
 			const forkOptions = [];
 			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
@@ -176,7 +185,29 @@ function HomeRedo() {
 		} else {
 			console.log('no rockshox fork has been selected...');
 		}
-	}, [selectedYear, selectedManufacturer, selectedRockshoxFork,]);
+	}, [selectedYear, selectedManufacturer, selectedRockshoxFork]);
+
+	useEffect(() => {
+		if (productSelected && selectedManufacturer === 'rockshox') {
+			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
+			setSelectedProduct(userSelectedProduct);
+			console.log(userSelectedProduct);
+			console.log(selectedProduct);
+		} else if (productSelected && selectedManufacturer === 'fox') {
+			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel);
+			if (userSelectedProduct.length > 0) {
+				setSelectedProduct(userSelectedProduct[0]);
+				console.log(userSelectedProduct);
+				console.log(selectedProduct);
+			} else {
+				setSelectedProduct(userSelectedProduct);
+			}
+		}
+	}, [productSelected]);
+	useEffect(() => {
+		console.log(selectedProduct);
+	}, [selectedProduct]);
+
 
 	// ** User selects model
 	// ** set selectedModel state
@@ -245,7 +276,7 @@ function HomeRedo() {
 					) : (
 						<></>
 					)}
-					{rockshoxForkDropdownOptions.length > 0 ? (
+					{selectedManufacturer === 'rockshox' && rockshoxForkDropdownOptions.length > 0 ? (
 						<Form.Group>
 							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxForkSelect(event.target.value)}>
 								{rockshoxForkDropdownOptions.map((fork) => (
@@ -285,10 +316,10 @@ function HomeRedo() {
 						<></>
 					)} */}
 
-					{/* <Button onClick={handleManufacturerYearSearch}>Search</Button> */}
-					{/* Button to initiate search */}
+					<Button onClick={handleSetSelectedProduct}>Search </Button>
 				</Form>
 			</div>
+			<div>{selectedProduct !== null ? <OilChart product={selectedProduct} /> : <></>}</div>
 			<div className='featured-forks-container'>
 				<div className='featured-rockshox-fork'>
 					{/* Randomly selected rockshox fork from DB */}
