@@ -4,9 +4,10 @@ import { Table } from 'react-bootstrap';
 function OilChart({product}) {
 
 	console.log(product[0]);
-
+if (product[0]?.damperUpperVolume) {
 	const { damperUpperVolume, damperUpperOilWt, damperLowerVolume, damperLowerOilWt, springUpperVolume, springUpperOilWt, springLowerVolume, springLowerOilWt } = product[0];
- 
+
+	
 	return (
 		<Table>
 			<thead>
@@ -25,7 +26,7 @@ function OilChart({product}) {
 				<tr>
 					<td>{damperUpperVolume} mL</td>
 					<td>{damperLowerVolume} mL</td>
-					<td>{springUpperVolume} mL</td>
+					<td>{springUpperVolume} </td>
 					<td>{springLowerVolume} mL</td>
 				</tr>
 				<tr>
@@ -37,6 +38,11 @@ function OilChart({product}) {
 			</tbody>
 		</Table>
 	);
+} else {
+	return (
+		<p>Loading Fork Oil Volume information</p>
+	)
+}
 }
 
 export default OilChart;
