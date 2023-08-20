@@ -1,7 +1,11 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 
-function OilChart({damperUpperVolume, damperLowerVolume, springUpperVolume, springLowerVolume, damperUpperOilWt, damperLowerOilWt, springUpperOilWt, springLowerOilWt}) {
+function OilChart({product}) {
+
+	console.log(product[0]);
+
+	const { damperUpperVolume, damperUpperOilWt, damperLowerVolume, damperLowerOilWt, springUpperVolume, springUpperOilWt, springLowerVolume, springLowerOilWt } = product[0];
  
 	return (
 		<Table>
@@ -19,16 +23,16 @@ function OilChart({damperUpperVolume, damperLowerVolume, springUpperVolume, spri
 					<td>Lower Tube</td>
 				</tr>
 				<tr>
-					<td>{{damperUpperVolume}} mL</td>
-					<td>{{damperLowerVolume}} mL</td>
-					<td>{{springUpperVolume}} mL</td>
-					<td>{{springLowerVolume}} mL</td>
+					<td>{damperUpperVolume} mL</td>
+					<td>{damperLowerVolume} mL</td>
+					<td>{springUpperVolume} mL</td>
+					<td>{springLowerVolume} mL</td>
 				</tr>
 				<tr>
 					<td>{damperUpperOilWt} wt</td>
-					<td>{{damperLowerOilWt}} wt</td>
-					<td>{{springUpperOilWt}}</td>
-					<td>{{springLowerOilWt}} wt</td>
+					<td>{damperLowerOilWt} wt</td>
+					<td>{springUpperOilWt}</td>
+					<td>{springLowerOilWt} wt</td>
 				</tr>
 			</tbody>
 		</Table>

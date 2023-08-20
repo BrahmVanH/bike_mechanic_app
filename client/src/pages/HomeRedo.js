@@ -16,11 +16,20 @@ function HomeRedo() {
 	const [selectedModel, setSelectedModel] = useState('');
 	const [modelDropDownOptions, setModelDropdownOptions] = useState([]);
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
-	const [rockshoxForkDropdownOptions, setRockshoxForkDowndownOptions] = useState([]);
+	const [rockshoxForkDropdownOptions, setRockshoxForkDropdownOptions] = useState([]);
 	// const [selectedWheelSize, setSelectedWheelsize] = useState('');
 	// const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
 	const [productSelected, setProductSelected] = useState(false);
-	const [selectedProduct, setSelectedProduct] = useState({});
+	const [selectedProduct, setSelectedProduct] = useState({
+		damperUpperVolume: '',
+		damperUpperOilWt: '',
+		damperLowerVolume: '',
+		damperLowerOilWt: '',
+		springUpperVolume: '',
+		springUpperOilWt: '',
+		springLowerVolume: '',
+		springLowerOilWt: '',
+	});
 
 	// Utility functions
 
@@ -41,7 +50,7 @@ function HomeRedo() {
 
 	const handleManufacturerMenuSelect = (selectedValue) => {
 		setSelectedManufacturer(selectedValue);
-		setRockshoxForkDowndownOptions('');
+		setRockshoxForkDropdownOptions('');
 		setModelDropdownOptions('');
 	};
 
@@ -106,36 +115,7 @@ function HomeRedo() {
 		}
 	}, [rockshoxQueryResults, foxQueryResults]);
 
-	// useEffect(() => {
-	// 	if (rockshoxQueryResults?.data) {
-	// 		console.log(rockshoxQueryResults);
-	// 		setInitialQueryResponse(rockshoxQueryResults.data.allRockshoxForkOilBathInfo);
-	// 		console.log(initialQueryResponse);
-	// 	} else if (foxQueryResults.data) {
-	// 		console.log(foxQueryResults);
-	// 		setInitialQueryResponse(foxQueryResults.data.allFoxForkOilBathInfo);
-	// 		console.log(initialQueryResponse);
-	// 	}
-	// }, [rockshoxQueryResults, foxQueryResults]);
 
-	// // ** Map through intialQueryReponse and grab all years, filter through years and remove repeats
-	// // ** set yearDropdownOptions state
-	// // ** Year options dropdown appears
-
-	// // When manufacturer is selected, map through all products in query response and grab the product years that are available
-	// useEffect(() => {
-	// 	if (selectedManufacturer !== '') {
-	// 		console.log(`selected manufacturer: ${selectedManufacturer}, grabbing year options`);
-	// 		const yearOptions = [];
-	// 		initialQueryResponse?.map((product) => {
-	// 			yearOptions.push(product.year);
-	// 		});
-	// 		const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
-	// 		setYearDropdownOptions(yearOptionsWithoutRepeats);
-	// 	} else {
-	// 		console.log('no manufacturer selected yet...');
-	// 	}
-	// }, [selectedManufacturer]);
 
 	// ** User selects year from dropdown
 	// ** Set yearInput state
@@ -155,7 +135,7 @@ function HomeRedo() {
 			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
 			setModelDropdownOptions(modelOptionsWithoutRepeats);
 			if (selectedManufacturer === 'fox') {
-				setRockshoxForkDowndownOptions('');
+				setRockshoxForkDropdownOptions('');
 			}
 		} else if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
 			const forkOptions = [];
@@ -165,7 +145,7 @@ function HomeRedo() {
 				forkOptions.push(product.fork);
 			});
 			const forkOptionsWithoutRepeats = removeRepeatingItemsFromList(forkOptions);
-			setRockshoxForkDowndownOptions(forkOptionsWithoutRepeats);
+			setRockshoxForkDropdownOptions(forkOptionsWithoutRepeats);
 		} else {
 			console.log('no year has been selected yet...');
 		}
@@ -196,7 +176,16 @@ function HomeRedo() {
 		} else if (productSelected && selectedManufacturer === 'fox') {
 			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel);
 			if (userSelectedProduct.length > 0) {
-				setSelectedProduct(userSelectedProduct[0]);
+				setSelectedProduct({
+					damperUpperVolume: userSelectedProduct[0].damperUpperVolume,
+					damperUpperOilWt: userSelectedProduct[0].damperUpperOilWt,
+					damperLowerVolume: userSelectedProduct[0].damperLowerVolume,
+					damperLowerOilWt: userSelectedProduct[0].damperLowerOilWt,
+					springUpperVolume: userSelectedProduct[0].springUpperVolume,
+					springUpperOilWt: userSelectedProduct[0].springUpperOilWt,
+					springLowerVolume: userSelectedProduct[0].springLowerVolume,
+					springLowerOilWt: userSelectedProduct[0].springLowerOilWt,
+				});
 				console.log(userSelectedProduct);
 				console.log(selectedProduct);
 			} else {
@@ -208,41 +197,6 @@ function HomeRedo() {
 		console.log(selectedProduct);
 	}, [selectedProduct]);
 
-
-	// ** User selects model
-	// ** set selectedModel state
-	// ** Filter initialQueryResponse by year and model (or year, model, and fork) for wheelSize options if !== null
-	// ** set wheelSizeDropdownOptions
-
-	// If a model has been selected,
-	// useEffect(() => {
-	// 	if (selectedModel !== '') {
-	// 		const wheelSizeOptions = [];
-	// 		const wheelSizes = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel);
-	// 		wheelSizes.map((product) => {
-	// 			wheelSizeOptions.push(product.wheelSize);
-	// 		});
-	// 		const wheelSizeOptionsWithoutRepeats = removeRepeatingItemsFromList(wheelSizeOptions);
-	// 		setWheelSizeDropdownOptions(wheelSizeOptionsWithoutRepeats);
-	// 	} else {
-	// 		console.log('no model has been selected yet...');
-	// 	}
-	// }, [selectedModel, selectedYear, selectedManufacturer, selectedRockshoxFork]);
-
-	// ** User selects wheelSize
-	// ** set selectedWheelSize state
-	// ** filter initialQueryResponse by year, model/fork, wheelSize
-	// ** set selectedProduct state
-	// ** pass selectedProduct object into product information component
-
-	// useEffect(() => {
-	// 	if (selectedWheelSize !== '') {
-	// 		const matchingProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.wheelSize === selectedWheelSize);
-	// 		console.log(matchingProduct);
-	// 	} else {
-	// 		console.log('wheelSize has not been selected yet...');
-	// 	}
-	// }, [selectedWheelSize]);
 
 	return (
 		<div className='main-container'>
@@ -302,24 +256,12 @@ function HomeRedo() {
 					) : (
 						<></>
 					)}
-					{/* {wheelSizeDropdownOptions.length > 0 ? (
-						<Form.Group>
-							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='wheelSize' value={selectedWheelSize} onChange={(event) => handleWheelSizeSelect(event.target.value)}>
-								{wheelSizeDropdownOptions.map((fork) => (
-									<option key={fork} value={fork}>
-										{fork}
-									</option>
-								))}
-							</Form.Select>
-						</Form.Group>
-					) : (
-						<></>
-					)} */}
+					
 
 					<Button onClick={handleSetSelectedProduct}>Search </Button>
 				</Form>
 			</div>
-			<div>{selectedProduct !== null ? <OilChart product={selectedProduct} /> : <></>}</div>
+			<div>{productSelected && selectedProduct.damperUpperVolume !== '' ? <OilChart product={selectedProduct} /> : <></>}</div>
 			<div className='featured-forks-container'>
 				<div className='featured-rockshox-fork'>
 					{/* Randomly selected rockshox fork from DB */}
