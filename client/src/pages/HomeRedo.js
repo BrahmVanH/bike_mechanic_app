@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Dropdown, Alert } from 'react-bootstrap';
-import OilChart from '../components/OilChart';
+import OilBathTable from '../components/OilBathTable';
 
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { allRockshoxForkOilBathInfo, allFoxForkOilBathInfo, rockshoxForkOilBathInfoByYear, foxForkOilBathInfoByYear } from '../utils/queries';
@@ -22,7 +22,8 @@ function HomeRedo() {
 	// NEED TO CREATE A SPRINGTYPEDROPDOWNOPTIONS STATE VARIABLE HERE
 	// const [selectedWheelSize, setSelectedWheelsize] = useState('');
 	// const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
-	const [isProductSelected, setIsProductSelected] = useState(false);
+	const [hasUserSelectedProduct, setHasUserSelectedProduct] = useState(false);
+	const [isSelectedProductSet, setIsSelectedProductSet] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState({
 		damperUpperVolume: '',
 		damperUpperOilWt: '',
@@ -83,9 +84,9 @@ function HomeRedo() {
 
 	//Sets the isProductSelected state to true to initiate search
 
-	const handleSetSelectedProduct = (event) => {
+	const handleHasUserSelectedProduct = (event) => {
 		event.preventDefault();
-		setIsProductSelected(true);
+		setHasUserSelectedProduct(true);
 	};
 
 	// Sets wheel size by user in dropdown menu
@@ -195,15 +196,17 @@ function HomeRedo() {
 	}, [selectedModel, selectedRockshoxFork, selectedManufacturer, selectedYear]);
 
 	useEffect(() => {
-		if (isProductSelected && selectedManufacturer === 'rockshox') {
-			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork && product.springType === selectedSpringType);
+		if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
+			const userSelectedProduct = initialQueryResponse?.filter(
+				(product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork && product.springType === selectedSpringType
+			);
 			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
 				setSelectedProduct(userSelectedProduct[0]);
 			} else {
 				setSelectedProduct(null);
 			}
 			console.log(userSelectedProduct);
-		} else if (isProductSelected && selectedManufacturer === 'fox') {
+		} else if (hasUserSelectedProduct && selectedManufacturer === 'fox') {
 			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel);
 			if (userSelectedProduct.length > 0) {
 				setSelectedProduct({
@@ -222,9 +225,12 @@ function HomeRedo() {
 				setSelectedProduct(userSelectedProduct);
 			}
 		}
-	}, [isProductSelected]);
+	}, [hasUserSelectedProduct]);
+
+	//Sets state variable to tell oil bath volume chart that data is ready to render
 	useEffect(() => {
 		console.log(selectedProduct);
+		setIsSelectedProductSet(true);
 	}, [selectedProduct]);
 
 	return (
@@ -302,10 +308,10 @@ function HomeRedo() {
 					{/* Add another dropdown here to allow user to select spring types, there are multiple RS fork models that have 
 					variants with different spring types */}
 
-					<Button onClick={handleSetSelectedProduct}>Search </Button>
+					<Button onClick={handleHasUserSelectedProduct}>Search </Button>
 				</Form>
 			</div>
-			<div>{isProductSelected && selectedProduct.damperUpperVolume !== '' ? <OilChart product={selectedProduct} /> : <></>}</div>
+			<div>{isSelectedProductSet && selectedProduct.damperUpperVolume !== '' ? <OilBathTable product={selectedProduct} /> : <></>}</div>
 			<div className='featured-forks-container'>
 				<div className='featured-rockshox-fork'>
 					{/* Randomly selected rockshox fork from DB */}
