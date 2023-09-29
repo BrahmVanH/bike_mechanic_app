@@ -196,10 +196,20 @@ function HomeRedo() {
 	}, [selectedModel, selectedRockshoxFork, selectedManufacturer, selectedYear]);
 
 	useEffect(() => {
-		if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
+		if (hasUserSelectedProduct && selectedManufacturer === 'rockshox' && selectedSpringType !== '') {
 			const userSelectedProduct = initialQueryResponse?.filter(
 				(product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork && product.springType === selectedSpringType
 			);
+			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
+				setSelectedProduct(userSelectedProduct[0]);
+				console.log('set selectedProduct t...');
+				console.log(userSelectedProduct[0]);
+			} else {
+				setSelectedProduct(null);
+			}
+			console.log(userSelectedProduct);
+		} else if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
+			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
 			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
 				setSelectedProduct(userSelectedProduct[0]);
 			} else {
@@ -230,8 +240,18 @@ function HomeRedo() {
 	//Sets state variable to tell oil bath volume chart that data is ready to render
 	useEffect(() => {
 		console.log(selectedProduct);
-		setIsSelectedProductSet(true);
+		if (selectedProduct?.id !== '') {
+			setIsSelectedProductSet(true);
+		}
 	}, [selectedProduct]);
+
+	useEffect(() => {
+		if (isSelectedProductSet === true && selectedProduct?.damperUpperVolume !== '') {
+			console.log(selectedProduct.damperUpperVolume, selectedProduct.damperUpperOilWt, selectedProduct.damperLowerVolume, selectedProduct.damperLowerOilWt);
+		} else {
+			console.log('No product has been selected yet... line 253');
+		}
+	}, [isSelectedProductSet, selectedProduct]);
 
 	return (
 		<div className='main-container'>
@@ -311,7 +331,7 @@ function HomeRedo() {
 					<Button onClick={handleHasUserSelectedProduct}>Search </Button>
 				</Form>
 			</div>
-			<div>{isSelectedProductSet && selectedProduct.damperUpperVolume !== '' ? <OilBathTable product={selectedProduct} /> : <></>}</div>
+			<div>{isSelectedProductSet && selectedProduct?.damperUpperVolume !== '' ? <OilBathTable product={selectedProduct} /> : <></>}</div>
 			<div className='featured-forks-container'>
 				<div className='featured-rockshox-fork'>
 					{/* Randomly selected rockshox fork from DB */}
