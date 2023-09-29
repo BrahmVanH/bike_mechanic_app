@@ -75,6 +75,14 @@ function HomeRedo() {
 		setSelectedRockshoxFork(selectedValue);
 	};
 
+	// Sets selected spring type by user from dropdown menu
+
+	const handleSpringTypeSelect = (selectedValue) => {
+		setSelectedSpringType(selectedValue);
+	};
+
+	//Sets the productSelected state to true to initiate search
+
 	const handleSetSelectedProduct = (event) => {
 		event.preventDefault();
 		setProductSelected(true);
@@ -143,7 +151,6 @@ function HomeRedo() {
 			const forkOptions = [];
 			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
 			productsByYear?.map((product) => {
-				console.log(product);
 				forkOptions.push(product.fork);
 			});
 			const forkOptionsWithoutRepeats = removeRepeatingItemsFromList(forkOptions);
@@ -172,9 +179,11 @@ function HomeRedo() {
 	//** Add another dropdown useEffect here to provide springType information to the UI */
 	// Make sure to handle empty strings in the spring type string, as there are a few RS forks from <2006 that have empty strings
 	useEffect(() => {
-		if (selectedManufacturer === 'rockshox' && selectedRockshoxFork !== '') {
+		if (selectedManufacturer === 'rockshox' && selectedModel !== '') {
+			console.log('Initiating check for model for multiple spring types...');
 			const springOptions = [];
 			const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
+			console.log('Filtering through model options... ');
 			rockshoxModelOptions?.map((model) => {
 				console.log(model);
 				springOptions.push(model.springType);
@@ -183,7 +192,12 @@ function HomeRedo() {
 			setSpringDropdownOptions(springOptionsWithoutRepeats);
 			console.log(springOptionsWithoutRepeats);
 		}
-	}, [selectedRockshoxFork]);
+	}, [selectedModel]);
+
+	useEffect(() => {
+		console.log(`Spring dropdown options current state:`);
+		console.log(springDropdownOptions);
+	}, [springDropdownOptions]);
 
 	useEffect(() => {
 		if (productSelected && selectedManufacturer === 'rockshox') {
@@ -273,10 +287,10 @@ function HomeRedo() {
 					) : (
 						<></>
 					)}
-					{springDropdownOptions.length > 0 ? (
+					{/* {springDropdownOptions.length > 0 ? (
 						<Form.group>
 							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='spring' value={selectedSpringType} onChange={(event) => handleSpringTypeSelect(event.target.value)}>
-								{springDropdownOptions.map((spring) => (
+								{springDropdownOptions?.map((spring) => (
 									<options key={spring} value={spring}>
 										{spring}
 									</options>
@@ -285,7 +299,7 @@ function HomeRedo() {
 						</Form.group>
 					) : (
 						<></>
-					)}
+					)} */}
 
 					{/* Add another dropdown here to allow user to select spring types, there are multiple RS fork models that have 
 					variants with different spring types */}
