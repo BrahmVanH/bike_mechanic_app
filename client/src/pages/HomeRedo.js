@@ -22,7 +22,7 @@ function HomeRedo() {
 	// NEED TO CREATE A SPRINGTYPEDROPDOWNOPTIONS STATE VARIABLE HERE
 	// const [selectedWheelSize, setSelectedWheelsize] = useState('');
 	// const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
-	const [productSelected, setProductSelected] = useState(false);
+	const [isProductSelected, setIsProductSelected] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState({
 		damperUpperVolume: '',
 		damperUpperOilWt: '',
@@ -81,11 +81,11 @@ function HomeRedo() {
 		setSelectedSpringType(selectedValue);
 	};
 
-	//Sets the productSelected state to true to initiate search
+	//Sets the isProductSelected state to true to initiate search
 
 	const handleSetSelectedProduct = (event) => {
 		event.preventDefault();
-		setProductSelected(true);
+		setIsProductSelected(true);
 	};
 
 	// Sets wheel size by user in dropdown menu
@@ -195,11 +195,15 @@ function HomeRedo() {
 	}, [selectedModel]);
 
 	useEffect(() => {
-		if (productSelected && selectedManufacturer === 'rockshox') {
+		if (isProductSelected && selectedManufacturer === 'rockshox') {
 			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork && product.springType === selectedSpringType);
-			setSelectedProduct(userSelectedProduct);
+			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
+				setSelectedProduct(userSelectedProduct[0]);
+			} else {
+				setSelectedProduct(null);
+			}
 			console.log(userSelectedProduct);
-		} else if (productSelected && selectedManufacturer === 'fox') {
+		} else if (isProductSelected && selectedManufacturer === 'fox') {
 			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel);
 			if (userSelectedProduct.length > 0) {
 				setSelectedProduct({
@@ -218,7 +222,7 @@ function HomeRedo() {
 				setSelectedProduct(userSelectedProduct);
 			}
 		}
-	}, [productSelected]);
+	}, [isProductSelected]);
 	useEffect(() => {
 		console.log(selectedProduct);
 	}, [selectedProduct]);
@@ -301,7 +305,7 @@ function HomeRedo() {
 					<Button onClick={handleSetSelectedProduct}>Search </Button>
 				</Form>
 			</div>
-			<div>{productSelected && selectedProduct.damperUpperVolume !== '' ? <OilChart product={selectedProduct} /> : <></>}</div>
+			<div>{isProductSelected && selectedProduct.damperUpperVolume !== '' ? <OilChart product={selectedProduct} /> : <></>}</div>
 			<div className='featured-forks-container'>
 				<div className='featured-rockshox-fork'>
 					{/* Randomly selected rockshox fork from DB */}
