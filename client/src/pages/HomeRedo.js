@@ -192,7 +192,7 @@ function HomeRedo() {
 			setSpringDropdownOptions(springOptionsWithoutRepeats);
 			console.log(springOptionsWithoutRepeats);
 		}
-	}, [selectedModel]);
+	}, [selectedModel, selectedRockshoxFork, selectedManufacturer, selectedYear]);
 
 	useEffect(() => {
 		if (isProductSelected && selectedManufacturer === 'rockshox') {
