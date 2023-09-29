@@ -18,7 +18,7 @@ function HomeRedo() {
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
 	const [rockshoxForkDropdownOptions, setRockshoxForkDropdownOptions] = useState([]);
 	const [springDropdownOptions, setSpringDropdownOptions] = useState([]);
-	const [selectedSpringType, setSelectedSpringType] = useState([]);
+	const [selectedSpringType, setSelectedSpringType] = useState('');
 	// NEED TO CREATE A SPRINGTYPEDROPDOWNOPTIONS STATE VARIABLE HERE
 	// const [selectedWheelSize, setSelectedWheelsize] = useState('');
 	// const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
@@ -195,16 +195,10 @@ function HomeRedo() {
 	}, [selectedModel]);
 
 	useEffect(() => {
-		console.log(`Spring dropdown options current state:`);
-		console.log(springDropdownOptions);
-	}, [springDropdownOptions]);
-
-	useEffect(() => {
 		if (productSelected && selectedManufacturer === 'rockshox') {
-			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
+			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork && product.springType === selectedSpringType);
 			setSelectedProduct(userSelectedProduct);
 			console.log(userSelectedProduct);
-			console.log(selectedProduct);
 		} else if (productSelected && selectedManufacturer === 'fox') {
 			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel);
 			if (userSelectedProduct.length > 0) {
@@ -287,19 +281,19 @@ function HomeRedo() {
 					) : (
 						<></>
 					)}
-					{/* {springDropdownOptions.length > 0 ? (
-						<Form.group>
+					{springDropdownOptions.length > 0 ? (
+						<Form.Group>
 							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='spring' value={selectedSpringType} onChange={(event) => handleSpringTypeSelect(event.target.value)}>
 								{springDropdownOptions?.map((spring) => (
-									<options key={spring} value={spring}>
+									<option key={spring} value={spring}>
 										{spring}
-									</options>
+									</option>
 								))}
 							</Form.Select>
-						</Form.group>
+						</Form.Group>
 					) : (
 						<></>
-					)} */}
+					)}
 
 					{/* Add another dropdown here to allow user to select spring types, there are multiple RS fork models that have 
 					variants with different spring types */}
