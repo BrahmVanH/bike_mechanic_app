@@ -24,6 +24,7 @@ function HomeRedo() {
 	// const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
 	const [hasUserSelectedProduct, setHasUserSelectedProduct] = useState(false);
 	const [isSelectedProductSet, setIsSelectedProductSet] = useState(false);
+	const [hideSearchOptions, setHideSearchOptions] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState({
 		damperUpperVolume: '',
 		damperUpperOilWt: '',
@@ -87,6 +88,7 @@ function HomeRedo() {
 	const handleHasUserSelectedProduct = (event) => {
 		event.preventDefault();
 		setHasUserSelectedProduct(true);
+		setHideSearchOptions(true);
 	};
 
 	// Sets wheel size by user in dropdown menu
@@ -258,80 +260,81 @@ function HomeRedo() {
 			<div className='welcome-message'>
 				<p>The Bike Guru welcomes you. Please search for your fork below</p>
 			</div>
+			{hideSearchOptions ? (
+				<></>
+			) : (
+				<div className='search-container'>
+					<Form className='fork-search-form'>
+						<Alert dismissible onClose={() => setShowAlert(true)} show={showAlert} variant='danger'>
+							You must complete all fields before searching
+						</Alert>
+						<Form.Group>
+							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='manufacturer' value={selectedManufacturer} onChange={(event) => handleManufacturerMenuSelect(event.target.value)}>
+								<option value=''>Manufacturer</option>
+								<option value='fox'>Fox</option>
+								{/* <option value='marzocchi'>Marzocchi</option> */}
+								<option value='rockshox'>Rockshox</option>
+							</Form.Select>
+						</Form.Group>
+						{yearDropdownOptions.length > 0 ? (
+							<Form.Group>
+								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
+									{yearDropdownOptions.map((year) => (
+										<option key={year} value={year}>
+											{year}
+										</option>
+									))}
+								</Form.Select>
+							</Form.Group>
+						) : (
+							<></>
+						)}
+						{selectedManufacturer === 'rockshox' && rockshoxForkDropdownOptions.length > 0 ? (
+							<Form.Group>
+								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxForkSelect(event.target.value)}>
+									{rockshoxForkDropdownOptions.map((fork) => (
+										<option key={fork} value={fork}>
+											{fork}
+										</option>
+									))}
+								</Form.Select>
+							</Form.Group>
+						) : (
+							<></>
+						)}
+						{modelDropDownOptions.length > 0 ? (
+							<Form.Group>
+								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='model' value={selectedModel} onChange={(event) => handleModelSelect(event.target.value)}>
+									{modelDropDownOptions.map((fork) => (
+										<option key={fork} value={fork}>
+											{fork}
+										</option>
+									))}
+								</Form.Select>
+							</Form.Group>
+						) : (
+							<></>
+						)}
+						{springDropdownOptions.length > 0 ? (
+							<Form.Group>
+								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='spring' value={selectedSpringType} onChange={(event) => handleSpringTypeSelect(event.target.value)}>
+									{springDropdownOptions?.map((spring) => (
+										<option key={spring} value={spring}>
+											{spring}
+										</option>
+									))}
+								</Form.Select>
+							</Form.Group>
+						) : (
+							<></>
+						)}
 
-			<div className='search-container'>
-				<Form className='fork-search-form'>
-					<Alert dismissible onClose={() => setShowAlert(true)} show={showAlert} variant='danger'>
-						You must complete all fields before searching
-					</Alert>
-					<Form.Group>
-						<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='manufacturer' value={selectedManufacturer} onChange={(event) => handleManufacturerMenuSelect(event.target.value)}>
-							<option value=''>Manufacturer</option>
-							<option value='fox'>Fox</option>
-							{/* <option value='marzocchi'>Marzocchi</option> */}
-							<option value='rockshox'>Rockshox</option>
-						</Form.Select>
-					</Form.Group>
-					{yearDropdownOptions.length > 0 ? (
-						<Form.Group>
-							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
-								{yearDropdownOptions.map((year) => (
-									<option key={year} value={year}>
-										{year}
-									</option>
-								))}
-							</Form.Select>
-						</Form.Group>
-					) : (
-						<></>
-					)}
-					{selectedManufacturer === 'rockshox' && rockshoxForkDropdownOptions.length > 0 ? (
-						<Form.Group>
-							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxForkSelect(event.target.value)}>
-								{rockshoxForkDropdownOptions.map((fork) => (
-									<option key={fork} value={fork}>
-										{fork}
-									</option>
-								))}
-							</Form.Select>
-						</Form.Group>
-					) : (
-						<></>
-					)}
-					{modelDropDownOptions.length > 0 ? (
-						<Form.Group>
-							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='model' value={selectedModel} onChange={(event) => handleModelSelect(event.target.value)}>
-								{modelDropDownOptions.map((fork) => (
-									<option key={fork} value={fork}>
-										{fork}
-									</option>
-								))}
-							</Form.Select>
-						</Form.Group>
-					) : (
-						<></>
-					)}
-					{springDropdownOptions.length > 0 ? (
-						<Form.Group>
-							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='spring' value={selectedSpringType} onChange={(event) => handleSpringTypeSelect(event.target.value)}>
-								{springDropdownOptions?.map((spring) => (
-									<option key={spring} value={spring}>
-										{spring}
-									</option>
-								))}
-							</Form.Select>
-						</Form.Group>
-					) : (
-						<></>
-					)}
+						<Button onClick={handleHasUserSelectedProduct}>Search </Button>
+					</Form>
+				</div>
+			)}
 
-					{/* Add another dropdown here to allow user to select spring types, there are multiple RS fork models that have 
-					variants with different spring types */}
-
-					<Button onClick={handleHasUserSelectedProduct}>Search </Button>
-				</Form>
-			</div>
-			<div>{isSelectedProductSet && selectedProduct?.damperUpperVolume !== '' ? <OilBathTable product={selectedProduct} /> : <></>}</div>
+			<div>{isSelectedProductSet && selectedProduct?.damperUpperVolume !== '' ? <OilBathTable selectedSuspensionFork={selectedProduct} /> : <></>}</div>
 			<div className='featured-forks-container'>
 				<div className='featured-rockshox-fork'>
 					{/* Randomly selected rockshox fork from DB */}

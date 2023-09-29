@@ -10,17 +10,16 @@ const OilBathTable = (selectedSuspensionFork) => {
 
 	useEffect(() => {
 		if (selectedSuspensionFork) {
-			// const { damperUpperVolume, damperUpperOilWt, damperLowerVolume, damperLowerOilWt, springUpperVolume, springUpperOilWt, springLowerVolume, springLowerOilWt } = selectedSuspensionFork;
 			const data = [
 				[
-					selectedSuspensionFork?.product.damperUpperVolume,
-					selectedSuspensionFork?.product.damperUpperOilWt,
-					selectedSuspensionFork?.product.damperLowerVolume,
-					selectedSuspensionFork?.product.damperLowerOilWt,
-					selectedSuspensionFork?.product.springUpperVolume,
-					selectedSuspensionFork?.product.springUpperOilWt,
-					selectedSuspensionFork?.product.springLowerVolume,
-					selectedSuspensionFork?.product.springLowerOilWt,
+					selectedSuspensionFork?.selectedSuspensionFork.damperUpperVolume,
+					selectedSuspensionFork?.selectedSuspensionFork.damperUpperOilWt,
+					selectedSuspensionFork?.selectedSuspensionFork.damperLowerVolume,
+					selectedSuspensionFork?.selectedSuspensionFork.damperLowerOilWt,
+					selectedSuspensionFork?.selectedSuspensionFork.springUpperVolume,
+					selectedSuspensionFork?.selectedSuspensionFork.springUpperOilWt,
+					selectedSuspensionFork?.selectedSuspensionFork.springLowerVolume,
+					selectedSuspensionFork?.selectedSuspensionFork.springLowerOilWt,
 				],
 			];
 
@@ -41,6 +40,19 @@ const OilBathTable = (selectedSuspensionFork) => {
 			// Initialize the Handsontable instance
 			const hot = new Handsontable(containerRef.current, {
 				data: data,
+				virtual: true,
+				width: 600,
+				height: 200,
+				columns: [
+					{ width: 25 },
+					{ width: 25 },
+					{ width: 25 },
+					{ width: 25 },
+					{ width: 25 },
+					{ width: 25 },
+					{ width: 25 },
+					
+				],
 				nestedHeaders: nestedHeaders,
 				colHeaders: true, // Display column headers
 				rowHeaders: true, // Display row headers
@@ -48,7 +60,6 @@ const OilBathTable = (selectedSuspensionFork) => {
 				licenseKey: 'non-commercial-and-evaluation', // Replace with your license key or leave empty for non-commercial use
 			});
 
-			// Optionally, you can customize the table's appearance and behavior further.
 
 			return () => {
 				// Destroy the Handsontable instance when the component unmounts
