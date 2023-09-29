@@ -17,6 +17,7 @@ function HomeRedo() {
 	const [modelDropDownOptions, setModelDropdownOptions] = useState([]);
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
 	const [rockshoxForkDropdownOptions, setRockshoxForkDropdownOptions] = useState([]);
+	// NEED TO CREATE A SPRINGTYPEDROPDOWNOPTIONS STATE VARIABLE HERE
 	// const [selectedWheelSize, setSelectedWheelsize] = useState('');
 	// const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
 	const [productSelected, setProductSelected] = useState(false);
@@ -115,8 +116,6 @@ function HomeRedo() {
 		}
 	}, [rockshoxQueryResults, foxQueryResults]);
 
-
-
 	// ** User selects year from dropdown
 	// ** Set yearInput state
 	// ** Filter initialQueryResponse by year
@@ -134,6 +133,7 @@ function HomeRedo() {
 			});
 			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
 			setModelDropdownOptions(modelOptionsWithoutRepeats);
+			// **What is this? Bug or feature?
 			if (selectedManufacturer === 'fox') {
 				setRockshoxForkDropdownOptions('');
 			}
@@ -167,6 +167,9 @@ function HomeRedo() {
 		}
 	}, [selectedYear, selectedManufacturer, selectedRockshoxFork]);
 
+	//** Add another dropdown useEffect here to provide springType information to the UI */
+	// Make sure to handle empty strings in the spring type string, as there are a few RS forks from <2006 that have empty strings
+
 	useEffect(() => {
 		if (productSelected && selectedManufacturer === 'rockshox') {
 			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
@@ -196,7 +199,6 @@ function HomeRedo() {
 	useEffect(() => {
 		console.log(selectedProduct);
 	}, [selectedProduct]);
-
 
 	return (
 		<div className='main-container'>
@@ -256,7 +258,9 @@ function HomeRedo() {
 					) : (
 						<></>
 					)}
-					
+
+					{/* Add another dropdown here to allow user to select spring types, there are multiple RS fork models that have 
+					variants with different spring types */}
 
 					<Button onClick={handleSetSelectedProduct}>Search </Button>
 				</Form>
