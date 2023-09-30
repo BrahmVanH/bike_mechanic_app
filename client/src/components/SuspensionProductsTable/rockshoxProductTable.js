@@ -3,10 +3,6 @@ import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.min.css';
 
 const RockshoxProductTable = (props) => {
-	console.log(typeof props.sendSelectedProductInformation);
-
-	console.log(props.sendSelectedProductInformation);
-
 	const customButtonRenderer = (instance, td, row, col, prop, value, cellProperties) => {
 		const button = document.createElement('button');
 		button.innerText = 'Search';

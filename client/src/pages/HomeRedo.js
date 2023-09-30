@@ -3,6 +3,7 @@ import { Button, Form, Dropdown, Alert } from 'react-bootstrap';
 import RockshoxProductTable from '../components/SuspensionProductsTable/rockshoxProductTable';
 import FoxProductTable from '../components/SuspensionProductsTable/foxProductsTable';
 import OilBathTable from '../components/OilBathTable';
+import ProductCard from '../components/ProductCard';
 
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { allRockshoxForkOilBathInfo, allFoxForkOilBathInfo, rockshoxForkOilBathInfoByYear, foxForkOilBathInfoByYear } from '../utils/queries';
@@ -236,7 +237,14 @@ function HomeRedo() {
 			<div>{startRockshoxSearch ? <RockshoxProductTable searchResults={searchResults} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
 			<div>{startFoxSearch ? <FoxProductTable searchResults={searchResults} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
 
-			<div>{isSelectedProductSet && selectedProduct?.damperUpperVolume !== '' ? <OilBathTable selectedSuspensionFork={selectedProduct} /> : <></>}</div>
+			{isSelectedProductSet && selectedProduct?.damperUpperVolume !== '' ? (
+				<div>
+					<ProductCard manufacturer={selectedManufacturer} product={selectedProduct} />
+					<OilBathTable selectedSuspensionFork={selectedProduct} />
+				</div>
+			) : (
+				<></>
+			)}
 			<div className='featured-forks-container'>
 				<div className='featured-rockshox-fork'>
 					{/* Randomly selected rockshox fork from DB */}

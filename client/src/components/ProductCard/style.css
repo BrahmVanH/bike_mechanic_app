@@ -1,0 +1,14 @@
+.card {
+  border: 2px solid black;
+  border-radius: 8%;
+  width: 20%;
+  padding: 0.5rem 1rem;
+}
+.card-header p{
+  font-size: 16px;
+
+}
+
+.product-details p{
+  font-size: 14px;
+}
