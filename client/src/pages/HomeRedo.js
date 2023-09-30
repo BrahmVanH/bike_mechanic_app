@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Dropdown, Alert } from 'react-bootstrap';
-import RockshoxProductTable from '../components/SuspensionProductsTable';
+import RockshoxProductTable from '../components/SuspensionProductsTable/rockshoxProductTable';
+import FoxProductTable from '../components/SuspensionProductsTable/foxProductsTable';
 import OilBathTable from '../components/OilBathTable';
 
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
@@ -19,7 +20,8 @@ function HomeRedo() {
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
 	const [selectedSpringType, setSelectedSpringType] = useState('');
 	const [selectedDamperType, setSelectedDamperType] = useState('');
-	const [startSearch, setStartSearch] = useState(false);
+	const [startRockshoxSearch, setStartRockshoxSearch] = useState(false);
+	const [startFoxSearch, setStartFoxSearch] = useState(false);
 	const [hasUserSelectedProduct, setHasUserSelectedProduct] = useState(false);
 	const [isSelectedProductSet, setIsSelectedProductSet] = useState(false);
 	const [hideSearchOptions, setHideSearchOptions] = useState(false);
@@ -50,8 +52,6 @@ function HomeRedo() {
 
 	const handleManufacturerMenuSelect = (selectedValue) => {
 		setSelectedManufacturer(selectedValue);
-		setRockshoxForkDropdownOptions('');
-		setModelDropdownOptions('');
 	};
 
 	// Sets year selected by user in dropdown menu
@@ -71,14 +71,14 @@ function HomeRedo() {
 			setSelectedSpringType(productInformation.springType);
 			setSelectedYear(productInformation.year);
 			setHasUserSelectedProduct(true);
-			setStartSearch(false);
+			setStartRockshoxSearch(false);
 		} else {
 			setSelectedModel(productInformation.model);
 			setSelectedSpringType(productInformation.springType);
 			setSelectedDamperType(productInformation.damperType);
 			setSelectedYear(productInformation.year);
 			setHasUserSelectedProduct(true);
-			setStartSearch(false);
+			setStartFoxSearch(false);
 		}
 	};
 
@@ -86,7 +86,11 @@ function HomeRedo() {
 
 	const handleProductSearchByMfgAndYear = (event) => {
 		event.preventDefault();
-		setStartSearch(true);
+		if (selectedManufacturer === 'rockshox') {
+			setStartRockshoxSearch(true);
+		} else {
+			setStartFoxSearch(true);
+		}
 		setHideSearchOptions(true);
 	};
 	// Sets wheel size by user in dropdown menu
@@ -156,7 +160,14 @@ function HomeRedo() {
 			}
 			console.log(userSelectedProduct);
 		} else if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
-			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork && product.springType === selectedSpringType && product.damperType === selectedDamperType);
+			const userSelectedProduct = initialQueryResponse?.filter(
+				(product) =>
+					product.year === selectedYear &&
+					product.model === selectedModel &&
+					product.fork === selectedRockshoxFork &&
+					product.springType === selectedSpringType &&
+					product.damperType === selectedDamperType
+			);
 			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
 				setSelectedProduct(userSelectedProduct[0]);
 			} else {
@@ -164,7 +175,9 @@ function HomeRedo() {
 			}
 			console.log(userSelectedProduct);
 		} else if (hasUserSelectedProduct && selectedManufacturer === 'fox') {
-			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.springType === selectedSpringType && product.damperType === selectedDamperType);
+			const userSelectedProduct = initialQueryResponse?.filter(
+				(product) => product.year === selectedYear && product.model === selectedModel && product.springType === selectedSpringType && product.damperType === selectedDamperType
+			);
 			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
 				setSelectedProduct(userSelectedProduct[0]);
 			} else {
@@ -220,7 +233,8 @@ function HomeRedo() {
 					</Form>
 				</div>
 			)}
-			<div>{startSearch ? <SuspensionProductsTable searchResults={searchResults} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
+			<div>{startRockshoxSearch ? <RockshoxProductTable searchResults={searchResults} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
+			<div>{startFoxSearch ? <FoxProductTable searchResults={searchResults} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
 
 			<div>{isSelectedProductSet && selectedProduct?.damperUpperVolume !== '' ? <OilBathTable selectedSuspensionFork={selectedProduct} /> : <></>}</div>
 			<div className='featured-forks-container'>

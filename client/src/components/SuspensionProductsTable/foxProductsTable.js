@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.min.css';
 
-const RockshoxProductTable = (props) => {
+const FoxProductTable = (props) => {
 
 	const customButtonRenderer = (instance, td, row, col, prop, value, cellProperties) => {
 		const button = document.createElement('button');
@@ -57,4 +57,4 @@ const RockshoxProductTable = (props) => {
 	return <div ref={containerRef}></div>;
 };
 
-export default RockshoxProductTable;
+export default FoxProductTable;
