@@ -41,21 +41,21 @@ function HomeRedo() {
 	const yearsSupported = [];
 	const listYearsSupported = () => {
 		for (let i = 2019; i > 2012; i--) {
-			yearsSupported.push(i);
+			yearsSupported.push(`${i}`);
 		}
+		console.log(yearsSupported);
 	};
 	listYearsSupported();
 
 	const enableSearchButton = () => {
 		setSearchButtonDisabled(false);
-	}
+	};
 
-	
 	useEffect(() => {
-		if (selectedManufacturer !== '' && selectedYear !== ''){
+		if (selectedManufacturer !== '' && selectedYear !== '') {
 			enableSearchButton();
 		}
-	}, [selectedManufacturer, selectedYear])
+	}, [selectedManufacturer, selectedYear]);
 
 	// Utility functions
 
@@ -84,7 +84,7 @@ function HomeRedo() {
 
 	useEffect(() => {
 		console.log(selectedYear);
-	}, [handleYearSelect, selectedYear])
+	}, [handleYearSelect, selectedYear]);
 
 	// Function passed into products table and used to send user selected product information back to home component to set selected product state
 
@@ -109,9 +109,8 @@ function HomeRedo() {
 	};
 
 	//Sets startSearch state to true, populating and revealing suspension products table with search results
-
-	const handleProductSearchByMfgAndYear = (event) => {
-		event.preventDefault();
+	// remove event handler functionality, set as function triggered in useEffect by query result objects
+	const handleProductSearchByMfgAndYear = () => {
 		if (selectedManufacturer === 'rockshox') {
 			setStartRockshoxSearch(true);
 		} else {
@@ -119,19 +118,24 @@ function HomeRedo() {
 		}
 		setHideSearchOptions(true);
 	};
-	// Sets wheel size by user in dropdown menu
-
-	// Queries database for products based on selected manufacturer
 
 	useEffect(() => {
-		if (selectedManufacturer === 'rockshox') {
+		if (initialQueryResponse.length > 0 ) {
+			handleProductSearchByMfgAndYear();
+		}
+	}, [, foxQueryResults])
+	// Queries database for products based on selected manufacturer
+
+	const makeInitialQuery = () => {
+		if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
 			queryRockshoxProducts();
-		} else if (selectedManufacturer === 'fox') {
+		} else if (selectedManufacturer === 'fox' && selectedYear !== '') {
 			queryFoxProducts();
 		} else {
 			console.log('selectedManufacturer object has unrecognized value...');
 		}
-	}, [selectedManufacturer]);
+	};
+
 
 	// Set initialQueryResponse state
 
@@ -140,15 +144,15 @@ function HomeRedo() {
 			const data = rockshoxQueryResults.data.allRockshoxForkOilBathInfo;
 			setInitialQueryResponse(data);
 
-			const yearOptions = data.map((product) => product.year);
-			const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
-			setYearDropdownOptions(yearOptionsWithoutRepeats);
-		} else if (foxQueryResults.data) {
+			// const yearOptions = data.map((product) => product.year);
+			// const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
+			// setYearDropdownOptions(yearOptionsWithoutRepeats);
+		} else if (foxQueryResults?.data) {
 			const data = foxQueryResults.data.allFoxForkOilBathInfo;
 			setInitialQueryResponse(data);
-			const yearOptions = data.map((product) => product.year);
-			const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
-			setYearDropdownOptions(yearOptionsWithoutRepeats);
+			// const yearOptions = data.map((product) => product.year);
+			// const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
+			// setYearDropdownOptions(yearOptionsWithoutRepeats);
 		}
 	}, [rockshoxQueryResults, foxQueryResults]);
 
@@ -241,7 +245,7 @@ function HomeRedo() {
 								<option value='rockshox'>Rockshox</option>
 							</Form.Select>
 						</Form.Group>
-						{yearDropdownOptions.length > 0 ? (
+						{yearsSupported.length > 0 ? (
 							<Form.Group>
 								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
 									<option value=''>Year</option>
@@ -255,7 +259,9 @@ function HomeRedo() {
 						) : (
 							<></>
 						)}
-						<Button disabled={true} onClick={handleProductSearchByMfgAndYear}>Search </Button>
+						<Button disabled={searchButtonDisabled} onClick={makeInitialQuery}>
+							Search{' '}
+						</Button>
 					</Form>
 				</div>
 			)}
