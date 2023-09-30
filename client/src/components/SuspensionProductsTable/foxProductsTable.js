@@ -2,16 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.min.css';
 
-const SuspensionProductsTable = (props) => {
-  console.log(typeof props.sendSelectedProductInformation);
-
-	console.log(props.sendSelectedProductInformation);
+const RockshoxProductTable = (props) => {
 
 	const customButtonRenderer = (instance, td, row, col, prop, value, cellProperties) => {
 		const button = document.createElement('button');
 		button.innerText = 'Search';
 		button.addEventListener('click', () => {
-      props.sendSelectedProductInformation(instance.getSourceDataAtRow(row));
+			props.sendSelectedProductInformation(instance.getSourceDataAtRow(row));
 			console.log(instance.getSourceDataAtRow(row));
 		});
 
@@ -27,8 +24,7 @@ const SuspensionProductsTable = (props) => {
 	useEffect(() => {
 		// Prepare the data for Handsontable
 		const hotData = props.searchResults.map((item) => ({
-      year: item.year,
-			fork: item.fork,
+			year: item.year,
 			model: item.model,
 			damperType: item.damperType,
 			springType: item.springType,
@@ -36,8 +32,7 @@ const SuspensionProductsTable = (props) => {
 
 		// Define the columns for Handsontable
 		const hotColumns = [
-      { data: 'year', title: 'Year'},
-			{ data: 'fork', title: 'Fork' },
+			{ data: 'year', title: 'Year' },
 			{ data: 'model', title: 'Model' },
 			{ data: 'damperType', title: 'Damper Type' },
 			{ data: 'springType', title: 'Spring Type' },
@@ -62,4 +57,4 @@ const SuspensionProductsTable = (props) => {
 	return <div ref={containerRef}></div>;
 };
 
-export default SuspensionProductsTable;
+export default RockshoxProductTable;
