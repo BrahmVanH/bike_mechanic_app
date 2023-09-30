@@ -11,6 +11,8 @@ const OilBathTable = (selectedSuspensionFork) => {
 
 	}, [selectedSuspensionFork]);
 
+	
+
 	useEffect(() => {
 		if (selectedSuspensionFork) {
 			const data = [
@@ -46,7 +48,7 @@ const OilBathTable = (selectedSuspensionFork) => {
 				virtual: true,
 				width: 700,
 				height: 300,
-				columns: [{ width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }],
+				columns: [{ width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75, customer }],
 				nestedHeaders: nestedHeaders,
 				colHeaders: true, // Display column headers
 				// rowHeaders: true, // Display row headers
