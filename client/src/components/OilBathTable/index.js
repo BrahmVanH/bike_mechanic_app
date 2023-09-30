@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import Handsontable from 'handsontable';
+import 'handsontable/dist/handsontable.full.min.css';
+import './style.css';
+
 
 const OilBathTable = (selectedSuspensionFork) => {
 	const containerRef = useRef(null);
@@ -41,21 +44,12 @@ const OilBathTable = (selectedSuspensionFork) => {
 			const hot = new Handsontable(containerRef.current, {
 				data: data,
 				virtual: true,
-				width: 600,
-				height: 200,
-				columns: [
-					{ width: 50 },
-					{ width: 50 },
-					{ width: 50 },
-					{ width: 50 },
-					{ width: 50 },
-					{ width: 50 },
-					{ width: 50 },
-					
-				],
+				width: 700,
+				height: 300,
+				columns: [{ width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }, { width: 75 }],
 				nestedHeaders: nestedHeaders,
 				colHeaders: true, // Display column headers
-				rowHeaders: true, // Display row headers
+				// rowHeaders: true, // Display row headers
 				contextMenu: true, // Enable context menu
 				licenseKey: 'non-commercial-and-evaluation', // Replace with your license key or leave empty for non-commercial use
 			});
