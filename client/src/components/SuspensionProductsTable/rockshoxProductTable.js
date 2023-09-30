@@ -37,7 +37,7 @@ const RockshoxProductTable = (props) => {
 			{ data: 'model', title: 'Model' },
 			{ data: 'damperType', title: 'Damper Type' },
 			{ data: 'springType', title: 'Spring Type' },
-			{ renderer: customButtonRenderer },
+			{ title: '', renderer: customButtonRenderer },
 		];
 
 		// Initialize the Handsontable instance

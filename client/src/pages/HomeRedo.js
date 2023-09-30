@@ -238,7 +238,7 @@ function HomeRedo() {
 			<div>{startFoxSearch ? <FoxProductTable searchResults={searchResults} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
 
 			{isSelectedProductSet && selectedProduct?.damperUpperVolume !== '' ? (
-				<div>
+				<div style={{ width: '100%' }}>
 					<ProductCard manufacturer={selectedManufacturer} product={selectedProduct} />
 					<OilBathTable selectedSuspensionFork={selectedProduct} />
 				</div>

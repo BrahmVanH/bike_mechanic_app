@@ -36,8 +36,8 @@ const OilBathTable = (selectedSuspensionFork) => {
 			const hot = new Handsontable(containerRef.current, {
 				data: data,
 				virtual: true,
-				width: 300,
-				height: 300,
+				width: '100%',
+				height: 'auto',
 				columns: [
 					{
 						width: 75,
@@ -59,16 +59,78 @@ const OilBathTable = (selectedSuspensionFork) => {
 				nestedHeaders: nestedHeaders,
 				afterGetColHeader: (col, TH) => {
 					// Check the column index you want to change the background color for
+					TH.style.fontSize = '15px';
 					if (col === 0) {
 						TH.style.backgroundColor = 'white';
 						TH.style.color = 'white';
 						TH.style.border = 'none';
 					}
 				},
+				cell: [
+					{
+						row: 0,
+						col: 0,
+						className: 'damper-spring-headers',
+					},
+					{
+						row: 1,
+						col: 0,
+						className: 'damper-spring-headers',
+					},
+					{
+						row: 0,
+						col: 1,
+						className: 'oil-bath-cells',
+					},
+					{
+						row: 0,
+						col: 2,
+						className: 'oil-bath-cells',
+					},
+					{
+						row: 0,
+						col: 3,
+						className: 'oil-bath-cells',
+					},
+					{
+						row: 0,
+						col: 4,
+						className: 'oil-bath-cells',
+					},
+					{
+						row: 0,
+						col: 5,
+						className: 'oil-bath-cells',
+					},
+					{
+						row: 1,
+						col: 1,
+						className: 'oil-bath-cells',
+					},
+					{
+						row: 1,
+						col: 2,
+						className: 'oil-bath-cells',
+					},
+					{
+						row: 1,
+						col: 3,
+						className: 'oil-bath-cells',
+					},
+					{
+						row: 1,
+						col: 4,
+						className: 'oil-bath-cells',
+					},
+					{
+						row: 1,
+						col: 4,
+						className: 'oil-bath-cells',
+					},
+				],
 				colHeaders: true, // Display column headers
-				// rowHeaders: true, // Display row headers
 				contextMenu: true, // Enable context menu
-				licenseKey: 'non-commercial-and-evaluation', // Replace with your license key or leave empty for non-commercial use
+				licenseKey: 'non-commercial-and-evaluation',
 			});
 
 			return () => {
