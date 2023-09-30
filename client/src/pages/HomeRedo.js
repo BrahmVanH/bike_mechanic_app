@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Dropdown, Alert } from 'react-bootstrap';
+import SuspensionProductsTable from '../components/SuspensionProductsTable';
 import OilBathTable from '../components/OilBathTable';
+
 
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { allRockshoxForkOilBathInfo, allFoxForkOilBathInfo, rockshoxForkOilBathInfoByYear, foxForkOilBathInfoByYear } from '../utils/queries';
@@ -13,6 +15,7 @@ function HomeRedo() {
 	const [initialQueryResponse, setInitialQueryResponse] = useState([]);
 	const [selectedYear, setSelectedYear] = useState('');
 	const [yearDropdownOptions, setYearDropdownOptions] = useState([]);
+	const [searchResults, setSearchResults] = useState([]);
 	const [selectedModel, setSelectedModel] = useState('');
 	const [modelDropDownOptions, setModelDropdownOptions] = useState([]);
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
@@ -22,6 +25,7 @@ function HomeRedo() {
 	// NEED TO CREATE A SPRINGTYPEDROPDOWNOPTIONS STATE VARIABLE HERE
 	// const [selectedWheelSize, setSelectedWheelsize] = useState('');
 	// const [wheelSizeDropdownOptions, setWheelSizeDropdownOptions] = useState([]);
+	const [startSearch, setStartSearch] = useState(false);
 	const [hasUserSelectedProduct, setHasUserSelectedProduct] = useState(false);
 	const [isSelectedProductSet, setIsSelectedProductSet] = useState(false);
 	const [hideSearchOptions, setHideSearchOptions] = useState(false);
@@ -85,12 +89,19 @@ function HomeRedo() {
 
 	//Sets the isProductSelected state to true to initiate search
 
-	const handleHasUserSelectedProduct = (event) => {
-		event.preventDefault();
-		setHasUserSelectedProduct(true);
-		setHideSearchOptions(true);
-	};
+	// const handleHasUserSelectedProduct = (event) => {
+	// 	event.preventDefault();
+	// 	setHasUserSelectedProduct(true);
+	// 	setHideSearchOptions(true);
+	// };
 
+	//Sets startSearch state to true, populating and revealing suspension products table with search results
+
+	const handleProductSearchByMfgAndYear = (event) => {
+		event.preventDefault();
+		setStartSearch(true);
+		setHideSearchOptions(true);
+	}
 	// Sets wheel size by user in dropdown menu
 
 	// const handleWheelSizeSelect = (selectedValue) => {
@@ -329,10 +340,11 @@ function HomeRedo() {
 							<></>
 						)}
 
-						<Button onClick={handleHasUserSelectedProduct}>Search </Button>
+						<Button onClick={handleProductSearchByMfgAndYear}>Search </Button>
 					</Form>
 				</div>
 			)}
+			<div>{startSearch ? <SuspensionProductsTable searchResults={searchResults} /> : <></>}</div>
 
 			<div>{isSelectedProductSet && selectedProduct?.damperUpperVolume !== '' ? <OilBathTable selectedSuspensionFork={selectedProduct} /> : <></>}</div>
 			<div className='featured-forks-container'>

@@ -2,10 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.min.css';
 
-const SuspensionProducts = ({ searchResults }) => {
-	const data = [
-		{...searchResults}
-	];
+const SuspensionProductsTable = (searchResults) => {
+	
 
 	const customButtonRenderer = (instance, td, row, col, prop, value, cellProperties) => {
 		const button = document.createElement('button');
@@ -32,7 +30,7 @@ const SuspensionProducts = ({ searchResults }) => {
 
 	useEffect(() => {
 		// Prepare the data for Handsontable
-		const hotData = data.map((item) => ({
+		const hotData = searchResults.map((item) => ({
 			fork: item.fork,
 			model: item.model,
 			damperType: item.damperType,
@@ -61,9 +59,9 @@ const SuspensionProducts = ({ searchResults }) => {
 			// Ensure you destroy the Handsontable instance when the component unmounts
 			hot.destroy();
 		};
-	}, [data]);
+	}, [searchResults]);
 
 	return <div ref={containerRef}></div>;
 };
 
-export default SuspensionProducts;
+export default SuspensionProductsTable;
