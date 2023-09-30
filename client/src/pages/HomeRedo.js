@@ -146,6 +146,7 @@ function HomeRedo() {
 	// ** If manufacturer = fox , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
 	// ** if manufacturer = rockshox, filter through "" , add product "forks" to array, set forkDropdownOptions
 
+
 	// When user selects a year, changes year, or changes manufacturer filters through intitialQuery response to find products based on parameters
 	useEffect(() => {
 		if (selectedManufacturer === 'fox' && selectedYear !== '') {
@@ -158,6 +159,7 @@ function HomeRedo() {
 			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
 			setModelDropdownOptions(modelOptionsWithoutRepeats);
 			// **What is this? Bug or feature?
+			// Feature - sets the fork drop down options to '' because fork options are for rockshox only products
 			if (selectedManufacturer === 'fox') {
 				setRockshoxForkDropdownOptions('');
 			}
@@ -174,97 +176,112 @@ function HomeRedo() {
 		}
 	}, [selectedYear, selectedManufacturer, selectedModel, selectedRockshoxFork]);
 
-	// If manufacturer = rockshox && fork has been selected , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
+	// If manufacturer and year have been selected, set searchResults state to all forks with that mfg and year
+
 	useEffect(() => {
-		if (selectedManufacturer !== '' && selectedRockshoxFork !== '') {
-			const modelOptions = [];
-			const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear && product.fork === selectedRockshoxFork);
-			rockshoxModelOptions?.map((model) => {
-				console.log(model);
-				modelOptions.push(model.model);
+		if (selectedManufacturer !== '' && selectedYear !== '') {
+			const searchResults = [];
+			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
+			productsByYear?.map((product) => {
+				searchResults.push(product);
 			});
-			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
-			setModelDropdownOptions(modelOptionsWithoutRepeats);
+			setSearchResults(searchResults);
 		} else {
-			console.log('no rockshox fork has been selected...');
+			console.log('no year or manufacturer have been selected yet...');
+
 		}
-	}, [selectedYear, selectedManufacturer, selectedRockshoxFork]);
+	}, [selectedYear, selectedManufacturer]);
+	// If manufacturer = rockshox && fork has been selected , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
+	// useEffect(() => {
+	// 	if (selectedManufacturer !== '' && selectedRockshoxFork !== '') {
+	// 		const modelOptions = [];
+	// 		const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear && product.fork === selectedRockshoxFork);
+	// 		rockshoxModelOptions?.map((model) => {
+	// 			console.log(model);
+	// 			modelOptions.push(model.model);
+	// 		});
+	// 		const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
+	// 		setModelDropdownOptions(modelOptionsWithoutRepeats);
+	// 	} else {
+	// 		console.log('no rockshox fork has been selected...');
+	// 	}
+	// }, [selectedYear, selectedManufacturer, selectedRockshoxFork]);
 
 	//** Add another dropdown useEffect here to provide springType information to the UI */
 	// Make sure to handle empty strings in the spring type string, as there are a few RS forks from <2006 that have empty strings
-	useEffect(() => {
-		if (selectedManufacturer === 'rockshox' && selectedModel !== '') {
-			console.log('Initiating check for model for multiple spring types...');
-			const springOptions = [];
-			const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
-			console.log('Filtering through model options... ');
-			rockshoxModelOptions?.map((model) => {
-				console.log(model);
-				springOptions.push(model.springType);
-			});
-			const springOptionsWithoutRepeats = removeRepeatingItemsFromList(springOptions);
-			setSpringDropdownOptions(springOptionsWithoutRepeats);
-			console.log(springOptionsWithoutRepeats);
-		}
-	}, [selectedModel, selectedRockshoxFork, selectedManufacturer, selectedYear]);
+	// useEffect(() => {
+	// 	if (selectedManufacturer === 'rockshox' && selectedModel !== '') {
+	// 		console.log('Initiating check for model for multiple spring types...');
+	// 		const springOptions = [];
+	// 		const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
+	// 		console.log('Filtering through model options... ');
+	// 		rockshoxModelOptions?.map((model) => {
+	// 			console.log(model);
+	// 			springOptions.push(model.springType);
+	// 		});
+	// 		const springOptionsWithoutRepeats = removeRepeatingItemsFromList(springOptions);
+	// 		setSpringDropdownOptions(springOptionsWithoutRepeats);
+	// 		console.log(springOptionsWithoutRepeats);
+	// 	}
+	// }, [selectedModel, selectedRockshoxFork, selectedManufacturer, selectedYear]);
 
-	useEffect(() => {
-		if (hasUserSelectedProduct && selectedManufacturer === 'rockshox' && selectedSpringType !== '') {
-			const userSelectedProduct = initialQueryResponse?.filter(
-				(product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork && product.springType === selectedSpringType
-			);
-			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
-				setSelectedProduct(userSelectedProduct[0]);
-				console.log('set selectedProduct t...');
-				console.log(userSelectedProduct[0]);
-			} else {
-				setSelectedProduct(null);
-			}
-			console.log(userSelectedProduct);
-		} else if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
-			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
-			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
-				setSelectedProduct(userSelectedProduct[0]);
-			} else {
-				setSelectedProduct(null);
-			}
-			console.log(userSelectedProduct);
-		} else if (hasUserSelectedProduct && selectedManufacturer === 'fox') {
-			const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel);
-			if (userSelectedProduct.length > 0) {
-				setSelectedProduct({
-					damperUpperVolume: userSelectedProduct[0].damperUpperVolume,
-					damperUpperOilWt: userSelectedProduct[0].damperUpperOilWt,
-					damperLowerVolume: userSelectedProduct[0].damperLowerVolume,
-					damperLowerOilWt: userSelectedProduct[0].damperLowerOilWt,
-					springUpperVolume: userSelectedProduct[0].springUpperVolume,
-					springUpperOilWt: userSelectedProduct[0].springUpperOilWt,
-					springLowerVolume: userSelectedProduct[0].springLowerVolume,
-					springLowerOilWt: userSelectedProduct[0].springLowerOilWt,
-				});
-				console.log(userSelectedProduct);
-				console.log(selectedProduct);
-			} else {
-				setSelectedProduct(userSelectedProduct);
-			}
-		}
-	}, [hasUserSelectedProduct]);
+	// useEffect(() => {
+	// 	if (hasUserSelectedProduct && selectedManufacturer === 'rockshox' && selectedSpringType !== '') {
+	// 		const userSelectedProduct = initialQueryResponse?.filter(
+	// 			(product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork && product.springType === selectedSpringType
+	// 		);
+	// 		if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
+	// 			setSelectedProduct(userSelectedProduct[0]);
+	// 			console.log('set selectedProduct t...');
+	// 			console.log(userSelectedProduct[0]);
+	// 		} else {
+	// 			setSelectedProduct(null);
+	// 		}
+	// 		console.log(userSelectedProduct);
+	// 	} else if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
+	// 		const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
+	// 		if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
+	// 			setSelectedProduct(userSelectedProduct[0]);
+	// 		} else {
+	// 			setSelectedProduct(null);
+	// 		}
+	// 		console.log(userSelectedProduct);
+	// 	} else if (hasUserSelectedProduct && selectedManufacturer === 'fox') {
+	// 		const userSelectedProduct = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel);
+	// 		if (userSelectedProduct.length > 0) {
+	// 			setSelectedProduct({
+	// 				damperUpperVolume: userSelectedProduct[0].damperUpperVolume,
+	// 				damperUpperOilWt: userSelectedProduct[0].damperUpperOilWt,
+	// 				damperLowerVolume: userSelectedProduct[0].damperLowerVolume,
+	// 				damperLowerOilWt: userSelectedProduct[0].damperLowerOilWt,
+	// 				springUpperVolume: userSelectedProduct[0].springUpperVolume,
+	// 				springUpperOilWt: userSelectedProduct[0].springUpperOilWt,
+	// 				springLowerVolume: userSelectedProduct[0].springLowerVolume,
+	// 				springLowerOilWt: userSelectedProduct[0].springLowerOilWt,
+	// 			});
+	// 			console.log(userSelectedProduct);
+	// 			console.log(selectedProduct);
+	// 		} else {
+	// 			setSelectedProduct(userSelectedProduct);
+	// 		}
+	// 	}
+	// }, [hasUserSelectedProduct]);
 
 	//Sets state variable to tell oil bath volume chart that data is ready to render
-	useEffect(() => {
-		console.log(selectedProduct);
-		if (selectedProduct?.id !== '') {
-			setIsSelectedProductSet(true);
-		}
-	}, [selectedProduct]);
+	// useEffect(() => {
+	// 	console.log(selectedProduct);
+	// 	if (selectedProduct?.id !== '') {
+	// 		setIsSelectedProductSet(true);
+	// 	}
+	// }, [selectedProduct]);
 
-	useEffect(() => {
-		if (isSelectedProductSet === true && selectedProduct?.damperUpperVolume !== '') {
-			console.log(selectedProduct.damperUpperVolume, selectedProduct.damperUpperOilWt, selectedProduct.damperLowerVolume, selectedProduct.damperLowerOilWt);
-		} else {
-			console.log('No product has been selected yet... line 253');
-		}
-	}, [isSelectedProductSet, selectedProduct]);
+	// useEffect(() => {
+	// 	if (isSelectedProductSet === true && selectedProduct?.damperUpperVolume !== '') {
+	// 		console.log(selectedProduct.damperUpperVolume, selectedProduct.damperUpperOilWt, selectedProduct.damperLowerVolume, selectedProduct.damperLowerOilWt);
+	// 	} else {
+	// 		console.log('No product has been selected yet... line 253');
+	// 	}
+	// }, [isSelectedProductSet, selectedProduct]);
 
 	return (
 		<div className='main-container'>
@@ -290,6 +307,7 @@ function HomeRedo() {
 						{yearDropdownOptions.length > 0 ? (
 							<Form.Group>
 								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
+									<option value=''>Year</option>
 									{yearDropdownOptions.map((year) => (
 										<option key={year} value={year}>
 											{year}
@@ -300,7 +318,7 @@ function HomeRedo() {
 						) : (
 							<></>
 						)}
-						{selectedManufacturer === 'rockshox' && rockshoxForkDropdownOptions.length > 0 ? (
+						{/* {selectedManufacturer === 'rockshox' && rockshoxForkDropdownOptions.length > 0 ? (
 							<Form.Group>
 								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='fork' value={selectedRockshoxFork} onChange={(event) => handleRockshoxForkSelect(event.target.value)}>
 									{rockshoxForkDropdownOptions.map((fork) => (
@@ -312,8 +330,8 @@ function HomeRedo() {
 							</Form.Group>
 						) : (
 							<></>
-						)}
-						{modelDropDownOptions.length > 0 ? (
+						)} */}
+						{/* {modelDropDownOptions.length > 0 ? (
 							<Form.Group>
 								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='model' value={selectedModel} onChange={(event) => handleModelSelect(event.target.value)}>
 									{modelDropDownOptions.map((fork) => (
@@ -325,8 +343,8 @@ function HomeRedo() {
 							</Form.Group>
 						) : (
 							<></>
-						)}
-						{springDropdownOptions.length > 0 ? (
+						)} */}
+						{/* {springDropdownOptions.length > 0 ? (
 							<Form.Group>
 								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='spring' value={selectedSpringType} onChange={(event) => handleSpringTypeSelect(event.target.value)}>
 									{springDropdownOptions?.map((spring) => (
@@ -338,7 +356,7 @@ function HomeRedo() {
 							</Form.Group>
 						) : (
 							<></>
-						)}
+						)} */}
 
 						<Button onClick={handleProductSearchByMfgAndYear}>Search </Button>
 					</Form>
