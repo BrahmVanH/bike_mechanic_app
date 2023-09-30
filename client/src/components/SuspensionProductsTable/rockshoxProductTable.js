@@ -1,15 +1,18 @@
 import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
+import { FaSearch } from 'react-icons/fa'
 import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.min.css';
 
 const RockshoxProductTable = (props) => {
 	const customButtonRenderer = (instance, td, row, col, prop, value, cellProperties) => {
 		const button = document.createElement('button');
-		button.innerText = 'Search';
+		const searchIcon = <FaSearch size={12} />
 		button.addEventListener('click', () => {
 			props.sendSelectedProductInformation(instance.getSourceDataAtRow(row));
 			console.log(instance.getSourceDataAtRow(row));
 		});
+		ReactDOM.render(searchIcon, button);
 
 		// Clear the cell content
 		td.innerHTML = '';
@@ -32,20 +35,21 @@ const RockshoxProductTable = (props) => {
 
 		// Define the columns for Handsontable
 		const hotColumns = [
-			{ data: 'year', title: 'Year' },
-			{ data: 'fork', title: 'Fork' },
-			{ data: 'model', title: 'Model' },
-			{ data: 'damperType', title: 'Damper Type' },
-			{ data: 'springType', title: 'Spring Type' },
-			{ title: '', renderer: customButtonRenderer },
+			{ data: 'year', title: 'Year', width: '45px' },
+			{ data: 'fork', title: 'Fork', width: '65px' },
+			{ data: 'model', title: 'Model', width: '65px' },
+			{ data: 'damperType', title: 'Damper Type', width: '80px' },
+			{ data: 'springType', title: 'Spring Type', width: '80px' },
+			{ renderer: customButtonRenderer, title: ' ' },
 		];
 
 		// Initialize the Handsontable instance
 		const hot = new Handsontable(containerRef.current, {
 			data: hotData,
+			width: '100vw',
 			columns: hotColumns,
-			colHeaders: true, // Display column headers
-			rowHeaders: true, // Display row headers
+			colHeaders: true, 
+			readOnly: true, 
 			licenseKey: 'non-commercial-and-evaluation', // Replace with your license key or leave empty for non-commercial use
 		});
 

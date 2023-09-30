@@ -129,6 +129,7 @@ const OilBathTable = (selectedSuspensionFork) => {
 					},
 				],
 				colHeaders: true, // Display column headers
+				
 				contextMenu: true, // Enable context menu
 				licenseKey: 'non-commercial-and-evaluation',
 			});

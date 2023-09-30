@@ -16,6 +16,7 @@ function HomeRedo() {
 	const [initialQueryResponse, setInitialQueryResponse] = useState([]);
 	const [selectedYear, setSelectedYear] = useState('');
 	const [yearDropdownOptions, setYearDropdownOptions] = useState([]);
+	const [searchButtonDisabled, setSearchButtonDisabled] = useState(true);
 	const [searchResults, setSearchResults] = useState([]);
 	const [selectedModel, setSelectedModel] = useState('');
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
@@ -36,6 +37,25 @@ function HomeRedo() {
 		springLowerVolume: '',
 		springLowerOilWt: '',
 	});
+
+	const yearsSupported = [];
+	const listYearsSupported = () => {
+		for (let i = 2019; i > 2012; i--) {
+			yearsSupported.push(i);
+		}
+	};
+	listYearsSupported();
+
+	const enableSearchButton = () => {
+		setSearchButtonDisabled(false);
+	}
+
+	
+	useEffect(() => {
+		if (selectedManufacturer !== '' && selectedYear !== ''){
+			enableSearchButton();
+		}
+	}, [selectedManufacturer, selectedYear])
 
 	// Utility functions
 
@@ -58,8 +78,13 @@ function HomeRedo() {
 	// Sets year selected by user in dropdown menu
 
 	const handleYearSelect = (selectedValue) => {
+		console.log(selectedValue);
 		setSelectedYear(selectedValue);
 	};
+
+	useEffect(() => {
+		console.log(selectedYear);
+	}, [handleYearSelect, selectedYear])
 
 	// Function passed into products table and used to send user selected product information back to home component to set selected product state
 
@@ -140,7 +165,7 @@ function HomeRedo() {
 		} else {
 			console.log('no year or manufacturer have been selected yet...');
 		}
-	}, [selectedYear, selectedManufacturer]);
+	}, [selectedManufacturer]);
 
 	useEffect(() => {
 		console.log('search results:');
@@ -220,7 +245,7 @@ function HomeRedo() {
 							<Form.Group>
 								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
 									<option value=''>Year</option>
-									{yearDropdownOptions.map((year) => (
+									{yearsSupported.map((year) => (
 										<option key={year} value={year}>
 											{year}
 										</option>
@@ -230,7 +255,7 @@ function HomeRedo() {
 						) : (
 							<></>
 						)}
-						<Button onClick={handleProductSearchByMfgAndYear}>Search </Button>
+						<Button disabled={true} onClick={handleProductSearchByMfgAndYear}>Search </Button>
 					</Form>
 				</div>
 			)}

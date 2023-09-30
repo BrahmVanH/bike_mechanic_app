@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
+import { FaSearch } from 'react-icons/fa';
 import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.min.css';
 
@@ -6,11 +8,12 @@ const FoxProductTable = (props) => {
 
 	const customButtonRenderer = (instance, td, row, col, prop, value, cellProperties) => {
 		const button = document.createElement('button');
-		button.innerText = 'Search';
+		const searchIcon = <FaSearch size={12} />;
 		button.addEventListener('click', () => {
 			props.sendSelectedProductInformation(instance.getSourceDataAtRow(row));
 			console.log(instance.getSourceDataAtRow(row));
 		});
+		ReactDOM.render(searchIcon, button);
 
 		// Clear the cell content
 		td.innerHTML = '';
@@ -32,20 +35,21 @@ const FoxProductTable = (props) => {
 
 		// Define the columns for Handsontable
 		const hotColumns = [
-			{ data: 'year', title: 'Year' },
-			{ data: 'model', title: 'Model' },
+			{ data: 'year', title: 'Year', width: '45px'},
+			{ data: 'model', title: 'Model', width: '135px' },
 			{ data: 'damperType', title: 'Damper Type' },
 			{ data: 'springType', title: 'Spring Type' },
-			{ renderer: customButtonRenderer },
+			{ renderer: customButtonRenderer, title: ' ', width: "35px" },
 		];
 
 		// Initialize the Handsontable instance
 		const hot = new Handsontable(containerRef.current, {
 			data: hotData,
+			width: '100vw',
 			columns: hotColumns,
-			colHeaders: true, // Display column headers
-			rowHeaders: true, // Display row headers
-			licenseKey: 'non-commercial-and-evaluation', // Replace with your license key or leave empty for non-commercial use
+			colHeaders: true, 
+			readOnly: true,
+			licenseKey: 'non-commercial-and-evaluation', 
 		});
 
 		return () => {
