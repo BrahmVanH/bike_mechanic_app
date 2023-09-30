@@ -94,6 +94,7 @@ function HomeRedo() {
 		setSelectedModel(productInformation.model);
 		setSelectedSpringType(productInformation.springType);
 		setSelectedYear(productInformation.year);
+		setHasUserSelectedProduct(true);
 		setStartSearch(false);
 	}
 
@@ -157,33 +158,33 @@ function HomeRedo() {
 	// ** if manufacturer = rockshox, filter through "" , add product "forks" to array, set forkDropdownOptions
 
 	// When user selects a year, changes year, or changes manufacturer filters through intitialQuery response to find products based on parameters
-	useEffect(() => {
-		if (selectedManufacturer === 'fox' && selectedYear !== '') {
-			const modelOptions = [];
-			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
-			productsByYear?.map((product) => {
-				console.log(product);
-				modelOptions.push(product.model);
-			});
-			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
-			setModelDropdownOptions(modelOptionsWithoutRepeats);
-			// **What is this? Bug or feature?
-			// Feature - sets the fork drop down options to '' because fork options are for rockshox only products
-			if (selectedManufacturer === 'fox') {
-				setRockshoxForkDropdownOptions('');
-			}
-		} else if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
-			const forkOptions = [];
-			const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
-			productsByYear?.map((product) => {
-				forkOptions.push(product.fork);
-			});
-			const forkOptionsWithoutRepeats = removeRepeatingItemsFromList(forkOptions);
-			setRockshoxForkDropdownOptions(forkOptionsWithoutRepeats);
-		} else {
-			console.log('no year has been selected yet...');
-		}
-	}, [selectedYear, selectedManufacturer, selectedModel, selectedRockshoxFork]);
+	// useEffect(() => {
+	// 	if (selectedManufacturer === 'fox' && selectedYear !== '') {
+	// 		const modelOptions = [];
+	// 		const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
+	// 		productsByYear?.map((product) => {
+	// 			console.log(product);
+	// 			modelOptions.push(product.model);
+	// 		});
+	// 		const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
+	// 		setModelDropdownOptions(modelOptionsWithoutRepeats);
+	// 		// **What is this? Bug or feature?
+	// 		// Feature - sets the fork drop down options to '' because fork options are for rockshox only products
+	// 		if (selectedManufacturer === 'fox') {
+	// 			setRockshoxForkDropdownOptions('');
+	// 		}
+	// 	} else if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
+	// 		const forkOptions = [];
+	// 		const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
+	// 		productsByYear?.map((product) => {
+	// 			forkOptions.push(product.fork);
+	// 		});
+	// 		const forkOptionsWithoutRepeats = removeRepeatingItemsFromList(forkOptions);
+	// 		setRockshoxForkDropdownOptions(forkOptionsWithoutRepeats);
+	// 	} else {
+	// 		console.log('no year has been selected yet...');
+	// 	}
+	// }, [selectedYear, selectedManufacturer, selectedModel, selectedRockshoxFork]);
 
 	// If manufacturer and year have been selected, set searchResults state to all forks with that mfg and year
 
@@ -205,38 +206,38 @@ function HomeRedo() {
 		console.log(searchResults);
 	}, [searchResults]);
 	// If manufacturer = rockshox && fork has been selected , filter through initialQueryResponse, add product models to array, set modelDropDownOptions
-	useEffect(() => {
-		if (selectedManufacturer !== '' && selectedRockshoxFork !== '') {
-			const modelOptions = [];
-			const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear && product.fork === selectedRockshoxFork);
-			rockshoxModelOptions?.map((model) => {
-				console.log(model);
-				modelOptions.push(model.model);
-			});
-			const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
-			setModelDropdownOptions(modelOptionsWithoutRepeats);
-		} else {
-			console.log('no rockshox fork has been selected...');
-		}
-	}, [selectedYear, selectedManufacturer, selectedRockshoxFork]);
+	// useEffect(() => {
+	// 	if (selectedManufacturer !== '' && selectedRockshoxFork !== '') {
+	// 		const modelOptions = [];
+	// 		const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear && product.fork === selectedRockshoxFork);
+	// 		rockshoxModelOptions?.map((model) => {
+	// 			console.log(model);
+	// 			modelOptions.push(model.model);
+	// 		});
+	// 		const modelOptionsWithoutRepeats = removeRepeatingItemsFromList(modelOptions);
+	// 		setModelDropdownOptions(modelOptionsWithoutRepeats);
+	// 	} else {
+	// 		console.log('no rockshox fork has been selected...');
+	// 	}
+	// }, [selectedYear, selectedManufacturer, selectedRockshoxFork]);
 
 	//** Add another dropdown useEffect here to provide springType information to the UI */
 	// Make sure to handle empty strings in the spring type string, as there are a few RS forks from <2006 that have empty strings
-	useEffect(() => {
-		if (selectedManufacturer === 'rockshox' && selectedModel !== '') {
-			console.log('Initiating check for model for multiple spring types...');
-			const springOptions = [];
-			const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
-			console.log('Filtering through model options... ');
-			rockshoxModelOptions?.map((model) => {
-				console.log(model);
-				springOptions.push(model.springType);
-			});
-			const springOptionsWithoutRepeats = removeRepeatingItemsFromList(springOptions);
-			setSpringDropdownOptions(springOptionsWithoutRepeats);
-			console.log(springOptionsWithoutRepeats);
-		}
-	}, [selectedModel, selectedRockshoxFork, selectedManufacturer, selectedYear]);
+	// useEffect(() => {
+	// 	if (selectedManufacturer === 'rockshox' && selectedModel !== '') {
+	// 		console.log('Initiating check for model for multiple spring types...');
+	// 		const springOptions = [];
+	// 		const rockshoxModelOptions = initialQueryResponse?.filter((product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork);
+	// 		console.log('Filtering through model options... ');
+	// 		rockshoxModelOptions?.map((model) => {
+	// 			console.log(model);
+	// 			springOptions.push(model.springType);
+	// 		});
+	// 		const springOptionsWithoutRepeats = removeRepeatingItemsFromList(springOptions);
+	// 		setSpringDropdownOptions(springOptionsWithoutRepeats);
+	// 		console.log(springOptionsWithoutRepeats);
+	// 	}
+	// }, [selectedModel, selectedRockshoxFork, selectedManufacturer, selectedYear]);
 
 	useEffect(() => {
 		if (hasUserSelectedProduct && selectedManufacturer === 'rockshox' && selectedSpringType !== '') {
