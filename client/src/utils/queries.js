@@ -1,28 +1,28 @@
 import { gql } from '@apollo/client';
 
 export const allRockshoxForkOilBathInfo = gql`
-  query allRockshoxForkOilBathInfo {
-    allRockshoxForkOilBathInfo {
-      _id
-      year
-      fork
-      model
-      damperType
-      springType
-      wheelSize
-      damperUpperVolume
-      damperUpperOilWt
-      damperLowerVolume
-      damperLowerOilWt
-      springUpperVolume
-      springUpperOilWt
-      springLowerVolume
-      springLowerOilWt
-    }
-  }
+	query allRockshoxForkOilBathInfo {
+		allRockshoxForkOilBathInfo {
+			_id
+			year
+			fork
+			model
+			damperType
+			springType
+			wheelSize
+			damperUpperVolume
+			damperUpperOilWt
+			damperLowerVolume
+			damperLowerOilWt
+			springUpperVolume
+			springUpperOilWt
+			springLowerVolume
+			springLowerOilWt
+		}
+	}
 `;
 
-export const rockshoxForkOilBathInfoByYear = gql`
+export const rockshoxProductsByYear = gql`
 	query rockshoxForkOilBathInfoByYear($year: String) {
 		rockshoxForkOilBathInfoByYear(year: $year) {
 			_id
@@ -45,27 +45,27 @@ export const rockshoxForkOilBathInfoByYear = gql`
 `;
 
 export const allFoxForkOilBathInfo = gql`
-  query allFoxForkOilBathInfo {
-    allFoxForkOilBathInfo {
-      _id
-      year
-      model
-      damperType
-      springType
-      wheelSize
-      damperUpperVolume
-      damperUpperOilWt
-      damperLowerVolume
-      damperLowerOilWt
-      springUpperVolume
-      springUpperOilWt
-      springLowerVolume
-      springLowerOilWt
-    }
-  }
+	query allFoxForkOilBathInfo {
+		allFoxForkOilBathInfo {
+			_id
+			year
+			model
+			damperType
+			springType
+			wheelSize
+			damperUpperVolume
+			damperUpperOilWt
+			damperLowerVolume
+			damperLowerOilWt
+			springUpperVolume
+			springUpperOilWt
+			springLowerVolume
+			springLowerOilWt
+		}
+	}
 `;
 
-export const foxForkOilBathInfoByYear = gql`
+export const foxProductsByYear = gql`
 	query foxForkOilBathInfoByYear($year: String) {
 		foxForkOilBathInfoByYear(year: $year) {
 			_id
