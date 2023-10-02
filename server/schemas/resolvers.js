@@ -4,50 +4,61 @@ const { RockshoxForkOilBath, FoxForkOilBath, MarzocchiForkOilBath } = require(".
 const resolvers = {
   Query: {
     allRockshoxForkOilBathInfo: async () => {
-      console.log("querying all rockshox fork oil bath info in resolvers...");
-      const forks = await RockshoxForkOilBath.find({});
-      if (!forks) {
-        throw new Error("Something went wrong in querying all rockshox fork oil bath information");
+      try {
+        const forks = await RockshoxForkOilBath.find({});
+        if (!forks) {
+          throw new Error("Cannot find all rockshox products");
+        }
+        return forks;
+      } catch (err) {
+        return [{ message: "Error in allRockshoxForkOilBathInfo...", details: err.message }];
       }
-      console.log(forks);
-      return forks;
     },
     rockshoxProductsByYear: async (parent, { year }) => {
-      console.log("querying rockshox fork oil bath info by year in resolvers");
-      const forks = await RockshoxForkOilBath.find({ year: year });
-      if (!forks) {
-        throw new Error("Something went wrong querying rockshox forks by year");
+      try {
+        const forks = await RockshoxForkOilBath.find({ year: year });
+        if (!forks) {
+          throw new Error("Cannot find rockshox fork products by year");
+        }
+        return forks;
+      } catch (err) {
+        return [{ message: "Something went wrong in rockshoxProductsByYear", details: err.message }];
       }
-      return forks;
     },
     allFoxForkOilBathInfo: async () => {
-      const forks = await FoxForkOilBath.find({});
-      console.log("querying fox fork oil bath info in resolvers");
+      try {
+        const forks = await FoxForkOilBath.find({});
+        if (!forks) {
+          throw new Error("Cannot find all fox fork products");
+        }
 
-      console.log(forks);
-      if (!forks) {
-        throw new Error("something went wrong querying all fox fork oil bath information");
+        return forks;
+      } catch (err) {
+        return [{ message: "Something went wrong in allFoxForkOilBathInfo", details: err.message }];
       }
-
-      return forks;
     },
     foxProductsByYear: async (parent, { year }) => {
-      console.log("querying fox fork oil bath info by year in resolvers");
-
-      const forks = await FoxForkOilBath.find({ year: year });
-      if (!forks) {
-        throw new Error("Something went wrong querying fox forks by year");
+      try {
+        const forks = await FoxForkOilBath.find({ year: year });
+        if (!forks) {
+          throw new Error("Cannot find fox fork products by year");
+        }
+        return forks;
+      } catch (err) {
+        return [{ message: "Something went wrong in foxProductsByYear", details: err.message }];
       }
-      return forks;
     },
     allMarzocchiForkOilBathInfo: async () => {
-      const forks = await MarzocchiForkOilBath.find({});
-      console.log(forks);
-      if (!forks) {
-        throw new Error("Something went wrong querying all marzocchi fork oil bath information");
-      }
+      try {
+        const forks = await MarzocchiForkOilBath.find({});
+        if (!forks) {
+          throw new Error("Cannot find all marzocchi forks");
+        }
 
-      return forks;
+        return forks;
+      } catch (err) {
+        return [{ message: "Something went wrong in allMarzocchiForkOilBathInfo", details: err.message }];
+      }
     },
   },
 };
