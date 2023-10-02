@@ -38,7 +38,12 @@ function HomeRedo() {
 	const [hasUserSelectedProduct, setHasUserSelectedProduct] = useState(false);
 	const [isSelectedProductSet, setIsSelectedProductSet] = useState(false);
 	const [hideSearchOptions, setHideSearchOptions] = useState(false);
-	const [selectedProduct, setSelectedProduct] = useState({
+	const [selectedRockshoxProduct, setSelectedRockshoxProduct] = useState({
+		year: '',
+		fork: '',
+		model: '',
+		damperType: '',
+		springType: '',
 		damperUpperVolume: '',
 		damperUpperOilWt: '',
 		damperLowerVolume: '',
@@ -48,74 +53,74 @@ function HomeRedo() {
 		springLowerVolume: '',
 		springLowerOilWt: '',
 	});
-	const [searchProductRockshox, setSearchProductRockshox] = useState({
-		selectedRockshoxFork: '',
-		selectedModel: '',
-		selectedDamperType: '',
-		selectedSpringType: '',
+	const [selectedFoxProduct, setSelectedFoxProduct] = useState({
+		year: '',
+		model: '',
+		damperType: '',
+		springType: '',
+		damperUpperVolume: '',
+		damperUpperOilWt: '',
+		damperLowerVolume: '',
+		damperLowerOilWt: '',
+		springUpperVolume: '',
+		springUpperOilWt: '',
+		springLowerVolume: '',
+		springLowerOilWt: '',
 	});
-	const [searchProductFox, setSearchProductFox] = useState({
-		selectedModel: '',
-		selectedSpringType: '',
-		selectedDamperType: '',
-	});
-
+	
 	//Create an array of model years supported based on yearRange state
 	useEffect(() => {
 		const supportedModelYears = listSupportedModelYears(yearRange);
 		setSupportedModelYears(supportedModelYears);
 	}, []);
-
+	
 	const enableSearchButton = () => {
 		setSearchButtonDisabled(false);
 	};
-
+	
 	useEffect(() => {
 		if (selectedManufacturer !== '' && selectedYear !== '') {
 			enableSearchButton();
 		}
 	}, [selectedManufacturer, selectedYear]);
+	
+	// Sets the manufacturer selected by user in dropdown menu
 
-	// Define the initiation function and data variable name for querying products from db
-	// const [queryRockshoxProducts, rockshoxQueryResults] = useLazyQuery(allRockshoxForkOilBathInfo);
-	// const [queryFoxProducts, foxQueryResults] = useLazyQuery(allFoxForkOilBathInfo);
+	const handleManufacturerMenuSelect = (selectedValue) => {
+		setSelectedManufacturer(selectedValue);
+	};
+
+	// Sets year selected by user in dropdown menu
+
+	const handleYearSelect = (selectedValue) => {
+		console.log(selectedValue);
+		setSelectedYear(selectedValue);
+	};
+
+	// Define query functions for product queries
 
 	const [queryRockshoxProductsByYear, { loading: loadingRockshoxProducts, data: rockshoxProductData, error: rockshoxProductError }] = useLazyQuery(rockshoxProductsByYear, {
 		variables: { year: selectedYear },
 	});
 
-	const [queryFoxProductsByYear, {loading: loadingFoxProducts, data: foxProductData, error: foxProductError}] = useLazyQuery(foxProductsByYear, {
+	const [queryFoxProductsByYear, { loading: loadingFoxProducts, data: foxProductData, error: foxProductError }] = useLazyQuery(foxProductsByYear, {
 		variables: { year: selectedYear },
 	});
 
-	//Define initiation functions for fox and rockshox queries
-	// const queryRockshoxProductsByYear = ({ selectedYear }) => {
-	// 	const { loading, error, data } = useQuery(rockshoxProductsByYear, {
-	// 		variables: { year: selectedYear },
-	// 	});
-	// };
+	// Call query function using manufacturer and year state variables
+	const initiateInitialQuery = () => {
+		if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
+			queryRockshoxProductsByYear(selectedYear);
+		} else if (selectedManufacturer === 'fox' && selectedYear !== '') {
+			queryFoxProductsByYear(selectedYear);
+		} else if (selectedManufacturer === '' || selectedYear === '') {
+			console.log('No manufacturer or year has been set');
+		} else {
+			throw new Error('There was an unexpected error in querying the database');
+		}
+	};
 
-	// const queryFoxProductsByYear = ({ selectedYear }) => {
-	// 	const { loading, error, data } = useQuery(foxProductsByYear, {
-	// 		variables: { year: selectedYear },
-	// 	});
-	// };
-
-		const initiateInitialQuery = () => {
-
-			if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
-				queryRockshoxProductsByYear(selectedYear);
-			} else if (selectedManufacturer === 'fox' && selectedYear !== '') {
-				queryFoxProductsByYear(selectedYear);
-			} else if (selectedManufacturer === '' || selectedYear === '') {
-				console.log('No manufacturer or year has been set');
-			} else {
-				throw new Error('There was an unexpected error in querying the database');
-			} 
-	}
-
-	
-
+	// Set associated state variables with product listings when data from queries is available 
 	useEffect(() => {
 		if (rockshoxProductData && !loadingRockshoxProducts && !rockshoxProductError) {
 			setInitialQueryResponse(rockshoxProductData.rockshoxProductsByYear);
@@ -130,101 +135,30 @@ function HomeRedo() {
 		console.log(initialQueryResponse);
 	}, [initialQueryResponse]);
 
-	// Sets the manufacturer selected by user in dropdown menu
-
-	const handleManufacturerMenuSelect = (selectedValue) => {
-		setSelectedManufacturer(selectedValue);
-	};
-
-	// Sets year selected by user in dropdown menu
-
-	const handleYearSelect = (selectedValue) => {
-		console.log(selectedValue);
-		setSelectedYear(selectedValue);
-	};
-
-	useEffect(() => {
-		console.log(selectedYear);
-	}, [handleYearSelect, selectedYear]);
-
 	// Function passed into products table and used to send user selected product information back to home component to set selected product state
-	// ** Need to make a single state variable that contains all of these states
 	const sendSelectedProductInformation = (productInformation) => {
 		if (selectedManufacturer === 'rockshox') {
-			console.log(productInformation);
-			setSelectedRockshoxFork(productInformation.fork);
-			setSelectedModel(productInformation.model);
-			setSelectedDamperType(productInformation.damperType);
-			setSelectedSpringType(productInformation.springType);
-			setSelectedYear(productInformation.year);
+			setSelectedRockshoxProduct({
+				year: productInformation.year,
+				fork: productInformation.fork,
+				model: productInformation.model,
+				damperType: productInformation.damperType,
+				springType: productInformation.springType,
+			});
 			setHasUserSelectedProduct(true);
 			setDisplayRockshoxSearchResults(false);
 		} else {
-			setSelectedModel(productInformation.model);
-			setSelectedSpringType(productInformation.springType);
-			setSelectedDamperType(productInformation.damperType);
-			setSelectedYear(productInformation.year);
+			setSelectedFoxProduct({
+				year: productInformation.year,
+				model: productInformation.model,
+				damperType: productInformation.damperType,
+				springType: productInformation.springType,
+			});
 			setHasUserSelectedProduct(true);
 			setDisplayFoxSearchResults(false);
 		}
 	};
 
-	//Sets startSearch state to true, populating and revealing suspension products table with search results
-	// remove event handler functionality, set as function triggered in useEffect by query result objects
-	// const handleProductSearchByMfgAndYear = () => {
-	// 	setInitiateInitialQuery(true);
-	// };
-
-	// useEffect(() => {
-	// 	if (initialQueryResponse.length > 0) {
-	// 		handleProductSearchByMfgAndYear();
-	// 	}
-	// }, [foxQueryResults]);
-	// Queries database for products based on selected manufacturer
-
-	// const makeInitialQuery = () => {
-	// 	if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
-	// 		queryRockshoxProducts();
-	// 	} else if (selectedManufacturer === 'fox' && selectedYear !== '') {
-	// 		queryFoxProducts();
-	// 	} else {
-	// 		console.log('selectedManufacturer object has unrecognized value...');
-	// 	}
-	// };
-
-	// Set initialQueryResponse state
-
-	// useEffect(() => {
-	// 	if (rockshoxQueryResults?.data) {
-	// 		const data = rockshoxQueryResults.data.allRockshoxForkOilBathInfo;
-	// 		setInitialQueryResponse(data);
-
-	// 		// const yearOptions = data.map((product) => product.year);
-	// 		// const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
-	// 		// setYearDropdownOptions(yearOptionsWithoutRepeats);
-	// 	} else if (foxQueryResults?.data) {
-	// 		const data = foxQueryResults.data.allFoxForkOilBathInfo;
-	// 		setInitialQueryResponse(data);
-	// 		// const yearOptions = data.map((product) => product.year);
-	// 		// const yearOptionsWithoutRepeats = removeRepeatingItemsFromList(yearOptions);
-	// 		// setYearDropdownOptions(yearOptionsWithoutRepeats);
-	// 	}
-	// }, [rockshoxQueryResults, foxQueryResults]);
-
-	// If manufacturer and year have been selected, set searchResults state to all forks with that mfg and year
-
-	// useEffect(() => {
-	// 	if (selectedManufacturer !== '' && selectedYear !== '') {
-	// 		const searchResults = [];
-	// 		const productsByYear = initialQueryResponse?.filter((product) => product.year === selectedYear);
-	// 		productsByYear?.map((product) => {
-	// 			searchResults.push(product);
-	// 		});
-	// 		setSearchResults(searchResults);
-	// 	} else {
-	// 		console.log('no year or manufacturer have been selected yet...');
-	// 	}
-	// }, [selectedManufacturer]);
 
 	useEffect(() => {
 		console.log('search results:');
