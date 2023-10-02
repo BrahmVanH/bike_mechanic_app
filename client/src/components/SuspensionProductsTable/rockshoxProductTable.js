@@ -47,8 +47,7 @@ const RockshoxProductTable = (props) => {
 		// Initialize the Handsontable instance
 		const hot = new Handsontable(containerRef.current, {
 			data: hotData,
-			width: '100vw',
-			className: 'search-results-table',
+			// tableClassName: 'search-results-table',
 			columns: hotColumns,
 			colHeaders: true,
 			readOnly: true,
@@ -62,11 +61,9 @@ const RockshoxProductTable = (props) => {
 	}, [props.searchResults]);
 
 	return (
-		<div className='search-results-container'>
-			<div className='search-results-container'>
-				<div ref={containerRef}></div>;
-			</div>
-		</div>
+		
+				<div ref={containerRef}></div>
+			
 	);
 };
 

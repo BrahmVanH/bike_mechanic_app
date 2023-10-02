@@ -45,7 +45,6 @@ const FoxProductTable = (props) => {
 		// Initialize the Handsontable instance
 		const hot = new Handsontable(containerRef.current, {
 			data: hotData,
-			width: '100vw',
 			columns: hotColumns,
 			colHeaders: true, 
 			readOnly: true,

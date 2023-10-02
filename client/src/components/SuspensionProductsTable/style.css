@@ -1,12 +1,9 @@
-.search-results-table .wtHider {
-  display: flex;
-  justify-content: center;
+.search-results-table {
+  margin: auto;
+  width: 50%;
 }
 
-.search-results-table .htHolder {
-  display: flex;
-  justify-content: center;
-}
+
 
 
 
