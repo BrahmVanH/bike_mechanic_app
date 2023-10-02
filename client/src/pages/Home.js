@@ -117,11 +117,11 @@ function HomeRedo() {
 	useEffect(() => {
 		if (rockshoxProductData && !loadingRockshoxProducts && !rockshoxProductError) {
 			setInitialQueryResponse(rockshoxProductData.rockshoxProductsByYear);
-      setHideSearchOptions(true);
+			setHideSearchOptions(true);
 			setDisplayRockshoxSearchResults(true);
 		} else if (foxProductData && !loadingFoxProducts && !foxProductError) {
 			setInitialQueryResponse(foxProductData.foxProductsByYear);
-      setHideSearchOptions(true);
+			setHideSearchOptions(true);
 			setDisplayFoxSearchResults(true);
 		}
 	}, [foxProductData, rockshoxProductData]);
@@ -196,7 +196,7 @@ function HomeRedo() {
 				<p>The Bike Guru welcomes you. Please search for your fork below</p>
 			</div>
 			{!hideSearchOptions ? (
-        <div className='search-container'>
+				<div className='search-container'>
 					<Form className='fork-search-form'>
 						<Alert dismissible onClose={() => setShowAlert(true)} show={showAlert} variant='danger'>
 							You must complete all fields before searching
@@ -214,30 +214,32 @@ function HomeRedo() {
 								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
 									<option value=''>Year</option>
 									{supportedModelYears.map((year) => (
-                    <option key={year} value={year}>
+										<option key={year} value={year}>
 											{year}
 										</option>
 									))}
 								</Form.Select>
 							</Form.Group>
 						) : (
-              <></>
-              )}
+							<></>
+						)}
 						<Button disabled={searchButtonDisabled} onClick={initiateInitialQuery}>
 							Search{' '}
 						</Button>
 					</Form>
 				</div>
-      ) : (
-        <></>
+			) : (
+				<></>
 			)}
 			<div>{displayRockshoxSearchResults ? <RockshoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
 			<div>{displayFoxSearchResults ? <FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
 
 			{isSelectedProductSet && selectedManufacturer === 'rockshox' ? (
-				<div style={{ width: '100%' }}>
-					<ProductCard manufacturer={selectedManufacturer} product={selectedRockshoxProduct} />
-					<OilBathTable selectedSuspensionFork={selectedRockshoxProduct} />
+				<div className='oil-bath-table-container'>
+					<div>
+						<ProductCard manufacturer={selectedManufacturer} product={selectedRockshoxProduct} />
+						<OilBathTable selectedSuspensionFork={selectedRockshoxProduct} />
+					</div>
 				</div>
 			) : (
 				<></>

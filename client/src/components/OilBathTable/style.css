@@ -5,3 +5,15 @@
   font-size: 14px;
 }
 
+.oil-bath-table-container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.oil-bath-table {
+  margin: auto;
+}
+

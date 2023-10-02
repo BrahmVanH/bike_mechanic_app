@@ -8,39 +8,69 @@ const ProductCard = (props) => {
 		return (
 			<div className='container'>
 				<div className='card'>
-					<div className='card-header'>
-						<p>
+					
+					<div className='product-details-container'>
+						<p className='product-details-text'>
+							<span className='product-detail-labels'>Model: </span>
 							{fork} {model}
 						</p>
-						<p>{year}</p>
-					</div>
-					<div className='product-details'>
-						{wheelSize ? <p>{wheelSize}"</p> : <></>}
-						<p>{damperType}</p>
-						<p>{springType}</p>
+						<p className='product-details-text'>
+							<span className='product-detail-labels'>Year: </span>
+							{year}
+						</p>
+						{wheelSize ? (
+							<p className='product-details-text'>
+								<span className='product-detail-labels'>Wheel Size:</span> {wheelSize}"
+							</p>
+						) : (
+							<></>
+						)}
+						<p className='product-details-text'>
+							<span className='product-detail-labels'>Damper: </span>
+							{damperType}
+						</p>
+						<p className='product-details-text'>
+							<span className='product-detail-labels'>Spring: </span>
+							{springType}
+						</p>
 					</div>
 				</div>
 			</div>
 		);
 	} else if (props.manufacturer === 'fox') {
 		const { model, year, wheelSize, damperType, springType } = props.product;
-		console.log(model);
-		console.log(year);
-		console.log(damperType);
-		console.log(springType);
+		
 
 		return (
+			<div className='container'>
 				<div className='card'>
-					<div className='card-header'>
-						<p>{model}</p>
-						<p>{year}</p>
-					</div>
-					<div className='product-details'>
-						{wheelSize ? <p>{wheelSize}"</p> : <></>}
-						<p>{damperType}</p>
-						<p>{springType}</p>
+					<div className='product-details-container'>
+						<p className='card-header-text'>
+							<span className='product-detail-labels'>Model: </span>
+							{model}
+						</p>
+						<p className='card-header-text'>
+							<span className='product-detail-labels'>Year: </span>
+							{year}
+						</p>
+						{wheelSize ? (
+							<p className='product-details-text'>
+								<span className='product-detail-labels'>Wheel Size:</span> {wheelSize}"
+							</p>
+						) : (
+							<></>
+						)}
+						<p className='product-details-text'>
+							<span className='product-detail-labels'>Damper: </span>
+							{damperType}
+						</p>
+						<p className='product-details-text'>
+							<span className='product-detail-labels'>Spring: </span>
+							{springType}
+						</p>
 					</div>
 				</div>
+			</div>
 		);
 	}
 };

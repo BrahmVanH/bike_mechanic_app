@@ -36,7 +36,8 @@ const OilBathTable = (selectedSuspensionFork) => {
 			const hot = new Handsontable(containerRef.current, {
 				data: data,
 				virtual: true,
-				width: '100%',
+				tableClassName: 'oil-bath-table',
+				width: '100vw',
 				height: 'auto',
 				columns: [
 					{
