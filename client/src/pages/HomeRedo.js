@@ -24,7 +24,6 @@ function HomeRedo() {
 		latestYear: 2019,
 		oldestYearMinusOne: 2013,
 	});
-
 	const [selectedYear, setSelectedYear] = useState('');
 	const [searchButtonDisabled, setSearchButtonDisabled] = useState(true);
 	const [searchResults, setSearchResults] = useState([]);
@@ -32,7 +31,6 @@ function HomeRedo() {
 	const [displayFoxSearchResults, setDisplayFoxSearchResults] = useState(false);
 	const [hasUserSelectedProduct, setHasUserSelectedProduct] = useState(false);
 	const [isSelectedProductSet, setIsSelectedProductSet] = useState(false);
-	
 	const [hideSearchOptions, setHideSearchOptions] = useState(false);
 	const [selectedRockshoxProduct, setSelectedRockshoxProduct] = useState({
 		year: '',
