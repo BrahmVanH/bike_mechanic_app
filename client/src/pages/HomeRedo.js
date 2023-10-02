@@ -25,18 +25,14 @@ function HomeRedo() {
 		oldestYearMinusOne: 2013,
 	});
 
-	// **CONSOLIDATE INTO ONE VARIABLE THAT CONTAINS THIS INFO
 	const [selectedYear, setSelectedYear] = useState('');
 	const [searchButtonDisabled, setSearchButtonDisabled] = useState(true);
 	const [searchResults, setSearchResults] = useState([]);
-	const [selectedModel, setSelectedModel] = useState('');
-	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
-	const [selectedSpringType, setSelectedSpringType] = useState('');
-	const [selectedDamperType, setSelectedDamperType] = useState('');
 	const [displayRockshoxSearchResults, setDisplayRockshoxSearchResults] = useState(false);
 	const [displayFoxSearchResults, setDisplayFoxSearchResults] = useState(false);
 	const [hasUserSelectedProduct, setHasUserSelectedProduct] = useState(false);
 	const [isSelectedProductSet, setIsSelectedProductSet] = useState(false);
+	
 	const [hideSearchOptions, setHideSearchOptions] = useState(false);
 	const [selectedRockshoxProduct, setSelectedRockshoxProduct] = useState({
 		year: '',
@@ -67,23 +63,23 @@ function HomeRedo() {
 		springLowerVolume: '',
 		springLowerOilWt: '',
 	});
-	
+
 	//Create an array of model years supported based on yearRange state
 	useEffect(() => {
 		const supportedModelYears = listSupportedModelYears(yearRange);
 		setSupportedModelYears(supportedModelYears);
 	}, []);
-	
+
 	const enableSearchButton = () => {
 		setSearchButtonDisabled(false);
 	};
-	
+
 	useEffect(() => {
 		if (selectedManufacturer !== '' && selectedYear !== '') {
 			enableSearchButton();
 		}
 	}, [selectedManufacturer, selectedYear]);
-	
+
 	// Sets the manufacturer selected by user in dropdown menu
 
 	const handleManufacturerMenuSelect = (selectedValue) => {
@@ -120,7 +116,7 @@ function HomeRedo() {
 		}
 	};
 
-	// Set associated state variables with product listings when data from queries is available 
+	// Set associated state variables with product listings when data from queries is available
 	useEffect(() => {
 		if (rockshoxProductData && !loadingRockshoxProducts && !rockshoxProductError) {
 			setInitialQueryResponse(rockshoxProductData.rockshoxProductsByYear);
@@ -159,59 +155,51 @@ function HomeRedo() {
 		}
 	};
 
-
 	useEffect(() => {
 		console.log('search results:');
 		console.log(searchResults);
 	}, [searchResults]);
 
 	useEffect(() => {
-		if (hasUserSelectedProduct && selectedManufacturer === 'rockshox' && selectedSpringType !== '') {
-			const userSelectedProduct = initialQueryResponse?.filter(
-				(product) => product.year === selectedYear && product.model === selectedModel && product.fork === selectedRockshoxFork && product.springType === selectedSpringType
-			);
-			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
-				setSelectedProduct(userSelectedProduct[0]);
-				console.log('set selectedProduct t...');
-				console.log(userSelectedProduct[0]);
-			} else {
-				setSelectedProduct(null);
-			}
-			console.log(userSelectedProduct);
-		} else if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
+		if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
 			const userSelectedProduct = initialQueryResponse?.filter(
 				(product) =>
-					product.year === selectedYear &&
-					product.model === selectedModel &&
-					product.fork === selectedRockshoxFork &&
-					product.springType === selectedSpringType &&
-					product.damperType === selectedDamperType
+					product.year === selectedRockshoxProduct.year &&
+					product.fork === selectedRockshoxProduct.fork &&
+					product.model === selectedRockshoxProduct.model &&
+					product.springType === selectedRockshoxProduct.springType &&
+					product.damperType === selectedRockshoxProduct.damperType
 			);
 			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
-				setSelectedProduct(userSelectedProduct[0]);
+				setSelectedRockshoxProduct(userSelectedProduct[0]);
 			} else {
-				setSelectedProduct(null);
+				setSelectedRockshoxProduct(null);
 			}
 			console.log(userSelectedProduct);
 		} else if (hasUserSelectedProduct && selectedManufacturer === 'fox') {
 			const userSelectedProduct = initialQueryResponse?.filter(
-				(product) => product.year === selectedYear && product.model === selectedModel && product.springType === selectedSpringType && product.damperType === selectedDamperType
+				(product) =>
+					product.year === selectedFoxProduct.year && product.model === selectedFoxProduct.model && product.springType === selectedFoxProduct.springType && product.damperType === selectedFoxProduct.damperType
 			);
 			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
-				setSelectedProduct(userSelectedProduct[0]);
+				setSelectedFoxProduct(userSelectedProduct[0]);
 			} else {
-				setSelectedProduct(null);
+				setSelectedFoxProduct(null);
 			}
 		}
 	}, [hasUserSelectedProduct]);
 
 	//Sets state variable to tell oil bath volume chart that data is ready to render
 	useEffect(() => {
-		console.log(selectedProduct);
-		if (selectedProduct?.id !== '') {
+		if (selectedManufacturer === 'rockshox' && selectedRockshoxProduct.damperUpperVolume !== ''){
 			setIsSelectedProductSet(true);
+			console.log(selectedRockshoxProduct);
+		} else if (selectedManufacturer === 'fox' && selectedFoxProduct.damperUpperVolume !== '') {
+			setIsSelectedProductSet(true);
+			console.log(selectedFoxProduct);
 		}
-	}, [selectedProduct]);
+		
+	}, [selectedRockshoxProduct, selectedFoxProduct]);
 
 	return (
 		<div className='main-container'>
@@ -257,10 +245,18 @@ function HomeRedo() {
 			<div>{displayRockshoxSearchResults ? <RockshoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
 			<div>{displayFoxSearchResults ? <FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
 
-			{isSelectedProductSet && selectedProduct?.damperUpperVolume !== '' ? (
+			{isSelectedProductSet && selectedManufacturer === 'rockshox' ? (
 				<div style={{ width: '100%' }}>
-					<ProductCard manufacturer={selectedManufacturer} product={selectedProduct} />
-					<OilBathTable selectedSuspensionFork={selectedProduct} />
+					<ProductCard manufacturer={selectedManufacturer} product={selectedRockshoxProduct} />
+					<OilBathTable selectedSuspensionFork={selectedRockshoxProduct} />
+				</div>
+			) : (
+				<></>
+			)}
+			{isSelectedProductSet && selectedManufacturer === 'fox' ? (
+				<div style={{ width: '100%' }}>
+					<ProductCard manufacturer={selectedManufacturer} product={selectedFoxProduct} />
+					<OilBathTable selectedSuspensionFork={selectedFoxProduct} />
 				</div>
 			) : (
 				<></>
