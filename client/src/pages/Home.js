@@ -177,7 +177,10 @@ function HomeRedo() {
 		} else if (hasUserSelectedProduct && selectedManufacturer === 'fox') {
 			const userSelectedProduct = initialQueryResponse?.filter(
 				(product) =>
-					product.year === selectedFoxProduct.year && product.model === selectedFoxProduct.model && product.springType === selectedFoxProduct.springType && product.damperType === selectedFoxProduct.damperType
+					product.year === selectedFoxProduct.year &&
+					product.model === selectedFoxProduct.model &&
+					product.springType === selectedFoxProduct.springType &&
+					product.damperType === selectedFoxProduct.damperType
 			);
 			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
 				setSelectedFoxProduct(userSelectedProduct[0]);
@@ -189,14 +192,13 @@ function HomeRedo() {
 
 	//Sets state variable to tell oil bath volume chart that data is ready to render
 	useEffect(() => {
-		if (selectedManufacturer === 'rockshox' && selectedRockshoxProduct.damperUpperVolume !== ''){
+		if (selectedManufacturer === 'rockshox' && selectedRockshoxProduct.damperUpperVolume !== '') {
 			setIsSelectedProductSet(true);
 			console.log(selectedRockshoxProduct);
 		} else if (selectedManufacturer === 'fox' && selectedFoxProduct.damperUpperVolume !== '') {
 			setIsSelectedProductSet(true);
 			console.log(selectedFoxProduct);
 		}
-		
 	}, [selectedRockshoxProduct, selectedFoxProduct]);
 
 	return (
