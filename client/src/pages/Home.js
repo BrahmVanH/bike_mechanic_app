@@ -118,9 +118,11 @@ function HomeRedo() {
 	useEffect(() => {
 		if (rockshoxProductData && !loadingRockshoxProducts && !rockshoxProductError) {
 			setInitialQueryResponse(rockshoxProductData.rockshoxProductsByYear);
+      setHideSearchOptions(true);
 			setDisplayRockshoxSearchResults(true);
 		} else if (foxProductData && !loadingFoxProducts && !foxProductError) {
 			setInitialQueryResponse(foxProductData.foxProductsByYear);
+      setHideSearchOptions(true);
 			setDisplayFoxSearchResults(true);
 		}
 	}, [foxProductData, rockshoxProductData]);
@@ -206,10 +208,8 @@ function HomeRedo() {
 			<div className='welcome-message'>
 				<p>The Bike Guru welcomes you. Please search for your fork below</p>
 			</div>
-			{hideSearchOptions ? (
-				<></>
-			) : (
-				<div className='search-container'>
+			{!hideSearchOptions ? (
+        <div className='search-container'>
 					<Form className='fork-search-form'>
 						<Alert dismissible onClose={() => setShowAlert(true)} show={showAlert} variant='danger'>
 							You must complete all fields before searching
@@ -227,20 +227,22 @@ function HomeRedo() {
 								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
 									<option value=''>Year</option>
 									{supportedModelYears.map((year) => (
-										<option key={year} value={year}>
+                    <option key={year} value={year}>
 											{year}
 										</option>
 									))}
 								</Form.Select>
 							</Form.Group>
 						) : (
-							<></>
-						)}
+              <></>
+              )}
 						<Button disabled={searchButtonDisabled} onClick={initiateInitialQuery}>
 							Search{' '}
 						</Button>
 					</Form>
 				</div>
+      ) : (
+        <></>
 			)}
 			<div>{displayRockshoxSearchResults ? <RockshoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
 			<div>{displayFoxSearchResults ? <FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
