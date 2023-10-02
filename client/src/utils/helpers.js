@@ -1,7 +1,6 @@
 //Helper Functions
 
 export const listSupportedModelYears = (yearRange) => {
-  console.log(yearRange);
   if (typeof yearRange.latestYear !== 'number' || typeof yearRange.oldestYearMinusOne !== 'number' ) {
     throw new Error("Expected parameter 'yearRange' to contain two numbers")
   }
@@ -10,7 +9,6 @@ export const listSupportedModelYears = (yearRange) => {
 	for (let i = latestYear; i > oldestYearMinusOne; i--) {
 		yearsSupported.push(`${i}`);
 	}
-  console.log(yearsSupported);
 	return yearsSupported;
 };
 

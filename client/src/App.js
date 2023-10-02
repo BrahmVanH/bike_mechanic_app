@@ -14,7 +14,6 @@ function App() {
 		<ApolloProvider client={client}>
 			<Router>
 			<Navbar />
-				{/* Navbar component should be rendered here */}
 				<Routes>
 					<Route path='/' element={<Home />} />
 					</Routes>

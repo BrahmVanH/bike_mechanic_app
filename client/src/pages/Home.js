@@ -87,7 +87,6 @@ function HomeRedo() {
 	// Sets year selected by user in dropdown menu
 
 	const handleYearSelect = (selectedValue) => {
-		console.log(selectedValue);
 		setSelectedYear(selectedValue);
 	};
 
@@ -127,10 +126,6 @@ function HomeRedo() {
 		}
 	}, [foxProductData, rockshoxProductData]);
 
-	useEffect(() => {
-		console.log(initialQueryResponse);
-	}, [initialQueryResponse]);
-
 	// Function passed into products table and used to send user selected product information back to home component to set selected product state
 	const sendSelectedProductInformation = (productInformation) => {
 		if (selectedManufacturer === 'rockshox') {
@@ -156,11 +151,6 @@ function HomeRedo() {
 	};
 
 	useEffect(() => {
-		console.log('search results:');
-		console.log(searchResults);
-	}, [searchResults]);
-
-	useEffect(() => {
 		if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
 			const userSelectedProduct = initialQueryResponse?.filter(
 				(product) =>
@@ -175,7 +165,6 @@ function HomeRedo() {
 			} else {
 				setSelectedRockshoxProduct(null);
 			}
-			console.log(userSelectedProduct);
 		} else if (hasUserSelectedProduct && selectedManufacturer === 'fox') {
 			const userSelectedProduct = initialQueryResponse?.filter(
 				(product) =>
@@ -196,10 +185,8 @@ function HomeRedo() {
 	useEffect(() => {
 		if (selectedManufacturer === 'rockshox' && selectedRockshoxProduct.damperUpperVolume !== '') {
 			setIsSelectedProductSet(true);
-			console.log(selectedRockshoxProduct);
 		} else if (selectedManufacturer === 'fox' && selectedFoxProduct.damperUpperVolume !== '') {
 			setIsSelectedProductSet(true);
-			console.log(selectedFoxProduct);
 		}
 	}, [selectedRockshoxProduct, selectedFoxProduct]);
 

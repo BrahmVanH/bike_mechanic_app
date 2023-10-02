@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { FaSearch } from 'react-icons/fa'
+import { FaSearch } from 'react-icons/fa';
 import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.min.css';
+import './style.css';
 
 const RockshoxProductTable = (props) => {
 	const customButtonRenderer = (instance, td, row, col, prop, value, cellProperties) => {
 		const button = document.createElement('button');
-		const searchIcon = <FaSearch size={12} />
+		const searchIcon = <FaSearch size={12} />;
 		button.addEventListener('click', () => {
 			props.sendSelectedProductInformation(instance.getSourceDataAtRow(row));
 			console.log(instance.getSourceDataAtRow(row));
@@ -47,9 +48,10 @@ const RockshoxProductTable = (props) => {
 		const hot = new Handsontable(containerRef.current, {
 			data: hotData,
 			width: '100vw',
+			className: 'search-results-table',
 			columns: hotColumns,
-			colHeaders: true, 
-			readOnly: true, 
+			colHeaders: true,
+			readOnly: true,
 			licenseKey: 'non-commercial-and-evaluation', // Replace with your license key or leave empty for non-commercial use
 		});
 
@@ -59,7 +61,13 @@ const RockshoxProductTable = (props) => {
 		};
 	}, [props.searchResults]);
 
-	return <div ref={containerRef}></div>;
+	return (
+		<div className='search-results-container'>
+			<div className='search-results-container'>
+				<div ref={containerRef}></div>;
+			</div>
+		</div>
+	);
 };
 
 export default RockshoxProductTable;
