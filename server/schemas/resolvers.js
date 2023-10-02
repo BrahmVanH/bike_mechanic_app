@@ -12,7 +12,7 @@ const resolvers = {
       console.log(forks);
       return forks;
     },
-    rockshoxForkOilBathInfoByYear: async (parent, { year }) => {
+    rockshoxProductsByYear: async (parent, { year }) => {
       console.log("querying rockshox fork oil bath info by year in resolvers");
       const forks = await RockshoxForkOilBath.find({ year: year });
       if (!forks) {
@@ -31,7 +31,7 @@ const resolvers = {
 
       return forks;
     },
-    foxForkOilBathInfoByYear: async (parent, { year }) => {
+    foxProductsByYear: async (parent, { year }) => {
       console.log("querying fox fork oil bath info by year in resolvers");
 
       const forks = await FoxForkOilBath.find({ year: year });

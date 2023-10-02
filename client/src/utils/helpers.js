@@ -14,5 +14,4 @@ export const listSupportedModelYears = (yearRange) => {
 	return yearsSupported;
 };
 
-// removeRepeatingItemsFromList
 

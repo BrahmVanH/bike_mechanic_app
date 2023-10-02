@@ -21,8 +21,8 @@ function HomeRedo() {
 	// The model year range might change over time as newer models are released and older model information is acquired
 	const [yearRange, setYearRange] = useState({
 		latestYear: 2019,
-		oldestYearMinusOne: 2013
-	})
+		oldestYearMinusOne: 2013,
+	});
 
 	// **CONSOLIDATE INTO ONE VARIABLE THAT CONTAINS THIS INFO
 	const [selectedYear, setSelectedYear] = useState('');
@@ -47,6 +47,17 @@ function HomeRedo() {
 		springLowerVolume: '',
 		springLowerOilWt: '',
 	});
+	const [searchProductRockshox, setSearchProductRockshox] = useState({
+		selectedRockshoxFork: '',
+		selectedModel: '',
+		selectedDamperType: '',
+		selectedSpringType: '',
+	});
+	const [searchProductFox, setSearchProductFox] = useState({
+		selectedModel: '',
+		selectedSpringType: '',
+		selectedDamperType: '',
+	});
 
 	//Create an array of model years supported based on yearRange state
 	useEffect(() => {
@@ -63,14 +74,6 @@ function HomeRedo() {
 			enableSearchButton();
 		}
 	}, [selectedManufacturer, selectedYear]);
-
-	// Utility functions
-
-	const removeRepeatingItemsFromList = (array) => {
-		console.log(array);
-		console.log([...new Set(array)]);
-		return [...new Set(array)];
-	};
 
 	// Define the initiation function and data variable name for querying products from db
 	const [queryRockshoxProducts, rockshoxQueryResults] = useLazyQuery(allRockshoxForkOilBathInfo);
