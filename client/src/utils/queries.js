@@ -23,8 +23,8 @@ export const allRockshoxForkOilBathInfo = gql`
 `;
 
 export const rockshoxProductsByYear = gql`
-	query rockshoxForkOilBathInfoByYear($year: String) {
-		rockshoxForkOilBathInfoByYear(year: $year) {
+	query rockshoxProductsByYear($year: String) {
+		rockshoxProductsByYear(year: $year) {
 			_id
 			year
 			fork
@@ -66,8 +66,8 @@ export const allFoxForkOilBathInfo = gql`
 `;
 
 export const foxProductsByYear = gql`
-	query foxForkOilBathInfoByYear($year: String) {
-		foxForkOilBathInfoByYear(year: $year) {
+	query foxProductsByYear($year: String) {
+		foxProductsByYear(year: $year) {
 			_id
 			year
 			model
