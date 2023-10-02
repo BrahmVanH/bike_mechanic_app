@@ -23,6 +23,8 @@ function HomeRedo() {
 		latestYear: 2019,
 		oldestYearMinusOne: 2013
 	})
+
+	// **CONSOLIDATE INTO ONE VARIABLE THAT CONTAINS THIS INFO
 	const [selectedYear, setSelectedYear] = useState('');
 	const [searchButtonDisabled, setSearchButtonDisabled] = useState(true);
 	const [searchResults, setSearchResults] = useState([]);
@@ -92,7 +94,7 @@ function HomeRedo() {
 	}, [handleYearSelect, selectedYear]);
 
 	// Function passed into products table and used to send user selected product information back to home component to set selected product state
-
+	// ** Need to make a single state variable that contains all of these states
 	const sendSelectedProductInformation = (productInformation) => {
 		if (selectedManufacturer === 'rockshox') {
 			console.log(productInformation);

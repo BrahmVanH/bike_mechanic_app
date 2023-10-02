@@ -1,8 +1,5 @@
 //Helper Functions
 
-import { number } from "prop-types";
-
-
 export const listSupportedModelYears = (yearRange) => {
   console.log(yearRange);
   if (typeof yearRange.latestYear !== 'number' || typeof yearRange.oldestYearMinusOne !== 'number' ) {
@@ -16,4 +13,6 @@ export const listSupportedModelYears = (yearRange) => {
   console.log(yearsSupported);
 	return yearsSupported;
 };
+
+// removeRepeatingItemsFromList
 
