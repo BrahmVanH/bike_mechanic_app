@@ -18,7 +18,7 @@ function HomeRedo() {
 	const [supportedModelYears, setSupportedModelYears] = useState([]);
 	const [selectedManufacturer, setSelectedManufacturer] = useState('');
 	const [initialQueryResponse, setInitialQueryResponse] = useState([]);
-	const [initiateInitialQuery, setInitiateInitialQuery] = useState(false);
+	// const [initiateInitialQuery, setInitiateInitialQuery] = useState(false);
 	// The model year range might change over time as newer models are released and older model information is acquired
 	const [yearRange, setYearRange] = useState({
 		latestYear: 2019,
@@ -33,8 +33,8 @@ function HomeRedo() {
 	const [selectedRockshoxFork, setSelectedRockshoxFork] = useState('');
 	const [selectedSpringType, setSelectedSpringType] = useState('');
 	const [selectedDamperType, setSelectedDamperType] = useState('');
-	const [startRockshoxSearch, setStartRockshoxSearch] = useState(false);
-	const [startFoxSearch, setStartFoxSearch] = useState(false);
+	const [displayRockshoxSearchResults, setDisplayRockshoxSearchResults] = useState(false);
+	const [displayFoxSearchResults, setDisplayFoxSearchResults] = useState(false);
 	const [hasUserSelectedProduct, setHasUserSelectedProduct] = useState(false);
 	const [isSelectedProductSet, setIsSelectedProductSet] = useState(false);
 	const [hideSearchOptions, setHideSearchOptions] = useState(false);
@@ -80,11 +80,11 @@ function HomeRedo() {
 	// const [queryRockshoxProducts, rockshoxQueryResults] = useLazyQuery(allRockshoxForkOilBathInfo);
 	// const [queryFoxProducts, foxQueryResults] = useLazyQuery(allFoxForkOilBathInfo);
 
-	const [queryRockshoxProductsByYear, rockshoxQueryResults] = useLazyQuery(rockshoxProductsByYear, {
+	const [queryRockshoxProductsByYear, { loading: loadingRockshoxProducts, data: rockshoxProductData, error: rockshoxProductError }] = useLazyQuery(rockshoxProductsByYear, {
 		variables: { year: selectedYear },
 	});
 
-	const [queryFoxProductsByYear, foxQueryResults] = useLazyQuery(foxProductsByYear, {
+	const [queryFoxProductsByYear, {loading: loadingFoxProducts, data: foxProductData, error: foxProductError}] = useLazyQuery(foxProductsByYear, {
 		variables: { year: selectedYear },
 	});
 
@@ -101,19 +101,34 @@ function HomeRedo() {
 	// 	});
 	// };
 
+		const initiateInitialQuery = () => {
+
+			if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
+				queryRockshoxProductsByYear(selectedYear);
+			} else if (selectedManufacturer === 'fox' && selectedYear !== '') {
+				queryFoxProductsByYear(selectedYear);
+			} else if (selectedManufacturer === '' || selectedYear === '') {
+				console.log('No manufacturer or year has been set');
+			} else {
+				throw new Error('There was an unexpected error in querying the database');
+			} 
+	}
+
+	
+
 	useEffect(() => {
-		if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
-			const rockshoxQueryResults = queryRockshoxProductsByYear(selectedYear);
-			setInitialQueryResponse(rockshoxQueryResults?.data.rockshoxProductsByYear);
-		} else if (selectedManufacturer === 'fox' && selectedYear !== '') {
-			const foxQueryResults = queryFoxProductsByYear(selectedYear);
-			setInitialQueryResponse(foxQueryResults?.data.foxProductsByYear);
-		} else if (selectedManufacturer === '' || selectedYear === '') {
-			console.log("No manufacturer or year has been set")
-		} else {
-			throw new Error('There was an unexpected error in querying the database');
+		if (rockshoxProductData && !loadingRockshoxProducts && !rockshoxProductError) {
+			setInitialQueryResponse(rockshoxProductData.rockshoxProductsByYear);
+			setDisplayRockshoxSearchResults(true);
+		} else if (foxProductData && !loadingFoxProducts && !foxProductError) {
+			setInitialQueryResponse(foxProductData.foxProductsByYear);
+			setDisplayFoxSearchResults(true);
 		}
-	}, [initiateInitialQuery]);
+	}, [foxProductData, rockshoxProductData]);
+
+	useEffect(() => {
+		console.log(initialQueryResponse);
+	}, [initialQueryResponse]);
 
 	// Sets the manufacturer selected by user in dropdown menu
 
@@ -143,22 +158,22 @@ function HomeRedo() {
 			setSelectedSpringType(productInformation.springType);
 			setSelectedYear(productInformation.year);
 			setHasUserSelectedProduct(true);
-			setStartRockshoxSearch(false);
+			setDisplayRockshoxSearchResults(false);
 		} else {
 			setSelectedModel(productInformation.model);
 			setSelectedSpringType(productInformation.springType);
 			setSelectedDamperType(productInformation.damperType);
 			setSelectedYear(productInformation.year);
 			setHasUserSelectedProduct(true);
-			setStartFoxSearch(false);
+			setDisplayFoxSearchResults(false);
 		}
 	};
 
 	//Sets startSearch state to true, populating and revealing suspension products table with search results
 	// remove event handler functionality, set as function triggered in useEffect by query result objects
-	const handleProductSearchByMfgAndYear = () => {
-		setInitiateInitialQuery(true);
-	};
+	// const handleProductSearchByMfgAndYear = () => {
+	// 	setInitiateInitialQuery(true);
+	// };
 
 	// useEffect(() => {
 	// 	if (initialQueryResponse.length > 0) {
@@ -299,14 +314,14 @@ function HomeRedo() {
 						) : (
 							<></>
 						)}
-						<Button disabled={searchButtonDisabled} onClick={handleProductSearchByMfgAndYear}>
+						<Button disabled={searchButtonDisabled} onClick={initiateInitialQuery}>
 							Search{' '}
 						</Button>
 					</Form>
 				</div>
 			)}
-			<div>{startRockshoxSearch ? <RockshoxProductTable searchResults={searchResults} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
-			<div>{startFoxSearch ? <FoxProductTable searchResults={searchResults} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
+			<div>{displayRockshoxSearchResults ? <RockshoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
+			<div>{displayFoxSearchResults ? <FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
 
 			{isSelectedProductSet && selectedProduct?.damperUpperVolume !== '' ? (
 				<div style={{ width: '100%' }}>

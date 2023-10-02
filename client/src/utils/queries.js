@@ -29,17 +29,17 @@ export const rockshoxProductsByYear = gql`
 			year
 			fork
 			model
-			# damperType
-			# springType
-			# wheelSize
-			# damperUpperVolume
-			# damperUpperOilWt
-			# damperLowerVolume
-			# damperLowerOilWt
-			# springUpperVolume
-			# springUpperOilWt
-			# springLowerVolume
-			# springLowerOilWt
+			damperType
+			springType
+			wheelSize
+			damperUpperVolume
+			damperUpperOilWt
+			damperLowerVolume
+			damperLowerOilWt
+			springUpperVolume
+			springUpperOilWt
+			springLowerVolume
+			springLowerOilWt
 		}
 	}
 `;
