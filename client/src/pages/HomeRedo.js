@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Dropdown, Alert } from 'react-bootstrap';
+
+import { listSupportedModelYears } from '../utils/helpers';
+
 import RockshoxProductTable from '../components/SuspensionProductsTable/rockshoxProductTable';
 import FoxProductTable from '../components/SuspensionProductsTable/foxProductsTable';
 import OilBathTable from '../components/OilBathTable';
@@ -12,10 +15,15 @@ import './home.css';
 
 function HomeRedo() {
 	const [showAlert, setShowAlert] = useState(false);
+	const [supportedModelYears, setSupportedModelYears] = useState([]);
 	const [selectedManufacturer, setSelectedManufacturer] = useState('');
 	const [initialQueryResponse, setInitialQueryResponse] = useState([]);
+	// The model year range might change over time as newer models are released and older model information is acquired
+	const [yearRange, setYearRange] = useState({
+		latestYear: 2019,
+		oldestYear: 2013
+	})
 	const [selectedYear, setSelectedYear] = useState('');
-	const [yearDropdownOptions, setYearDropdownOptions] = useState([]);
 	const [searchButtonDisabled, setSearchButtonDisabled] = useState(true);
 	const [searchResults, setSearchResults] = useState([]);
 	const [selectedModel, setSelectedModel] = useState('');
@@ -38,14 +46,11 @@ function HomeRedo() {
 		springLowerOilWt: '',
 	});
 
-	const yearsSupported = [];
-	const listYearsSupported = () => {
-		for (let i = 2019; i > 2012; i--) {
-			yearsSupported.push(`${i}`);
-		}
-		console.log(yearsSupported);
-	};
-	listYearsSupported();
+	//Create an array of model years supported based on yearRange state
+	useEffect(() => {
+		const supportedModelYears = listSupportedModelYears(yearRange);
+		setSupportedModelYears(supportedModelYears);
+	});
 
 	const enableSearchButton = () => {
 		setSearchButtonDisabled(false);
@@ -120,10 +125,10 @@ function HomeRedo() {
 	};
 
 	useEffect(() => {
-		if (initialQueryResponse.length > 0 ) {
+		if (initialQueryResponse.length > 0) {
 			handleProductSearchByMfgAndYear();
 		}
-	}, [, foxQueryResults])
+	}, [, foxQueryResults]);
 	// Queries database for products based on selected manufacturer
 
 	const makeInitialQuery = () => {
@@ -135,7 +140,6 @@ function HomeRedo() {
 			console.log('selectedManufacturer object has unrecognized value...');
 		}
 	};
-
 
 	// Set initialQueryResponse state
 
