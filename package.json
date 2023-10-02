@@ -1,8 +1,11 @@
 {
-	"name": "bike_mechanic_app",
+	"name": "BikeGuru",
 	"version": "1.0.0",
 	"description": "A full-stack progressive web app that caters to bike mechanics and those who service their own mountain bikes.",
 	"main": "index.js",
+	"engines": {
+		"node": "18.12.1"
+	},
 	"dependencies": {
 		"apollo-server-express": "^3.12.0",
 		"dotenv": "^16.3.1",
@@ -31,7 +34,6 @@
 		"dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
 		"install": "cd server && npm i && cd ../client && npm i",
 		"postinstall": "npm run seed",
-		
 		"seed": "cd server && npm run seed",
 		"build": "cd client && npm run build"
 	},
