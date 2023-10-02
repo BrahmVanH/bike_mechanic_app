@@ -2,16 +2,18 @@
 
 import { number } from "prop-types";
 
-const listSupportedModelYears = (yearRange) => {
-  if (yearRange.latestYear !== Number || yearRange.oldestYear !== Number ) {
+
+export const listSupportedModelYears = (yearRange) => {
+  console.log(yearRange);
+  if (typeof yearRange.latestYear !== 'number' || typeof yearRange.oldestYearMinusOne !== 'number' ) {
     throw new Error("Expected parameter 'yearRange' to contain two numbers")
   }
-  const {latestYear, oldestYear} = yearRange;
-	const yearsSupported = [];
-	for (let i = latestYear; i >= oldestYear; i--) {
+  const {latestYear, oldestYearMinusOne} = yearRange;
+	let yearsSupported = [];
+	for (let i = latestYear; i > oldestYearMinusOne; i--) {
 		yearsSupported.push(`${i}`);
 	}
+  console.log(yearsSupported);
 	return yearsSupported;
 };
 
-module.export = { listSupportedModelYears };

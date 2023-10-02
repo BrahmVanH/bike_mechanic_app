@@ -21,7 +21,7 @@ function HomeRedo() {
 	// The model year range might change over time as newer models are released and older model information is acquired
 	const [yearRange, setYearRange] = useState({
 		latestYear: 2019,
-		oldestYear: 2013
+		oldestYearMinusOne: 2013
 	})
 	const [selectedYear, setSelectedYear] = useState('');
 	const [searchButtonDisabled, setSearchButtonDisabled] = useState(true);
@@ -50,7 +50,7 @@ function HomeRedo() {
 	useEffect(() => {
 		const supportedModelYears = listSupportedModelYears(yearRange);
 		setSupportedModelYears(supportedModelYears);
-	});
+	}, []);
 
 	const enableSearchButton = () => {
 		setSearchButtonDisabled(false);
@@ -249,11 +249,11 @@ function HomeRedo() {
 								<option value='rockshox'>Rockshox</option>
 							</Form.Select>
 						</Form.Group>
-						{yearsSupported.length > 0 ? (
+						{supportedModelYears.length > 0 ? (
 							<Form.Group>
 								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
 									<option value=''>Year</option>
-									{yearsSupported.map((year) => (
+									{supportedModelYears.map((year) => (
 										<option key={year} value={year}>
 											{year}
 										</option>
