@@ -4,12 +4,14 @@ import './style.css';
 const ProductCard = (props) => {
 	if (props.manufacturer === 'rockshox') {
 		const { fork, model, year, wheelSize, damperType, springType } = props.product;
-
 		return (
 			<div className='container'>
 				<div className='card'>
-					
 					<div className='product-details-container'>
+						<p className='product-details-text'>
+							<span className='product-detail-labels'>Model: </span>
+							{props.manufacturer.toUpperCase()}
+						</p>
 						<p className='product-details-text'>
 							<span className='product-detail-labels'>Model: </span>
 							{fork} {model}
@@ -45,6 +47,10 @@ const ProductCard = (props) => {
 			<div className='container'>
 				<div className='card'>
 					<div className='product-details-container'>
+						<p className='product-details-text'>
+							<span className='product-detail-labels'>Model: </span>
+							{props.manufacturer.toUpperCase()}
+						</p>
 						<p className='card-header-text'>
 							<span className='product-detail-labels'>Model: </span>
 							{model}

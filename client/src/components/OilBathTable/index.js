@@ -12,12 +12,52 @@ const OilBathTable = (selectedSuspensionFork) => {
 	const { damperUpperVolume, damperUpperOilWt, damperLowerVolume, damperLowerOilWt, springUpperVolume, springUpperOilWt, springLowerVolume, springLowerOilWt } =
 		selectedSuspensionFork?.selectedSuspensionFork;
 
+	const checkSpringUpperTubeData = () => {
+		let springUpperVolumeUnits;
+		let springUpperOilWtUnits;
+		// Change the units for volume and presence of 'wt' based on type of lubricant in spring
+		if (springUpperVolume === 'Grease' || springUpperVolume === 'grease' || springUpperVolume === '' || springUpperVolume === ' ') {
+			springUpperOilWtUnits = '';
+			springUpperVolumeUnits = '';
+		} else if (selectedSuspensionFork?.selectedSuspensionFork.fork) {
+			springUpperOilWtUnits = 'wt';
+			springUpperVolumeUnits = 'mL';
+		} else {
+			springUpperOilWtUnits = '';
+			springUpperVolumeUnits = 'mL';
+		}
+
+		return { springUpperVolumeUnits, springUpperOilWtUnits };
+	};
+
+	const checkDamperUpperTubeData = () => {
+		let damperUpperVolumeUnits;
+		console.log(damperUpperVolume);
+		if (damperUpperVolume === `\n**\n`) {
+			damperUpperVolumeUnits = '';
+		} else {
+			damperUpperVolumeUnits = 'mL';
+		}
+
+		return damperUpperVolumeUnits;
+	};
+
 	useEffect(() => {
 		if (selectedSuspensionFork) {
-			const data = [
-				['Damper', damperUpperVolume, damperUpperOilWt, damperLowerVolume, damperLowerOilWt],
-				['Spring', springUpperVolume, springUpperOilWt, springLowerVolume, springLowerOilWt],
-			];
+			const { springUpperVolumeUnits, springUpperOilWtUnits } = checkSpringUpperTubeData();
+			const damperUpperVolumeUnits = checkDamperUpperTubeData();
+			let data;
+			if (selectedSuspensionFork?.selectedSuspensionFork.fork) {
+				data = [
+					['Damper', `${damperUpperVolume} ${damperUpperVolumeUnits}`, `${damperUpperOilWt} wt`, `${damperLowerVolume} mL`, `${damperLowerOilWt} wt`],
+					['Spring', `${springUpperVolume} ${springUpperVolumeUnits}`, `${springUpperOilWt} ${springUpperOilWtUnits}`, `${springLowerVolume} mL`, `${springLowerOilWt} wt`],
+				];
+			} else {
+				data = [
+					['Damper', `${damperUpperVolume} ${damperUpperVolumeUnits}`, damperUpperOilWt, `${damperLowerVolume} mL`, damperLowerOilWt],
+					['Spring', `${springUpperVolume} ${springUpperVolumeUnits}`, `${springUpperOilWt} ${springUpperOilWtUnits}`, `${springLowerVolume} mL`, springLowerOilWt],
+				];
+			}
 
 			const nestedHeaders = [
 				[
@@ -129,14 +169,12 @@ const OilBathTable = (selectedSuspensionFork) => {
 						className: 'oil-bath-cells',
 					},
 				],
-				colHeaders: true, // Display column headers
-				
-				contextMenu: true, // Enable context menu
+				colHeaders: true,
+				readOnly: true,
 				licenseKey: 'non-commercial-and-evaluation',
 			});
 
 			return () => {
-				// Destroy the Handsontable instance when the component unmounts
 				hot.destroy();
 			};
 		}
