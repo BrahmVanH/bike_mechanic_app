@@ -11,7 +11,6 @@ const FoxProductTable = (props) => {
 		const searchIcon = <FaSearch size={12} />;
 		button.addEventListener('click', () => {
 			props.sendSelectedProductInformation(instance.getSourceDataAtRow(row));
-			console.log(instance.getSourceDataAtRow(row));
 		});
 		ReactDOM.render(searchIcon, button);
 

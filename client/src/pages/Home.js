@@ -252,20 +252,18 @@ function HomeRedo() {
 			) : (
 				<></>
 			)}
-			<div className='featured-forks-container'>
+			{/* <div className='featured-forks-container'>
 				<div className='featured-rockshox-fork'>
-					{/* Randomly selected rockshox fork from DB */}
+					Randomly selected rockshox fork from DB
 					2020 Rockshox Lyrik Ultimate
 				</div>
 				<div className='featured-fox-forks'>
-					{/* Randomly selected fox fork */}
 					2020 Fox 36 Factory
 				</div>
 				<div className='featured-marzocchi-fork'>
-					{/* randomly selected Marzocchi fork */}
 					2020 Marzocchi Bomber
 				</div>
-			</div>
+			</div> */}
 		</div>
 	);
 }

@@ -5,9 +5,6 @@ import './style.css';
 
 const OilBathTable = (selectedSuspensionFork) => {
 	const containerRef = useRef(null);
-	useEffect(() => {
-		console.log(selectedSuspensionFork);
-	}, [selectedSuspensionFork]);
 
 	const { damperUpperVolume, damperUpperOilWt, damperLowerVolume, damperLowerOilWt, springUpperVolume, springUpperOilWt, springLowerVolume, springLowerOilWt } =
 		selectedSuspensionFork?.selectedSuspensionFork;
@@ -32,7 +29,6 @@ const OilBathTable = (selectedSuspensionFork) => {
 
 	const checkDamperUpperTubeData = () => {
 		let damperUpperVolumeUnits;
-		console.log(damperUpperVolume);
 		if (damperUpperVolume === `\n**\n`) {
 			damperUpperVolumeUnits = '';
 		} else {
