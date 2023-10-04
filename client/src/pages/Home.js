@@ -192,9 +192,13 @@ function HomeRedo() {
 
 	return (
 		<div className='main-container'>
-			<div className='welcome-message'>
-				<p>The Bike Guru welcomes you. Please search for your fork below</p>
-			</div>
+			{!hideSearchOptions ? (
+				<div className='welcome-message'>
+					<p>Welcome to Plush Lab. Please search for your suspension fork below.</p>
+				</div>
+			) : (
+				<></>
+			)}
 			{!hideSearchOptions ? (
 				<div className='search-container'>
 					<Form className='fork-search-form'>

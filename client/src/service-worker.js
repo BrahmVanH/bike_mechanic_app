@@ -10,7 +10,7 @@ import { createHttpLink } from '@apollo/client';
 import { NetworkStatus, makeVar } from '@apollo/client';
 import { gql } from '@apollo/client';
 
-const cacheName = 'bikeGuruCache';
+const cacheName = 'plushLabCache';
 
 clientsClaim();
 

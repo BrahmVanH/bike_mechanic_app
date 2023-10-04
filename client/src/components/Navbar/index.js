@@ -13,7 +13,7 @@ function Navbar() {
 	return (
 		<Nav className='navbar'>
 			<Link onClick={refreshPage} className='brand' to='/'>
-				Bike Guru
+				Plush Lab
 			</Link>
 			<Link onClick={refreshPage} className='home-btn' to='/'>
 				Home
