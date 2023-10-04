@@ -10,10 +10,9 @@ import { StaleWhileRevalidate } from 'workbox-strategies';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { createHttpLink } from '@apollo/client';
 import { NetworkStatus, makeVar } from '@apollo/client';
-import {allRockshoxForkOilBathInfo, allFoxForkOilBathInfo } from './utils/queries'
-import { useLazyQuery } from '@apollo/client';
-import { gql } from 'apollo-server-express';
+import { gql } from '@apollo/client';
 
+const cacheName = 'bikeGuruCache';
 
  
 clientsClaim();
@@ -73,16 +72,9 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
-const httpLink = createHttpLink({
-	uri: '/graphql',
-});
 
-const client = new ApolloClient({
-	link: httpLink,
-	cache: new InMemoryCache(),
-});
 
-const allRockshoxForkOilBathInfo = gql`
+const rockshoxForkInformation = gql`
 	query allRockshoxForkOilBathInfo {
 		allRockshoxForkOilBathInfo {
 			_id
@@ -104,7 +96,7 @@ const allRockshoxForkOilBathInfo = gql`
 	}
 `;
 
-export const allFoxForkOilBathInfo = gql`
+export const foxForkInformation = gql`
 	query allFoxForkOilBathInfo {
 		allFoxForkOilBathInfo {
 			_id
@@ -126,21 +118,34 @@ export const allFoxForkOilBathInfo = gql`
 `;
 
 const fetchAndCacheData = async () => {
+	
 	const articleID = 'foxAndRockShoxForkInformation';
 	const cacheKey = `article-${articleID}`;
-	const cacheName = 'bikeGuruCache';
+	
+
+	const httpLink = createHttpLink({
+		uri: '/graphql',
+	});
+
+	const client = new ApolloClient({
+		link: httpLink,
+		cache: new InMemoryCache(),
+	});
 
 	try {
 		const {data: allRockshoxForkData } = await client.query({
-			query: allRockshoxForkOilBathInfo,
+			query: rockshoxForkInformation,
 		});
 
 		const {data: allFoxForkData} = await client.query({
-			query: allFoxForkOilBathInfo,
+			query: foxForkInformation,
 		});
 
 		caches.open(cacheName).then((cache) => {
-			cache.put(cacheKey, new Response(JSON.stringify(data)));
+			cache.put(cacheKey, new Response(JSON.stringify(allRockshoxForkData)));
+		});
+		caches.open(cacheName).then((cache) => {
+			cache.put(cacheKey, new Response(JSON.stringify(allFoxForkData)));
 		});
 	} catch (error) {
 		console.error('Error fetching data in service worker:', error);
