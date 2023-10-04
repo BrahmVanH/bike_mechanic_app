@@ -146,6 +146,12 @@ const fetchAndCacheData = async () => {
 	}
 };
 
+const cacheManifest = () => {
+	caches.open(cacheName).then((cache) => {
+		return cache.addAll(['/', '/manifest.json']);
+	});
+};
+
 self.addEventListener('fetch', (event) => {
 	event.respondWith(
 		// If no cached response is available, try to fetch the data
@@ -182,4 +188,5 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('install', (event) => {
 	// Perform installation steps
 	event.waitUntil(fetchAndCacheData());
+	event.waitUntil(cacheManifest())
 });
