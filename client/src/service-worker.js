@@ -10,7 +10,7 @@ import { createHttpLink } from '@apollo/client';
 import { NetworkStatus, makeVar } from '@apollo/client';
 import { gql } from '@apollo/client';
 
-const cacheName = 'plushLabCache';
+const cacheName = 'PlushLabCache';
 
 clientsClaim();
 
@@ -188,5 +188,5 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('install', (event) => {
 	// Perform installation steps
 	event.waitUntil(fetchAndCacheData());
-	event.waitUntil(cacheManifest())
+	event.waitUntil(cacheManifest());
 });
