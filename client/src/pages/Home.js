@@ -29,8 +29,11 @@ function HomeRedo() {
 	const [searchResults, setSearchResults] = useState([]);
 	const [displayRockshoxSearchResults, setDisplayRockshoxSearchResults] = useState(false);
 	const [displayFoxSearchResults, setDisplayFoxSearchResults] = useState(false);
+	const [displayRockshoxOilBathTable, setDisplayRockshoxOilBathTable] = useState(false);
+	const [displayFoxOilBathTable, setDisplayFoxOilBathTable] = useState(false);
 	const [hasUserSelectedProduct, setHasUserSelectedProduct] = useState(false);
 	const [isSelectedProductSet, setIsSelectedProductSet] = useState(false);
+	const [isOkayToDisplaySearchResults, setIsOkayToDisplaySearchResults] = useState(false);
 	const [hideSearchOptions, setHideSearchOptions] = useState(false);
 	const [selectedRockshoxProduct, setSelectedRockshoxProduct] = useState({
 		year: '',
@@ -90,6 +93,72 @@ function HomeRedo() {
 		setSelectedYear(selectedValue);
 	};
 
+	const handleGoBackToSearchParameters = (event) => {
+		event.preventDefault();
+		if (displayRockshoxSearchResults || displayFoxSearchResults) {
+			setDisplayFoxSearchResults(false);
+			setDisplayRockshoxSearchResults(false);
+			setHideSearchOptions(false);
+			setIsOkayToDisplaySearchResults(false);
+			clearSearchParametersAndQueryResponse();
+		} else {
+			return;
+		}
+	};
+
+	const handleGoBackToSearchResults = (event) => {
+		event.preventDefault();
+		if (displayRockshoxOilBathTable || displayFoxOilBathTable) {
+			setDisplayFoxOilBathTable(false);
+			setDisplayRockshoxOilBathTable(false);
+			clearSelectedProduct();
+			if (selectedManufacturer === 'fox') {
+				setDisplayFoxSearchResults(true);
+			} else {
+				setDisplayRockshoxSearchResults(true);
+			}
+		}
+	};
+
+	const clearSearchParametersAndQueryResponse = () => {
+		setSelectedYear('');
+		setSelectedManufacturer('');
+		setInitialQueryResponse([]);
+		
+	};
+
+	const clearSelectedProduct = () => {
+		setSelectedRockshoxProduct({
+			year: '',
+			fork: '',
+			model: '',
+			damperType: '',
+			springType: '',
+			damperUpperVolume: '',
+			damperUpperOilWt: '',
+			damperLowerVolume: '',
+			damperLowerOilWt: '',
+			springUpperVolume: '',
+			springUpperOilWt: '',
+			springLowerVolume: '',
+			springLowerOilWt: '',
+		});
+		setSelectedFoxProduct({
+			year: '',
+			model: '',
+			damperType: '',
+			springType: '',
+			damperUpperVolume: '',
+			damperUpperOilWt: '',
+			damperLowerVolume: '',
+			damperLowerOilWt: '',
+			springUpperVolume: '',
+			springUpperOilWt: '',
+			springLowerVolume: '',
+			springLowerOilWt: '',
+		});
+	}
+
 	// Define query functions for product queries
 
 	const [queryRockshoxProductsByYear, { loading: loadingRockshoxProducts, data: rockshoxProductData, error: rockshoxProductError }] = useLazyQuery(rockshoxProductsByYear, {
@@ -104,8 +173,10 @@ function HomeRedo() {
 	const initiateInitialQuery = () => {
 		if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
 			queryRockshoxProductsByYear(selectedYear);
+			setIsOkayToDisplaySearchResults(true);
 		} else if (selectedManufacturer === 'fox' && selectedYear !== '') {
 			queryFoxProductsByYear(selectedYear);
+			setIsOkayToDisplaySearchResults(true);
 		} else if (selectedManufacturer === '' || selectedYear === '') {
 			console.log('No manufacturer or year has been set');
 		} else {
@@ -115,11 +186,11 @@ function HomeRedo() {
 
 	// Set associated state variables with product listings when data from queries is available
 	useEffect(() => {
-		if (rockshoxProductData && !loadingRockshoxProducts && !rockshoxProductError) {
+		if (rockshoxProductData && !loadingRockshoxProducts && !rockshoxProductError && isOkayToDisplaySearchResults) {
 			setInitialQueryResponse(rockshoxProductData.rockshoxProductsByYear);
 			setHideSearchOptions(true);
 			setDisplayRockshoxSearchResults(true);
-		} else if (foxProductData && !loadingFoxProducts && !foxProductError) {
+		} else if (foxProductData && !loadingFoxProducts && !foxProductError && isOkayToDisplaySearchResults) {
 			setInitialQueryResponse(foxProductData.foxProductsByYear);
 			setHideSearchOptions(true);
 			setDisplayFoxSearchResults(true);
@@ -185,8 +256,10 @@ function HomeRedo() {
 	useEffect(() => {
 		if (selectedManufacturer === 'rockshox' && selectedRockshoxProduct.damperUpperVolume !== '') {
 			setIsSelectedProductSet(true);
-		} else if (selectedManufacturer === 'fox' && selectedFoxProduct.damperUpperVolume !== '') {
+			setDisplayRockshoxOilBathTable(true);
+		} else if (selectedManufacturer === ' fox' && selectedFoxProduct.damperUpperVolume !== '') {
 			setIsSelectedProductSet(true);
+			setDisplayFoxOilBathTable(true);
 		}
 	}, [selectedRockshoxProduct, selectedFoxProduct]);
 
@@ -235,12 +308,31 @@ function HomeRedo() {
 			) : (
 				<></>
 			)}
-			<div>{displayRockshoxSearchResults ? <RockshoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
-			<div>{displayFoxSearchResults ? <FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} /> : <></>}</div>
+			<div>
+				{displayRockshoxSearchResults ? (
+					<div>
+						<Button onClick={handleGoBackToSearchParameters}>Go Back</Button>
+						<RockshoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
+					</div>
+				) : (
+					<></>
+				)}
+			</div>
+			<div>
+				{displayFoxSearchResults ? (
+					<div>
+						<Button onClick={handleGoBackToSearchParameters}>Go Back</Button>
+						<FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
+					</div>
+				) : (
+					<></>
+				)}
+			</div>
 
-			{isSelectedProductSet && selectedManufacturer === 'rockshox' ? (
+			{isSelectedProductSet && displayRockshoxOilBathTable ? (
 				<div className='oil-bath-table-container'>
 					<div>
+						<Button onClick={handleGoBackToSearchResults}>Go Back</Button>
 						<ProductCard manufacturer={selectedManufacturer} product={selectedRockshoxProduct} />
 						<OilBathTable selectedSuspensionFork={selectedRockshoxProduct} />
 					</div>
@@ -248,8 +340,9 @@ function HomeRedo() {
 			) : (
 				<></>
 			)}
-			{isSelectedProductSet && selectedManufacturer === 'fox' ? (
+			{isSelectedProductSet && displayFoxOilBathTable ? (
 				<div style={{ width: '100%' }}>
+					<Button onClick={handleGoBackToSearchResults}>Go Back</Button>
 					<ProductCard manufacturer={selectedManufacturer} product={selectedFoxProduct} />
 					<OilBathTable selectedSuspensionFork={selectedFoxProduct} />
 				</div>
