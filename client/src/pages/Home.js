@@ -251,63 +251,6 @@ function HomeRedo() {
 		filterAndSetSelectedProduct(selectedManufacturer, productInformation);
 	};
 
-	// useEffect(() => {
-	// 	if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
-	// 		const userSelectedProduct = initialQueryResponse?.filter(
-	// 			(product) =>
-	// 				product.year === selectedRockshoxProduct.year &&
-	// 				product.fork === selectedRockshoxProduct.fork &&
-	// 				product.model === selectedRockshoxProduct.model &&
-	// 				product.springType === selectedRockshoxProduct.springType &&
-	// 				product.damperType === selectedRockshoxProduct.damperType
-	// 		);
-	// 		if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
-	// 			setSelectedRockshoxProduct(userSelectedProduct[0]);
-	// 		} else {
-	// 			setSelectedRockshoxProduct(null);
-	// 		}
-	// 	} else if (hasUserSelectedProduct && selectedManufacturer === 'fox') {
-	// 		const userSelectedProduct = initialQueryResponse?.filter(
-	// 			(product) =>
-	// 				product.year === selectedFoxProduct.year &&
-	// 				product.model === selectedFoxProduct.model &&
-	// 				product.springType === selectedFoxProduct.springType &&
-	// 				product.damperType === selectedFoxProduct.damperType
-	// 		);
-	// 		if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
-	// 			setSelectedFoxProduct(userSelectedProduct[0]);
-	// 		} else {
-	// 			setSelectedFoxProduct(null);
-	// 		}
-	// 	}
-	// }, [hasUserSelectedProduct]);
-
-	// //Sets state variable to tell oil bath volume chart that data is ready to render
-	// useEffect(() => {
-	// 	if (selectedManufacturer === 'rockshox' && selectedRockshoxProduct.damperUpperVolume !== '') {
-	// 		setIsSelectedProductSet(true);
-	// 		setDisplayRockshoxOilBathTable(true);
-	// 	} else if (selectedManufacturer === ' fox' && selectedFoxProduct.damperUpperVolume !== '') {
-	// 		setIsSelectedProductSet(true);
-	// 		setDisplayFoxOilBathTable(true);
-	// 	}
-	// }, [selectedRockshoxProduct, selectedFoxProduct]);
-
-	useEffect(() => {
-		console.log(selectedManufacturer);
-	}, [selectedManufacturer]);
-
-	useEffect(() => {
-		console.log(selectedYear);
-	}, [selectedYear]);
-
-	useEffect(() => {
-		console.log(selectedRockshoxProduct);
-	}, [selectedRockshoxProduct]);
-
-	useEffect(() => {
-		console.log(selectedFoxProduct);
-	}, [selectedFoxProduct]);
 
 	return (
 		<div className='main-container'>
