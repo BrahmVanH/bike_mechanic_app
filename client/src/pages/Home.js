@@ -18,7 +18,6 @@ function HomeRedo() {
 	const [supportedModelYears, setSupportedModelYears] = useState([]);
 	const [selectedManufacturer, setSelectedManufacturer] = useState('');
 	const [initialQueryResponse, setInitialQueryResponse] = useState([]);
-	// const [initiateInitialQuery, setInitiateInitialQuery] = useState(false);
 	// The model year range might change over time as newer models are released and older model information is acquired
 	const [yearRange, setYearRange] = useState({
 		latestYear: 2019,
@@ -32,7 +31,6 @@ function HomeRedo() {
 	const [displayFoxSearchResults, setDisplayFoxSearchResults] = useState(false);
 	const [displayRockshoxOilBathTable, setDisplayRockshoxOilBathTable] = useState(false);
 	const [displayFoxOilBathTable, setDisplayFoxOilBathTable] = useState(false);
-	const [hasUserSelectedProduct, setHasUserSelectedProduct] = useState(false);
 	const [isSelectedProductSet, setIsSelectedProductSet] = useState(false);
 	const [isOkayToDisplaySearchResults, setIsOkayToDisplaySearchResults] = useState(false);
 	const [hideSearchOptions, setHideSearchOptions] = useState(false);
@@ -67,14 +65,19 @@ function HomeRedo() {
 	});
 
 	//Create an array of model years supported based on yearRange state
+
 	useEffect(() => {
 		const supportedModelYears = listSupportedModelYears(yearRange);
 		setSupportedModelYears(supportedModelYears);
 	}, []);
 
+	// Enables the search button on the initial search parameters view
+
 	const enableSearchButton = () => {
 		setSearchButtonDisabled(false);
 	};
+
+	// Call enable search button function when manufacturer and year have been selected
 
 	useEffect(() => {
 		if (selectedManufacturer !== '' && selectedYear !== '') {
@@ -82,19 +85,21 @@ function HomeRedo() {
 		}
 	}, [selectedManufacturer, selectedYear]);
 
-	// Sets the manufacturer selected by user in dropdown menu
+	// Sets the manufacturer selected by user in dropdown menu and clears any initialQueryResponse data to prevent mis-search
 
 	const handleManufacturerMenuSelect = (selectedValue) => {
 		setSelectedManufacturer(selectedValue);
 		setInitialQueryResponse([]);
 	};
 
-	// Sets year selected by user in dropdown menu
+	// Sets year selected by user in dropdown menu and clears any initialQueryResponse data to prevent mis-search
 
 	const handleYearSelect = (selectedValue) => {
 		setSelectedYear(selectedValue);
 		setInitialQueryResponse([]);
 	};
+
+	// Clears all search parameters and query results
 
 	const clearSearchParametersAndQueryResponse = () => {
 		setSelectedYear('');
@@ -104,6 +109,7 @@ function HomeRedo() {
 		setIsOkayToSetRockshoxAsQueryResponse(false);
 	};
 
+	// Reveal search parameters, hide any irrelevant components and wipe all search parameters/query responses
 	const handleGoBackToSearchParameters = (event) => {
 		event.preventDefault();
 		if (displayRockshoxSearchResults || displayFoxSearchResults) {
@@ -116,6 +122,8 @@ function HomeRedo() {
 			return;
 		}
 	};
+
+	// Reveal search results and hide any irrelevant components
 
 	const handleGoBackToSearchResults = (event) => {
 		event.preventDefault();
@@ -130,8 +138,7 @@ function HomeRedo() {
 			}
 		}
 	};
-
-	
+	// Clear's selectedProduct states to prevent any mis-searching while re-entering search parameters 
 
 	const clearSelectedProduct = () => {
 		setSelectedRockshoxProduct({
@@ -176,6 +183,7 @@ function HomeRedo() {
 	});
 
 	// Call query function using manufacturer and year state variables
+
 	const initiateInitialQuery = () => {
 		if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
 			queryRockshoxProductsByYear(selectedYear);
@@ -193,6 +201,7 @@ function HomeRedo() {
 	};
 
 	// Set associated state variables with product listings when data from queries is available
+
 	useEffect(() => {
 		if (rockshoxProductData && !loadingRockshoxProducts && !rockshoxProductError && isOkayToSetRockshoxAsQueryResponse && isOkayToDisplaySearchResults) {
 			setInitialQueryResponse(rockshoxProductData.rockshoxProductsByYear);
@@ -206,8 +215,8 @@ function HomeRedo() {
 	}, [foxProductData, rockshoxProductData, isOkayToDisplaySearchResults]);
 
 	// Takes in product description, filters query response, returns a product object
+
 	const filterAndSetSelectedProduct = (manufacturer, productInformation) => {
-		let userSelectedProduct;
 		if (manufacturer === 'rockshox') {
 			const filterMatches = initialQueryResponse?.filter(
 				(product) =>
@@ -219,7 +228,6 @@ function HomeRedo() {
 			);
 			if (Array.isArray(filterMatches) && filterMatches.length > 0) {
 				setSelectedRockshoxProduct(filterMatches[0]);
-				setHasUserSelectedProduct(true);
 				setDisplayRockshoxSearchResults(false);
 				setIsSelectedProductSet(true);
 				setDisplayRockshoxOilBathTable(true);
@@ -236,7 +244,6 @@ function HomeRedo() {
 			);
 			if (Array.isArray(filterMatches) && filterMatches.length > 0) {
 				setSelectedFoxProduct(filterMatches[0]);
-				setHasUserSelectedProduct(true);
 				setDisplayFoxSearchResults(false);
 				setIsSelectedProductSet(true);
 				setDisplayFoxOilBathTable(true);
@@ -250,7 +257,6 @@ function HomeRedo() {
 	const sendSelectedProductInformation = (productInformation) => {
 		filterAndSetSelectedProduct(selectedManufacturer, productInformation);
 	};
-
 
 	return (
 		<div className='main-container'>
