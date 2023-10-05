@@ -112,11 +112,13 @@ function HomeRedo() {
 	// Reveal search parameters, hide any irrelevant components and wipe all search parameters/query responses
 	const handleGoBackToSearchParameters = (event) => {
 		event.preventDefault();
-		if (displayRockshoxSearchResults || displayFoxSearchResults) {
+		if (displayRockshoxSearchResults || displayFoxSearchResults || displayFoxOilBathTable || displayRockshoxOilBathTable) {
 			setDisplayFoxSearchResults(false);
 			setDisplayRockshoxSearchResults(false);
 			setHideSearchOptions(false);
 			setIsOkayToDisplaySearchResults(false);
+			setDisplayRockshoxOilBathTable(false);
+			setDisplayFoxOilBathTable(false);
 			clearSearchParametersAndQueryResponse();
 		} else {
 			return;
@@ -327,7 +329,8 @@ function HomeRedo() {
 			{isSelectedProductSet && displayRockshoxOilBathTable ? (
 				<div className='oil-bath-table-container'>
 					<div>
-						<Button onClick={handleGoBackToSearchResults}>Go Back</Button>
+						<Button onClick={handleGoBackToSearchParameters}>Back to Search</Button>
+						<Button onClick={handleGoBackToSearchResults}>Back to Results</Button>
 						<ProductCard manufacturer={selectedManufacturer} product={selectedRockshoxProduct} />
 						<OilBathTable selectedSuspensionFork={selectedRockshoxProduct} />
 					</div>
@@ -337,7 +340,8 @@ function HomeRedo() {
 			)}
 			{isSelectedProductSet && displayFoxOilBathTable ? (
 				<div style={{ width: '100%' }}>
-					<Button onClick={handleGoBackToSearchResults}>Go Back</Button>
+					<Button onClick={handleGoBackToSearchParameters}>Back to Search</Button>
+					<Button onClick={handleGoBackToSearchResults}>Back to Results</Button>
 					<ProductCard manufacturer={selectedManufacturer} product={selectedFoxProduct} />
 					<OilBathTable selectedSuspensionFork={selectedFoxProduct} />
 				</div>
