@@ -26,7 +26,8 @@ function HomeRedo() {
 	});
 	const [selectedYear, setSelectedYear] = useState('');
 	const [searchButtonDisabled, setSearchButtonDisabled] = useState(true);
-	const [searchResults, setSearchResults] = useState([]);
+	const [isOkayToSetRockshoxAsQueryResponse, setIsOkayToSetRockshoxAsQueryResponse] = useState(false);
+	const [isOkayToSetFoxAsQueryResponse, setIsOkayToSetFoxAsQueryResponse] = useState(false);
 	const [displayRockshoxSearchResults, setDisplayRockshoxSearchResults] = useState(false);
 	const [displayFoxSearchResults, setDisplayFoxSearchResults] = useState(false);
 	const [displayRockshoxOilBathTable, setDisplayRockshoxOilBathTable] = useState(false);
@@ -85,12 +86,22 @@ function HomeRedo() {
 
 	const handleManufacturerMenuSelect = (selectedValue) => {
 		setSelectedManufacturer(selectedValue);
+		setInitialQueryResponse([]);
 	};
 
 	// Sets year selected by user in dropdown menu
 
 	const handleYearSelect = (selectedValue) => {
 		setSelectedYear(selectedValue);
+		setInitialQueryResponse([]);
+	};
+
+	const clearSearchParametersAndQueryResponse = () => {
+		setSelectedYear('');
+		setSelectedManufacturer('');
+		setInitialQueryResponse([]);
+		setIsOkayToSetFoxAsQueryResponse(false);
+		setIsOkayToSetRockshoxAsQueryResponse(false);
 	};
 
 	const handleGoBackToSearchParameters = (event) => {
@@ -114,18 +125,13 @@ function HomeRedo() {
 			clearSelectedProduct();
 			if (selectedManufacturer === 'fox') {
 				setDisplayFoxSearchResults(true);
-			} else {
+			} else if (selectedManufacturer === 'rockshox') {
 				setDisplayRockshoxSearchResults(true);
 			}
 		}
 	};
 
-	const clearSearchParametersAndQueryResponse = () => {
-		setSelectedYear('');
-		setSelectedManufacturer('');
-		setInitialQueryResponse([]);
-		
-	};
+	
 
 	const clearSelectedProduct = () => {
 		setSelectedRockshoxProduct({
@@ -157,7 +163,7 @@ function HomeRedo() {
 			springLowerVolume: '',
 			springLowerOilWt: '',
 		});
-	}
+	};
 
 	// Define query functions for product queries
 
@@ -174,9 +180,11 @@ function HomeRedo() {
 		if (selectedManufacturer === 'rockshox' && selectedYear !== '') {
 			queryRockshoxProductsByYear(selectedYear);
 			setIsOkayToDisplaySearchResults(true);
+			setIsOkayToSetRockshoxAsQueryResponse(true);
 		} else if (selectedManufacturer === 'fox' && selectedYear !== '') {
 			queryFoxProductsByYear(selectedYear);
 			setIsOkayToDisplaySearchResults(true);
+			setIsOkayToSetFoxAsQueryResponse(true);
 		} else if (selectedManufacturer === '' || selectedYear === '') {
 			console.log('No manufacturer or year has been set');
 		} else {
@@ -186,82 +194,120 @@ function HomeRedo() {
 
 	// Set associated state variables with product listings when data from queries is available
 	useEffect(() => {
-		if (rockshoxProductData && !loadingRockshoxProducts && !rockshoxProductError && isOkayToDisplaySearchResults) {
+		if (rockshoxProductData && !loadingRockshoxProducts && !rockshoxProductError && isOkayToSetRockshoxAsQueryResponse && isOkayToDisplaySearchResults) {
 			setInitialQueryResponse(rockshoxProductData.rockshoxProductsByYear);
 			setHideSearchOptions(true);
 			setDisplayRockshoxSearchResults(true);
-		} else if (foxProductData && !loadingFoxProducts && !foxProductError && isOkayToDisplaySearchResults) {
+		} else if (foxProductData && !loadingFoxProducts && !foxProductError && isOkayToSetFoxAsQueryResponse && isOkayToDisplaySearchResults) {
 			setInitialQueryResponse(foxProductData.foxProductsByYear);
 			setHideSearchOptions(true);
 			setDisplayFoxSearchResults(true);
 		}
-	}, [foxProductData, rockshoxProductData]);
+	}, [foxProductData, rockshoxProductData, isOkayToDisplaySearchResults]);
 
-	// Function passed into products table and used to send user selected product information back to home component to set selected product state
-	const sendSelectedProductInformation = (productInformation) => {
-		if (selectedManufacturer === 'rockshox') {
-			setSelectedRockshoxProduct({
-				year: productInformation.year,
-				fork: productInformation.fork,
-				model: productInformation.model,
-				damperType: productInformation.damperType,
-				springType: productInformation.springType,
-			});
-			setHasUserSelectedProduct(true);
-			setDisplayRockshoxSearchResults(false);
-		} else {
-			setSelectedFoxProduct({
-				year: productInformation.year,
-				model: productInformation.model,
-				damperType: productInformation.damperType,
-				springType: productInformation.springType,
-			});
-			setHasUserSelectedProduct(true);
-			setDisplayFoxSearchResults(false);
-		}
-	};
-
-	useEffect(() => {
-		if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
-			const userSelectedProduct = initialQueryResponse?.filter(
+	// Takes in product description, filters query response, returns a product object
+	const filterAndSetSelectedProduct = (manufacturer, productInformation) => {
+		let userSelectedProduct;
+		if (manufacturer === 'rockshox') {
+			const filterMatches = initialQueryResponse?.filter(
 				(product) =>
-					product.year === selectedRockshoxProduct.year &&
-					product.fork === selectedRockshoxProduct.fork &&
-					product.model === selectedRockshoxProduct.model &&
-					product.springType === selectedRockshoxProduct.springType &&
-					product.damperType === selectedRockshoxProduct.damperType
+					product.year === productInformation.year &&
+					product.fork === productInformation.fork &&
+					product.model === productInformation.model &&
+					product.springType === productInformation.springType &&
+					product.damperType === productInformation.damperType
 			);
-			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
-				setSelectedRockshoxProduct(userSelectedProduct[0]);
+			if (Array.isArray(filterMatches) && filterMatches.length > 0) {
+				setSelectedRockshoxProduct(filterMatches[0]);
+				setHasUserSelectedProduct(true);
+				setDisplayRockshoxSearchResults(false);
+				setIsSelectedProductSet(true);
+				setDisplayRockshoxOilBathTable(true);
 			} else {
 				setSelectedRockshoxProduct(null);
 			}
-		} else if (hasUserSelectedProduct && selectedManufacturer === 'fox') {
-			const userSelectedProduct = initialQueryResponse?.filter(
+		} else if (manufacturer === 'fox') {
+			const filterMatches = initialQueryResponse?.filter(
 				(product) =>
-					product.year === selectedFoxProduct.year &&
-					product.model === selectedFoxProduct.model &&
-					product.springType === selectedFoxProduct.springType &&
-					product.damperType === selectedFoxProduct.damperType
+					product.year === productInformation.year &&
+					product.model === productInformation.model &&
+					product.springType === productInformation.springType &&
+					product.damperType === productInformation.damperType
 			);
-			if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
-				setSelectedFoxProduct(userSelectedProduct[0]);
+			if (Array.isArray(filterMatches) && filterMatches.length > 0) {
+				setSelectedFoxProduct(filterMatches[0]);
+				setHasUserSelectedProduct(true);
+				setDisplayFoxSearchResults(false);
+				setIsSelectedProductSet(true);
+				setDisplayFoxOilBathTable(true);
 			} else {
 				setSelectedFoxProduct(null);
 			}
 		}
-	}, [hasUserSelectedProduct]);
+	};
 
-	//Sets state variable to tell oil bath volume chart that data is ready to render
+	// Function passed into products table and used to send user selected product information back to home component to set selected product state
+	const sendSelectedProductInformation = (productInformation) => {
+		filterAndSetSelectedProduct(selectedManufacturer, productInformation);
+	};
+
+	// useEffect(() => {
+	// 	if (hasUserSelectedProduct && selectedManufacturer === 'rockshox') {
+	// 		const userSelectedProduct = initialQueryResponse?.filter(
+	// 			(product) =>
+	// 				product.year === selectedRockshoxProduct.year &&
+	// 				product.fork === selectedRockshoxProduct.fork &&
+	// 				product.model === selectedRockshoxProduct.model &&
+	// 				product.springType === selectedRockshoxProduct.springType &&
+	// 				product.damperType === selectedRockshoxProduct.damperType
+	// 		);
+	// 		if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
+	// 			setSelectedRockshoxProduct(userSelectedProduct[0]);
+	// 		} else {
+	// 			setSelectedRockshoxProduct(null);
+	// 		}
+	// 	} else if (hasUserSelectedProduct && selectedManufacturer === 'fox') {
+	// 		const userSelectedProduct = initialQueryResponse?.filter(
+	// 			(product) =>
+	// 				product.year === selectedFoxProduct.year &&
+	// 				product.model === selectedFoxProduct.model &&
+	// 				product.springType === selectedFoxProduct.springType &&
+	// 				product.damperType === selectedFoxProduct.damperType
+	// 		);
+	// 		if (Array.isArray(userSelectedProduct) && userSelectedProduct.length > 0) {
+	// 			setSelectedFoxProduct(userSelectedProduct[0]);
+	// 		} else {
+	// 			setSelectedFoxProduct(null);
+	// 		}
+	// 	}
+	// }, [hasUserSelectedProduct]);
+
+	// //Sets state variable to tell oil bath volume chart that data is ready to render
+	// useEffect(() => {
+	// 	if (selectedManufacturer === 'rockshox' && selectedRockshoxProduct.damperUpperVolume !== '') {
+	// 		setIsSelectedProductSet(true);
+	// 		setDisplayRockshoxOilBathTable(true);
+	// 	} else if (selectedManufacturer === ' fox' && selectedFoxProduct.damperUpperVolume !== '') {
+	// 		setIsSelectedProductSet(true);
+	// 		setDisplayFoxOilBathTable(true);
+	// 	}
+	// }, [selectedRockshoxProduct, selectedFoxProduct]);
+
 	useEffect(() => {
-		if (selectedManufacturer === 'rockshox' && selectedRockshoxProduct.damperUpperVolume !== '') {
-			setIsSelectedProductSet(true);
-			setDisplayRockshoxOilBathTable(true);
-		} else if (selectedManufacturer === ' fox' && selectedFoxProduct.damperUpperVolume !== '') {
-			setIsSelectedProductSet(true);
-			setDisplayFoxOilBathTable(true);
-		}
-	}, [selectedRockshoxProduct, selectedFoxProduct]);
+		console.log(selectedManufacturer);
+	}, [selectedManufacturer]);
+
+	useEffect(() => {
+		console.log(selectedYear);
+	}, [selectedYear]);
+
+	useEffect(() => {
+		console.log(selectedRockshoxProduct);
+	}, [selectedRockshoxProduct]);
+
+	useEffect(() => {
+		console.log(selectedFoxProduct);
+	}, [selectedFoxProduct]);
 
 	return (
 		<div className='main-container'>
