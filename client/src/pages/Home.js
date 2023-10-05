@@ -77,11 +77,17 @@ function HomeRedo() {
 		setSearchButtonDisabled(false);
 	};
 
+	const disableSearchButton = () => {
+		setSearchButtonDisabled(true);
+	}
+
 	// Call enable search button function when manufacturer and year have been selected
 
 	useEffect(() => {
 		if (selectedManufacturer !== '' && selectedYear !== '') {
 			enableSearchButton();
+		} else {
+			disableSearchButton();
 		}
 	}, [selectedManufacturer, selectedYear]);
 
