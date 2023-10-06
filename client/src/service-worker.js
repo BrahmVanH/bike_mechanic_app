@@ -117,34 +117,65 @@ const fetchAndCacheData = async () => {
 	const articleID = 'foxAndRockShoxForkInformation';
 	const cacheKey = `article-${articleID}`;
 
+	console.log('creating httpLink...');
 	const httpLink = createHttpLink({
 		uri: '/graphql',
 	});
+	console.log(httpLink);
 
+	console.log('instantiating new client');
 	const client = new ApolloClient({
 		link: httpLink,
 		cache: new InMemoryCache(),
 	});
+	console.log(client);
 
 	try {
-		const { data: allRockshoxForkData } = await client.query({
+		console.log('Fetching rockshox fork data for caching from SW');
+		const {
+			loading: loadingRockshoxForkData,
+			data: allRockshoxForkData,
+			error: rockshoxForkDataError,
+		} = await client.query({
 			query: rockshoxForkInformation,
 		});
 
-		const { data: allFoxForkData } = await client.query({
+		console.log('Fetching fox fork data for caching from SW');
+		const {
+			loading: loadingFoxForkData,
+			data: allFoxForkData,
+			error: foxForkDataError,
+		} = await client.query({
 			query: foxForkInformation,
 		});
 
-		caches.open(cacheName).then((cache) => {
-			cache.put(cacheKey, new Response(JSON.stringify(allRockshoxForkData)));
-		});
-		caches.open(cacheName).then((cache) => {
-			cache.put(cacheKey, new Response(JSON.stringify(allFoxForkData)));
-		});
+		if (rockshoxForkDataError) {
+			console.error('There was an error querying rockshox data', rockshoxForkDataError);
+		} else if (foxForkDataError) {
+			console.error('There was an error querying fox data', foxForkDataError);
+		}
+		if (!loadingRockshoxForkData && allRockshoxForkData) {
+			console.log('Caching rockshox data');
+			caches.open(cacheName).then((cache) => {
+				cache.put(cacheKey, new Response(JSON.stringify(allRockshoxForkData)));
+			});
+		} else {
+			console.log('rockshox data not ready yet');
+		}
+		if (!loadingFoxForkData && allFoxForkData) {
+			console.log('Caching fox data');
+			caches.open(cacheName).then((cache) => {
+				cache.put(cacheKey, new Response(JSON.stringify(allFoxForkData)));
+			});
+		} else {
+			console.log('fox data not available yet');
+		}
 	} catch (error) {
 		console.error('Error fetching data in service worker:', error);
 	}
 };
+
+// Cache manifest.json and '/' route
 
 const cacheManifest = () => {
 	caches.open(cacheName).then((cache) => {
@@ -152,26 +183,43 @@ const cacheManifest = () => {
 	});
 };
 
+// Listen for SW installation the cache suspension data and manifest for offline user
+self.addEventListener('install', (event) => {
+	// Perform installation steps
+	event.waitUntil(fetchAndCacheData());
+	event.waitUntil(cacheManifest());
+});
+
 self.addEventListener('fetch', (event) => {
+	console.log("event request:", event.request);
 	event.respondWith(
 		// If no cached response is available, try to fetch the data
 		fetch(event.request)
 			.then((networkResponse) => {
+				console.log("networkResponse: ", networkResponse);
 				// Cache the network response for future use
 				caches.open(cacheName).then((cache) => {
+					console.log("event request inside caches.open: ", event.request);
+					console.log("networkResponse in caches.open: ", networkResponse);
+					console.log('networkResponse.clone() in caches.open: ', networkResponse.clone());
+					console.log("Cache object inside caches.open: ", cache);
 					cache.put(event.request, networkResponse.clone());
 				});
 
 				// Return the network response
 				return networkResponse;
 			})
-			.catch(() => {
+			.catch(async () => {
 				// If fetching data from the network fails, serve a fallback response if available
 				// You can customize the fallback response as needed
-				return caches
-					.match(event.request)
+				return caches.match(event.request)
 					.then((cachedResponse) => {
+						console.log("Netwrok request failed - event.request: ", event.request);
+						console.log('Netwrok request failed - cachedResponse: ', cachedResponse);
+
 						if (cachedResponse) {
+						console.log('Netwrok request failed - cached response is available... returning', cachedResponse);
+
 							// If a cached response is available, serve it
 							return cachedResponse;
 						}
@@ -183,10 +231,4 @@ self.addEventListener('fetch', (event) => {
 					});
 			})
 	);
-});
-
-self.addEventListener('install', (event) => {
-	// Perform installation steps
-	event.waitUntil(fetchAndCacheData());
-	event.waitUntil(cacheManifest());
 });
