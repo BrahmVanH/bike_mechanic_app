@@ -191,18 +191,17 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-	console.log("event request:", event.request);
+	console.log('event request:', event.request);
 	event.respondWith(
-		// If no cached response is available, try to fetch the data
 		fetch(event.request)
 			.then((networkResponse) => {
-				console.log("networkResponse: ", networkResponse);
+				console.log('networkResponse: ', networkResponse);
 				// Cache the network response for future use
 				caches.open(cacheName).then((cache) => {
-					console.log("event request inside caches.open: ", event.request);
-					console.log("networkResponse in caches.open: ", networkResponse);
+					console.log('event request inside caches.open: ', event.request);
+					console.log('networkResponse in caches.open: ', networkResponse);
 					console.log('networkResponse.clone() in caches.open: ', networkResponse.clone());
-					console.log("Cache object inside caches.open: ", cache);
+					console.log('Cache object inside caches.open: ', cache);
 					cache.put(event.request, networkResponse.clone());
 				});
 
@@ -212,23 +211,41 @@ self.addEventListener('fetch', (event) => {
 			.catch(async () => {
 				// If fetching data from the network fails, serve a fallback response if available
 				// You can customize the fallback response as needed
-				return caches.match(event.request)
-					.then((cachedResponse) => {
-						console.log("Netwrok request failed - event.request: ", event.request);
-						console.log('Netwrok request failed - cachedResponse: ', cachedResponse);
 
-						if (cachedResponse) {
-						console.log('Netwrok request failed - cached response is available... returning', cachedResponse);
+				event.respondWith(async () => {
+					try {
+						const cache = await caches.open(cacheName);
 
-							// If a cached response is available, serve it
+						const cachedResponse = await cache.match(event.request);
+
+						if (cachedResponse !== undefined) {
 							return cachedResponse;
+						} else {
+							return fetch(event.request);
 						}
-
-						return new Response('Offline content not available');
-					})
-					.catch(() => {
-						return new Response('Offline content not available');
-					});
+					} catch (err) {
+						return [{ message: 'There is no cached response for this fetch', details: err.message }];
+					}
+				});
 			})
 	);
+	// 			return caches.match(event.request)
+	// 				.then((cachedResponse) => {
+	// 					console.log("Netwrok request failed - event.request: ", event.request);
+	// 					console.log('Netwrok request failed - cachedResponse: ', cachedResponse);
+
+	// 					if (cachedResponse) {
+	// 					console.log('Network request failed - cached response is available... returning', cachedResponse);
+
+	// 						// If a cached response is available, serve it
+	// 						return cachedResponse;
+	// 					}
+
+	// 					return new Response('Offline content not available');
+	// 				})
+	// 				.catch(() => {
+	// 					return new Response('Offline content not available');
+	// 				});
+	// 		})
+	// );
 });
