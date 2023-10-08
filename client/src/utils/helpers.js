@@ -12,4 +12,25 @@ export const listSupportedModelYears = (yearRange) => {
 	return yearsSupported;
 };
 
+export const checkSpringUpperTubeData = (springUpperTubeInfo) => {
+	const { springUpperVolume, selectedSuspensionFork } = springUpperTubeInfo;
+
+	let springUpperVolumeUnits;
+	let springUpperOilWtUnits;
+	// Change the units for volume and presence of 'wt' based on type of lubricant in spring
+	if (springUpperVolume === 'Grease' || springUpperVolume === 'grease' || springUpperVolume === '' || springUpperVolume === ' ') {
+		springUpperOilWtUnits = '';
+		springUpperVolumeUnits = '';
+	} else if (selectedSuspensionFork?.selectedSuspensionFork.fork) {
+		springUpperOilWtUnits = 'wt';
+		springUpperVolumeUnits = 'mL';
+	} else {
+		springUpperOilWtUnits = '';
+		springUpperVolumeUnits = 'mL';
+	}
+
+	return { springUpperVolumeUnits, springUpperOilWtUnits };
+	
+}
+
 
