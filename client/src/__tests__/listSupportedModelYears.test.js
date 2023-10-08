@@ -1,18 +1,18 @@
-import { listSupportedModelYears } from '../utils/helpers';
+import { listSupportedModelYears, checkSpringUpperTubeData, checkDamperUpperTubeData } from '../utils/helpers';
 
 describe('listSupportedModelYears', () => {
 	// Positive Test
-	it('should output an array of number strings representing years', () => {
+	it('should output an array of number strings representing years given a two integers denoting year range', () => {
 		const yearRange = {
 			latestYear: 2021,
 			oldestYearMinusOne: 2018,
 		};
 
-		const yearsArray = ['2021', '2020', '2019'];
+		const expectedYearsArray = ['2021', '2020', '2019'];
 
 		const supportedModelYearsArray = listSupportedModelYears(yearRange);
 
-		expect(supportedModelYearsArray).toEqual(yearsArray);
+		expect(supportedModelYearsArray).toEqual(expectedYearsArray);
 	});
 
 	// Exception test
@@ -29,5 +29,28 @@ describe('listSupportedModelYears', () => {
 		};
 
 		expect(supportedModelYearsArrayCb).toThrowError(err);
+	});
+});
+
+describe('checkSpringUpperTubeData', () => {
+	// Positive Test
+	it('should take a string representing a volume and an object containing a particular property and output two strings representing units of mesurement.', () => {
+		const springUpperTubeInfo = {
+			springUpperVolume: 'Grease',
+			selectedSuspensionFork: {
+				selectedSuspensionFork: {
+					fork: '35 Gold',
+				},
+			},
+		};
+
+		const expectedUnits = {
+			springUpperOilWtUnits: '',
+			springUpperVolumeUnits: '',
+		};
+
+		const upperSpringUnitsGrease = checkSpringUpperTubeData(springUpperTubeInfo);
+
+		expect(upperSpringUnitsGrease).toEqual(expectedUnits);
 	});
 });

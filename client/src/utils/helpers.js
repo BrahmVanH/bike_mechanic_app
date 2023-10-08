@@ -33,4 +33,15 @@ export const checkSpringUpperTubeData = (springUpperTubeInfo) => {
 	
 }
 
+export const checkDamperUpperTubeData = (damperUpperVolume) => {
+	let damperUpperVolumeUnits;
+	if (damperUpperVolume === `\n**\n` || damperUpperVolume.toLowerCase() === "bleed") {
+		damperUpperVolumeUnits = '';
+	} else {
+		damperUpperVolumeUnits = 'mL';
+	}
+
+	return damperUpperVolumeUnits;
+}
+
 

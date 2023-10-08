@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Handsontable from 'handsontable';
 
-import { checkSpringUpperTubeData } from '../../utils/helpers';
+import { checkSpringUpperTubeData, checkDamperUpperTubeData } from '../../utils/helpers';
 import 'handsontable/dist/handsontable.full.min.css';
 import './style.css';
 
@@ -11,39 +11,11 @@ const OilBathTable = (selectedSuspensionFork) => {
 	const { damperUpperVolume, damperUpperOilWt, damperLowerVolume, damperLowerOilWt, springUpperVolume, springUpperOilWt, springLowerVolume, springLowerOilWt } =
 		selectedSuspensionFork?.selectedSuspensionFork;
 
-	// const checkSpringUpperTubeData = () => {
-	// 	let springUpperVolumeUnits;
-	// 	let springUpperOilWtUnits;
-	// 	// Change the units for volume and presence of 'wt' based on type of lubricant in spring
-	// 	if (springUpperVolume === 'Grease' || springUpperVolume === 'grease' || springUpperVolume === '' || springUpperVolume === ' ') {
-	// 		springUpperOilWtUnits = '';
-	// 		springUpperVolumeUnits = '';
-	// 	} else if (selectedSuspensionFork?.selectedSuspensionFork.fork) {
-	// 		springUpperOilWtUnits = 'wt';
-	// 		springUpperVolumeUnits = 'mL';
-	// 	} else {
-	// 		springUpperOilWtUnits = '';
-	// 		springUpperVolumeUnits = 'mL';
-	// 	}
-
-	// 	return { springUpperVolumeUnits, springUpperOilWtUnits };
-	// };
-
-	const checkDamperUpperTubeData = () => {
-		let damperUpperVolumeUnits;
-		if (damperUpperVolume === `\n**\n`) {
-			damperUpperVolumeUnits = '';
-		} else {
-			damperUpperVolumeUnits = 'mL';
-		}
-
-		return damperUpperVolumeUnits;
-	};
 
 	useEffect(() => {
 		if (selectedSuspensionFork) {
 			const { springUpperVolumeUnits, springUpperOilWtUnits } = checkSpringUpperTubeData({ springUpperVolume, selectedSuspensionFork });
-			const damperUpperVolumeUnits = checkDamperUpperTubeData();
+			const damperUpperVolumeUnits = checkDamperUpperTubeData(damperUpperVolume);
 			let data;
 			if (selectedSuspensionFork?.selectedSuspensionFork.fork) {
 				data = [
