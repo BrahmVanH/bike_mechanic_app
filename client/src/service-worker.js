@@ -117,21 +117,17 @@ const fetchAndCacheData = async () => {
 	const articleID = 'foxAndRockShoxForkInformation';
 	const cacheKey = `article-${articleID}`;
 
-	console.log('creating httpLink...');
 	const httpLink = createHttpLink({
 		uri: '/graphql',
 	});
-	console.log(httpLink);
 
-	console.log('instantiating new client');
 	const client = new ApolloClient({
 		link: httpLink,
 		cache: new InMemoryCache(),
 	});
-	console.log(client);
 
 	try {
-		console.log('Fetching rockshox fork data for caching from SW');
+		// query rockshox data
 		const {
 			loading: loadingRockshoxForkData,
 			data: allRockshoxForkData,
@@ -140,7 +136,7 @@ const fetchAndCacheData = async () => {
 			query: rockshoxForkInformation,
 		});
 
-		console.log('Fetching fox fork data for caching from SW');
+		// query fox data
 		const {
 			loading: loadingFoxForkData,
 			data: allFoxForkData,
@@ -149,27 +145,31 @@ const fetchAndCacheData = async () => {
 			query: foxForkInformation,
 		});
 
+		// log any apollo errors
 		if (rockshoxForkDataError) {
 			console.error('There was an error querying rockshox data', rockshoxForkDataError);
 		} else if (foxForkDataError) {
 			console.error('There was an error querying fox data', foxForkDataError);
 		}
+		// cache data if available
 		if (!loadingRockshoxForkData && allRockshoxForkData) {
-			console.log('Caching rockshox data');
 			caches.open(cacheName).then((cache) => {
 				cache.put(cacheKey, new Response(JSON.stringify(allRockshoxForkData)));
 			});
 		} else {
 			console.log('rockshox data not ready yet');
 		}
+
+		// cache data if available
 		if (!loadingFoxForkData && allFoxForkData) {
-			console.log('Caching fox data');
 			caches.open(cacheName).then((cache) => {
 				cache.put(cacheKey, new Response(JSON.stringify(allFoxForkData)));
 			});
 		} else {
 			console.log('fox data not available yet');
 		}
+
+		// error handling
 	} catch (error) {
 		console.error('Error fetching data in service worker:', error);
 	}
@@ -190,18 +190,13 @@ self.addEventListener('install', (event) => {
 	event.waitUntil(cacheManifest());
 });
 
+// cache network responses when querying db
 self.addEventListener('fetch', (event) => {
-	console.log('event request:', event.request);
 	event.respondWith(
 		fetch(event.request)
 			.then((networkResponse) => {
-				console.log('networkResponse: ', networkResponse);
 				// Cache the network response for future use
 				caches.open(cacheName).then((cache) => {
-					console.log('event request inside caches.open: ', event.request);
-					console.log('networkResponse in caches.open: ', networkResponse);
-					console.log('networkResponse.clone() in caches.open: ', networkResponse.clone());
-					console.log('Cache object inside caches.open: ', cache);
 					cache.put(event.request, networkResponse.clone());
 				});
 
@@ -209,9 +204,7 @@ self.addEventListener('fetch', (event) => {
 				return networkResponse;
 			})
 			.catch(async () => {
-				// If fetching data from the network fails, serve a fallback response if available
-				// You can customize the fallback response as needed
-
+				// If fetching data from the network fails, serve cached data
 				event.respondWith(async () => {
 					try {
 						const cache = await caches.open(cacheName);
@@ -229,23 +222,4 @@ self.addEventListener('fetch', (event) => {
 				});
 			})
 	);
-	// 			return caches.match(event.request)
-	// 				.then((cachedResponse) => {
-	// 					console.log("Netwrok request failed - event.request: ", event.request);
-	// 					console.log('Netwrok request failed - cachedResponse: ', cachedResponse);
-
-	// 					if (cachedResponse) {
-	// 					console.log('Network request failed - cached response is available... returning', cachedResponse);
-
-	// 						// If a cached response is available, serve it
-	// 						return cachedResponse;
-	// 					}
-
-	// 					return new Response('Offline content not available');
-	// 				})
-	// 				.catch(() => {
-	// 					return new Response('Offline content not available');
-	// 				});
-	// 		})
-	// );
 });
