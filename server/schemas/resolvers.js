@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { RockshoxForkOilBath, FoxForkOilBath, MarzocchiForkOilBath } = require("../models");
+const { RockshoxForkOilBath, FoxForkOilBath, MarzocchiForkOilBath, ErrorLogMessage } = require("../models");
 
 const resolvers = {
   Query: {
@@ -60,7 +60,35 @@ const resolvers = {
         return [{ message: "Something went wrong in allMarzocchiForkOilBathInfo", details: err.message }];
       }
     },
+    queryErrorLog: async () => {
+      try {
+        const errorLogs = await ErrorLogMessage.find({});
+        if (!errorLogs) {
+          throw new Error("Cannot find all errorLogs");
+        }
+        return errorLogs;
+      } catch (err) {
+        return [{ message: "Something went wrong in queryErrorLog", details: err.message }];
+      }
+    },
   },
+  Mutation: {
+    logError: async (parent, {message, level, stacktrace, info}) => {
+      try {
+        if (!message || !level || !stacktrace || !info) {
+          console.log("missing a property for error message")
+        }
+        const errorLogMessage = await ErrorLogMessage.create({message: message, level: level, stacktrace: stacktrace, info: info});
+
+        if (!errorLogMessage) {
+          console.log("Could not post error log message");
+        }
+        return errorLogMessage
+      } catch (err) {
+        return [{message: "Something went wrong logging an Error", }]
+      }
+    }
+  }
 };
 
 module.exports = resolvers;

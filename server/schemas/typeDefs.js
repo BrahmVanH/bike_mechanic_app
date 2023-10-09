@@ -47,6 +47,14 @@ const typeDefs = gql`
     volumeTwo: String
   }
 
+  type ErrorLogMessage {
+    _id: ID!
+    message: String
+    level: String
+    stacktrace: String
+    info: String
+  }
+
   # type suspension {
   # 	_id: ID!
   # 	suspensionComponentType: String
@@ -86,6 +94,11 @@ const typeDefs = gql`
     allFoxForkOilBathInfo: [FoxForkOilBath]
     foxProductsByYear(year: String): [FoxForkOilBath]
     allMarzocchiForkOilBathInfo: [MarzocchiForkOilBath]
+    queryErrorLog: [ErrorLogMessage]
+  }
+
+  type Mutation {
+    logError(message: String, level: String, stacktrace: String, info: String): ErrorLogMessage
   }
 `;
 
