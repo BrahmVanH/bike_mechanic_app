@@ -14,26 +14,7 @@ function ContactCard() {
 						flexDirection: 'column',
 						alignItems: 'flex-start',
 					}}>
-					<li className='list-item'>
-						<Link href='mailto:brahm@brahmvanhouzen.studio'>
-							<MdEmail /> Email
-						</Link>
-					</li>
-					<li className='list-item'>
-						<Link href='https://github.com/BrahmVanH'>
-							<FaGithub /> GitHub
-						</Link>
-					</li>
-					<li className='list-item'>
-						<Link href='https://www.linkedin.com/in/brahmvanhouzen/'>
-							<FaLinkedin /> LinkedIn
-						</Link>
-					</li>
-					<li className='list-item'>
-						<Link href='https://www.instagram.com/instabrahm__/'>
-							<FaInstagram /> Instagram
-						</Link>
-					</li>
+				
 				</ul>
 			</div>
 		</div>
