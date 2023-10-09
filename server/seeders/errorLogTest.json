@@ -1,0 +1,14 @@
+[
+  {
+    "message": "**TEST** File not found: 'example.txt'",
+    "level": "error",
+    "stacktrace": "Error: ENOENT: no such file or directory, open 'example.txt'",
+    "info": "The file 'example.txt' does not exist in the specified path."
+  },
+  {
+    "message": "**TEST** Database connection failed",
+    "level": "error",
+    "stacktrace": "Error: Unable to connect to the database",
+    "info": "The application failed to establish a connection to the database."
+  }
+]
