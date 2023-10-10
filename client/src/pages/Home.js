@@ -281,7 +281,7 @@ function HomeRedo() {
 						<Alert dismissible onClose={() => setShowAlert(true)} show={showAlert} variant='danger'>
 							You must complete all fields before searching
 						</Alert>
-						<Form.Group>
+						<Form.Group style={{ padding: '.25rem' }}>
 							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='manufacturer' value={selectedManufacturer} onChange={(event) => handleManufacturerMenuSelect(event.target.value)}>
 								<option value=''>Manufacturer</option>
 								<option value='fox'>Fox</option>
@@ -290,7 +290,7 @@ function HomeRedo() {
 							</Form.Select>
 						</Form.Group>
 						{supportedModelYears.length > 0 ? (
-							<Form.Group>
+							<Form.Group style={{ padding: '.25rem' }}>
 								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
 									<option value=''>Year</option>
 									{supportedModelYears.map((year) => (
@@ -303,7 +303,7 @@ function HomeRedo() {
 						) : (
 							<></>
 						)}
-						<Button disabled={searchButtonDisabled} onClick={initiateInitialQuery}>
+						<Button style={{ padding: '.3rem' }} className='btn-sm btn-dark' disabled={searchButtonDisabled} onClick={initiateInitialQuery}>
 							Search{' '}
 						</Button>
 					</Form>
@@ -313,8 +313,10 @@ function HomeRedo() {
 			)}
 			<div>
 				{displayRockshoxSearchResults ? (
-					<div>
-						<Button onClick={handleGoBackToSearchParameters}>Go Back</Button>
+					<div className='py-2 m-2'>
+						<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchParameters}>
+							Go Back
+						</Button>
 						<RockshoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
 					</div>
 				) : (
@@ -324,7 +326,9 @@ function HomeRedo() {
 			<div>
 				{displayFoxSearchResults ? (
 					<div>
-						<Button onClick={handleGoBackToSearchParameters}>Go Back</Button>
+						<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchParameters}>
+							Go Back
+						</Button>
 						<FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
 					</div>
 				) : (
@@ -335,8 +339,12 @@ function HomeRedo() {
 			{isSelectedProductSet && displayRockshoxOilBathTable ? (
 				<div className='oil-bath-table-container'>
 					<div>
-						<Button onClick={handleGoBackToSearchParameters}>Back to Search</Button>
-						<Button onClick={handleGoBackToSearchResults}>Back to Results</Button>
+						<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchParameters}>
+							Back to Search
+						</Button>
+						<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchResults}>
+							Back to Results
+						</Button>
 						<ProductCard manufacturer={selectedManufacturer} product={selectedRockshoxProduct} />
 						<OilBathTable selectedSuspensionFork={selectedRockshoxProduct} />
 					</div>
@@ -346,8 +354,12 @@ function HomeRedo() {
 			)}
 			{isSelectedProductSet && displayFoxOilBathTable ? (
 				<div style={{ width: '100%' }}>
-					<Button onClick={handleGoBackToSearchParameters}>Back to Search</Button>
-					<Button onClick={handleGoBackToSearchResults}>Back to Results</Button>
+					<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchParameters}>
+						Back to Search
+					</Button>
+					<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchResults}>
+						Back to Results
+					</Button>
 					<ProductCard manufacturer={selectedManufacturer} product={selectedFoxProduct} />
 					<OilBathTable selectedSuspensionFork={selectedFoxProduct} />
 				</div>

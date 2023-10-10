@@ -77,7 +77,7 @@ function ContactForm() {
 					/>
 				</div>
 				<div>
-					<Button className='btn btn-primary d-block w-100' type='submit'>
+					<Button className='btn btn-dark d-block w-100' type='submit'>
 						Send
 					</Button>
 				</div>

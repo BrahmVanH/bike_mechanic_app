@@ -18,9 +18,9 @@ function Navbar() {
 				<Link className='nav-btns' to='/'>
 					Home
 				</Link>
-				<Link className='nav-btns' to='/contact'>
+				{/* <Link className='nav-btns' to='/contact'>
 					Contact
-				</Link>
+				</Link> */}
 			</div>
 		</Nav>
 	);
