@@ -1,0 +1,9 @@
+.contact-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.contact-header-text {
+  padding: 1rem 0rem 0rem 0rem
+}

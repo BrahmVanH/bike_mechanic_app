@@ -6,7 +6,7 @@
   color: black;
   height: 44px;
   padding: 1rem;
-  width: 100vw;
+  width: 359px;
 }
 
 .brand {
@@ -16,8 +16,9 @@
   color: white;
 }
 
-.home-btn {
+.nav-btns {
   font-size: 1rem;
   text-decoration: none;
-    color: white;
+  color: white;
+  padding: .5rem
 }
