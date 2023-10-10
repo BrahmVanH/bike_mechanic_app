@@ -3,6 +3,8 @@ import emailjs from 'emailjs-com';
 import { Form, Input, TextArea, Button, FormLabel } from 'semantic-ui-react';
 import Swal from 'sweetalert2';
 
+import './style.css';
+
 // Import EmailJS for form support
 
 function ContactForm() {
@@ -12,9 +14,9 @@ function ContactForm() {
 		emailjs
 			.sendForm(
 				process.env.SERVICE_ID,
-				process.env.REACT_APP_PRIVATE_ID,
+				process.env.TEMPLATE_ID,
 				e.target,
-				process.env.PUBLIC_ID
+				process.env.PUBLIC_KEY
 			)
 			.then(
 				(result) => {
@@ -40,9 +42,9 @@ function ContactForm() {
 		<div
 			
 			className='contact-cards p-sm-5 col-8 col-md-4 col-lg-2'>
-			<h2 className='text-center mb-4'>Contact me</h2>
-			<Form onSubmit={handleOnSubmit}>
-				<div className='mb-3'>
+			<h2 className='contact-header-text text-center mb-4'>Contact</h2>
+			<Form className="contact-form d-flex" onSubmit={handleOnSubmit}>
+				<div className='contact-form mb-3'>
 					<Form.Field
 						id='form-input-control-last-name'
 						control={Input}
@@ -75,7 +77,7 @@ function ContactForm() {
 					/>
 				</div>
 				<div>
-					<Button className='btn btn-primary d-block w-100' type='submit'>
+					<Button className='btn btn-dark d-block w-100' type='submit'>
 						Send
 					</Button>
 				</div>

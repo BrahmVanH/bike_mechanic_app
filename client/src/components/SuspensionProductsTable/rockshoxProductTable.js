@@ -37,10 +37,10 @@ const RockshoxProductTable = (props) => {
 		const hotColumns = [
 			{ data: 'year', title: 'Year', width: '45px' },
 			{ data: 'fork', title: 'Fork', width: '65px' },
-			{ data: 'model', title: 'Model', width: '65px' },
-			{ data: 'damperType', title: 'Damper Type', width: '80px' },
-			{ data: 'springType', title: 'Spring Type', width: '80px' },
-			{ renderer: customButtonRenderer, title: ' ' },
+			{ data: 'model', title: 'Model', width: '60px' },
+			{ data: 'damperType', title: 'Damper', width: '70px' },
+			{ data: 'springType', title: 'Spring', width: '70px' },
+			{ renderer: customButtonRenderer, title: ' ', width: '37px' },
 		];
 
 		// Initialize the Handsontable instance
