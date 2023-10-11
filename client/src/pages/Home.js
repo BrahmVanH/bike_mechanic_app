@@ -9,12 +9,14 @@ import OilBathTable from '../components/OilBathTable';
 import ProductCard from '../components/ProductCard';
 
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
-import { allRockshoxForkOilBathInfo, allFoxForkOilBathInfo, rockshoxProductsByYear, foxProductsByYear } from '../utils/queries';
+import { rockshoxProductsByYear, foxProductsByYear } from '../utils/queries';
+import { LOG_ERROR } from '../utils/mutations';
 
 import './home.css';
 
 function HomeRedo() {
 	const [showAlert, setShowAlert] = useState(false);
+	const [error, setError] = useState(false);
 	const [supportedModelYears, setSupportedModelYears] = useState([]);
 	const [selectedManufacturer, setSelectedManufacturer] = useState('');
 	const [initialQueryResponse, setInitialQueryResponse] = useState([]);
@@ -64,6 +66,10 @@ function HomeRedo() {
 		springLowerOilWt: '',
 	});
 
+	// Mutation for logging error messages
+
+	const [logError] = useMutation(LOG_ERROR);
+
 	//Create an array of model years supported based on yearRange state
 
 	useEffect(() => {
@@ -79,7 +85,7 @@ function HomeRedo() {
 
 	const disableSearchButton = () => {
 		setSearchButtonDisabled(true);
-	}
+	};
 
 	// Call enable search button function when manufacturer and year have been selected
 
@@ -146,7 +152,7 @@ function HomeRedo() {
 			}
 		}
 	};
-	// Clear's selectedProduct states to prevent any mis-searching while re-entering search parameters 
+	// Clear's selectedProduct states to prevent any mis-searching while re-entering search parameters
 
 	const clearSelectedProduct = () => {
 		setSelectedRockshoxProduct({
@@ -202,7 +208,7 @@ function HomeRedo() {
 			setIsOkayToDisplaySearchResults(true);
 			setIsOkayToSetFoxAsQueryResponse(true);
 		} else {
-			throw new Error('There was an unexpected error in querying the database');
+			setError(true);
 		}
 	};
 
@@ -217,6 +223,8 @@ function HomeRedo() {
 			setInitialQueryResponse(foxProductData.foxProductsByYear);
 			setHideSearchOptions(true);
 			setDisplayFoxSearchResults(true);
+		} else if (rockshoxProductError || foxProductError) {
+			setError(true);
 		}
 	}, [foxProductData, rockshoxProductData, isOkayToDisplaySearchResults]);
 
@@ -256,6 +264,8 @@ function HomeRedo() {
 			} else {
 				setSelectedFoxProduct(null);
 			}
+		} else {
+			setError(true);
 		}
 	};
 
@@ -265,94 +275,118 @@ function HomeRedo() {
 	};
 
 	return (
-		<div className='main-container'>
-			{!hideSearchOptions ? (
-				<div className='welcome-message'>
-					<p>Welcome to Plush Lab. Please search for your suspension fork below.</p>
+		<>
+			{error ? (
+				<div className='d-flex justify-content-center align-items-center p-1 m-1'>
+					<h2>Oops... Something went wrong. Please try again later.</h2>
 				</div>
 			) : (
-				<></>
-			)}
-			{!hideSearchOptions ? (
-				<div className='search-container'>
-					<Form className='fork-search-form'>
-						<Alert dismissible onClose={() => setShowAlert(true)} show={showAlert} variant='danger'>
-							You must complete all fields before searching
-						</Alert>
-						<Form.Group>
-							<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='manufacturer' value={selectedManufacturer} onChange={(event) => handleManufacturerMenuSelect(event.target.value)}>
-								<option value=''>Manufacturer</option>
-								<option value='fox'>Fox</option>
-								{/* <option value='marzocchi'>Marzocchi</option> */}
-								<option value='rockshox'>Rockshox</option>
-							</Form.Select>
-						</Form.Group>
-						{supportedModelYears.length > 0 ? (
-							<Form.Group>
-								<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
-									<option value=''>Year</option>
-									{supportedModelYears.map((year) => (
-										<option key={year} value={year}>
-											{year}
-										</option>
-									))}
-								</Form.Select>
-							</Form.Group>
+				<div className='main-container'>
+					{!hideSearchOptions ? (
+						<div className='welcome-message'>
+							<p>Welcome to Plush Lab. Please search for your suspension fork below.</p>
+						</div>
+					) : (
+						<></>
+					)}
+					{!hideSearchOptions ? (
+						<div className='search-container'>
+							<Form className='fork-search-form'>
+								<Alert dismissible onClose={() => setShowAlert(true)} show={showAlert} variant='danger'>
+									You must complete all fields before searching
+								</Alert>
+								<Form.Group style={{ padding: '.25rem' }}>
+									<Form.Select
+										style={{ userSelect: 'all' }}
+										type='text'
+										size='sm'
+										name='manufacturer'
+										value={selectedManufacturer}
+										onChange={(event) => handleManufacturerMenuSelect(event.target.value)}>
+										<option value=''>Manufacturer</option>
+										<option value='fox'>Fox</option>
+										{/* <option value='marzocchi'>Marzocchi</option> */}
+										<option value='rockshox'>Rockshox</option>
+									</Form.Select>
+								</Form.Group>
+								{supportedModelYears.length > 0 ? (
+									<Form.Group style={{ padding: '.25rem' }}>
+										<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
+											<option value=''>Year</option>
+											{supportedModelYears.map((year) => (
+												<option key={year} value={year}>
+													{year}
+												</option>
+											))}
+										</Form.Select>
+									</Form.Group>
+								) : (
+									<></>
+								)}
+								<Button style={{ padding: '.3rem' }} className='btn-sm btn-dark' disabled={searchButtonDisabled} onClick={initiateInitialQuery}>
+									Search{' '}
+								</Button>
+							</Form>
+						</div>
+					) : (
+						<></>
+					)}
+					<div>
+						{displayRockshoxSearchResults ? (
+							<div className='py-2 m-2'>
+								<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchParameters}>
+									Go Back
+								</Button>
+								<RockshoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
+							</div>
 						) : (
 							<></>
 						)}
-						<Button disabled={searchButtonDisabled} onClick={initiateInitialQuery}>
-							Search{' '}
-						</Button>
-					</Form>
-				</div>
-			) : (
-				<></>
-			)}
-			<div>
-				{displayRockshoxSearchResults ? (
-					<div>
-						<Button onClick={handleGoBackToSearchParameters}>Go Back</Button>
-						<RockshoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
 					</div>
-				) : (
-					<></>
-				)}
-			</div>
-			<div>
-				{displayFoxSearchResults ? (
 					<div>
-						<Button onClick={handleGoBackToSearchParameters}>Go Back</Button>
-						<FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
+						{displayFoxSearchResults ? (
+							<div>
+								<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchParameters}>
+									Go Back
+								</Button>
+								<FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
+							</div>
+						) : (
+							<></>
+						)}
 					</div>
-				) : (
-					<></>
-				)}
-			</div>
 
-			{isSelectedProductSet && displayRockshoxOilBathTable ? (
-				<div className='oil-bath-table-container'>
-					<div>
-						<Button onClick={handleGoBackToSearchParameters}>Back to Search</Button>
-						<Button onClick={handleGoBackToSearchResults}>Back to Results</Button>
-						<ProductCard manufacturer={selectedManufacturer} product={selectedRockshoxProduct} />
-						<OilBathTable selectedSuspensionFork={selectedRockshoxProduct} />
-					</div>
-				</div>
-			) : (
-				<></>
-			)}
-			{isSelectedProductSet && displayFoxOilBathTable ? (
-				<div style={{ width: '100%' }}>
-					<Button onClick={handleGoBackToSearchParameters}>Back to Search</Button>
-					<Button onClick={handleGoBackToSearchResults}>Back to Results</Button>
-					<ProductCard manufacturer={selectedManufacturer} product={selectedFoxProduct} />
-					<OilBathTable selectedSuspensionFork={selectedFoxProduct} />
-				</div>
-			) : (
-				<></>
-			)}
-			{/* <div className='featured-forks-container'>
+					{isSelectedProductSet && displayRockshoxOilBathTable ? (
+						<div className='oil-bath-table-container'>
+							<div>
+								<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchParameters}>
+									Back to Search
+								</Button>
+								<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchResults}>
+									Back to Results
+								</Button>
+								<ProductCard manufacturer={selectedManufacturer} product={selectedRockshoxProduct} />
+								<OilBathTable selectedSuspensionFork={selectedRockshoxProduct} />
+							</div>
+						</div>
+					) : (
+						<></>
+					)}
+					{isSelectedProductSet && displayFoxOilBathTable ? (
+						<div style={{ width: '100%' }}>
+							<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchParameters}>
+								Back to Search
+							</Button>
+							<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchResults}>
+								Back to Results
+							</Button>
+							<ProductCard manufacturer={selectedManufacturer} product={selectedFoxProduct} />
+							<OilBathTable selectedSuspensionFork={selectedFoxProduct} />
+						</div>
+					) : (
+						<></>
+					)}
+					{/* <div className='featured-forks-container'>
 				<div className='featured-rockshox-fork'>
 					Randomly selected rockshox fork from DB
 					2020 Rockshox Lyrik Ultimate
@@ -364,7 +398,9 @@ function HomeRedo() {
 					2020 Marzocchi Bomber
 				</div>
 			</div> */}
-		</div>
+				</div>
+			)}
+		</>
 	);
 }
 

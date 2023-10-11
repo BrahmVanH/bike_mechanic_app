@@ -127,6 +127,10 @@ const fetchAndCacheData = async () => {
 	});
 
 	try {
+
+
+		// query rockshox data
+
 		const {
 			loading: loadingRockshoxForkData,
 			data: allRockshoxForkData,
@@ -134,6 +138,9 @@ const fetchAndCacheData = async () => {
 		} = await client.query({
 			query: rockshoxForkInformation,
 		});
+
+
+		// query fox data
 
 		const {
 			loading: loadingFoxForkData,
@@ -143,22 +150,28 @@ const fetchAndCacheData = async () => {
 			query: foxForkInformation,
 		});
 
+		// log any apollo errors
 		if (rockshoxForkDataError) {
 			console.error('There was an error querying rockshox data', rockshoxForkDataError);
 		} else if (foxForkDataError) {
 			console.error('There was an error querying fox data', foxForkDataError);
 		}
+		// cache data if available
 		if (!loadingRockshoxForkData && allRockshoxForkData) {
 			caches.open(cacheName).then((cache) => {
 				cache.put(cacheKey, new Response(JSON.stringify(allRockshoxForkData)));
 			});
 		} else {
 		}
+
+		// cache data if available
 		if (!loadingFoxForkData && allFoxForkData) {
 			caches.open(cacheName).then((cache) => {
 				cache.put(cacheKey, new Response(JSON.stringify(allFoxForkData)));
 			});
 		}
+
+		// error handling
 	} catch (error) {
 		console.error('Error fetching data in service worker:', error);
 	}
@@ -179,13 +192,14 @@ self.addEventListener('install', (event) => {
 	event.waitUntil(cacheManifest());
 });
 
+// cache network responses when querying db
 self.addEventListener('fetch', (event) => {
 	event.respondWith(
 		fetch(event.request)
 			.then((networkResponse) => {
 				// Cache the network response for future use
 				caches.open(cacheName).then((cache) => {
-				
+
 					cache.put(event.request, networkResponse.clone());
 				});
 
@@ -193,9 +207,7 @@ self.addEventListener('fetch', (event) => {
 				return networkResponse;
 			})
 			.catch(async () => {
-				// If fetching data from the network fails, serve a fallback response if available
-				// You can customize the fallback response as needed
-
+				// If fetching data from the network fails, serve cached data
 				event.respondWith(async () => {
 					try {
 						const cache = await caches.open(cacheName);
@@ -213,23 +225,4 @@ self.addEventListener('fetch', (event) => {
 				});
 			})
 	);
-	// 			return caches.match(event.request)
-	// 				.then((cachedResponse) => {
-	// 					console.log("Netwrok request failed - event.request: ", event.request);
-	// 					console.log('Netwrok request failed - cachedResponse: ', cachedResponse);
-
-	// 					if (cachedResponse) {
-	// 					console.log('Network request failed - cached response is available... returning', cachedResponse);
-
-	// 						// If a cached response is available, serve it
-	// 						return cachedResponse;
-	// 					}
-
-	// 					return new Response('Offline content not available');
-	// 				})
-	// 				.catch(() => {
-	// 					return new Response('Offline content not available');
-	// 				});
-	// 		})
-	// );
 });

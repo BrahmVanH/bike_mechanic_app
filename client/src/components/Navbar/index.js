@@ -6,18 +6,22 @@ import { disableFragmentWarnings } from '@apollo/client';
 import './style.css';
 
 function Navbar() {
-
 	const refreshPage = () => {
 		window.location.reload();
-	}
+	};
 	return (
 		<Nav className='navbar'>
-			<Link onClick={refreshPage} className='brand' to='/'>
+			<Link className='brand' to='/'>
 				Plush Lab
 			</Link>
-			<Link onClick={refreshPage} className='home-btn' to='/'>
-				Home
-			</Link>
+			<div>
+				<Link className='nav-btns' to='/'>
+					Home
+				</Link>
+				<Link className='nav-btns' to='/contact'>
+					Contact
+				</Link>
+			</div>
 		</Nav>
 	);
 }

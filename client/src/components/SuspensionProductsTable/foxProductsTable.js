@@ -36,8 +36,8 @@ const FoxProductTable = (props) => {
 		const hotColumns = [
 			{ data: 'year', title: 'Year', width: '45px'},
 			{ data: 'model', title: 'Model', width: '135px' },
-			{ data: 'damperType', title: 'Damper Type' },
-			{ data: 'springType', title: 'Spring Type' },
+			{ data: 'damperType', title: 'Damper' },
+			{ data: 'springType', title: 'Spring' },
 			{ renderer: customButtonRenderer, title: ' ', width: "35px" },
 		];
 
