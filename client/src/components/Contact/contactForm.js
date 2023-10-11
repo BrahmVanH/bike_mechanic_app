@@ -8,11 +8,8 @@ import './style.css';
 // Import EmailJS for form support
 
 function ContactForm() {
-
-	
 	const handleOnSubmit = (e) => {
 		e.preventDefault();
-
 
 		emailjs.sendForm(process.env.REACT_APP_SERVICE_ID, process.env.REACT_APP_TEMPLATE_ID, e.target, process.env.REACT_APP_PUBLIC_KEY).then(
 			(result) => {
@@ -23,14 +20,14 @@ function ContactForm() {
 				});
 			},
 			(error) => {
-				console.log(error.text);
 				Swal.fire({
 					icon: 'error',
 					title: 'Something went wrong!',
 					text: error.text,
 				});
 			}
-	
+		);
+
 		e.target.reset();
 	};
 
