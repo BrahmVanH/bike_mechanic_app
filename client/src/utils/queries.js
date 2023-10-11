@@ -85,3 +85,14 @@ export const foxProductsByYear = gql`
 		}
 	}
 `;
+export const queryErrorLog = gql`
+ queryErrorLog() {
+	queryErrorLog() {
+		_id
+    message
+    level
+    stacktrace
+    info
+	}
+ }
+`;
