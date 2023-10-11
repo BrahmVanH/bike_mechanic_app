@@ -117,21 +117,16 @@ const fetchAndCacheData = async () => {
 	const articleID = 'foxAndRockShoxForkInformation';
 	const cacheKey = `article-${articleID}`;
 
-	console.log('creating httpLink...');
 	const httpLink = createHttpLink({
 		uri: '/graphql',
 	});
-	console.log(httpLink);
 
-	console.log('instantiating new client');
 	const client = new ApolloClient({
 		link: httpLink,
 		cache: new InMemoryCache(),
 	});
-	console.log(client);
 
 	try {
-		console.log('Fetching rockshox fork data for caching from SW');
 		const {
 			loading: loadingRockshoxForkData,
 			data: allRockshoxForkData,
@@ -140,7 +135,6 @@ const fetchAndCacheData = async () => {
 			query: rockshoxForkInformation,
 		});
 
-		console.log('Fetching fox fork data for caching from SW');
 		const {
 			loading: loadingFoxForkData,
 			data: allFoxForkData,
@@ -155,20 +149,15 @@ const fetchAndCacheData = async () => {
 			console.error('There was an error querying fox data', foxForkDataError);
 		}
 		if (!loadingRockshoxForkData && allRockshoxForkData) {
-			console.log('Caching rockshox data');
 			caches.open(cacheName).then((cache) => {
 				cache.put(cacheKey, new Response(JSON.stringify(allRockshoxForkData)));
 			});
 		} else {
-			console.log('rockshox data not ready yet');
 		}
 		if (!loadingFoxForkData && allFoxForkData) {
-			console.log('Caching fox data');
 			caches.open(cacheName).then((cache) => {
 				cache.put(cacheKey, new Response(JSON.stringify(allFoxForkData)));
 			});
-		} else {
-			console.log('fox data not available yet');
 		}
 	} catch (error) {
 		console.error('Error fetching data in service worker:', error);
@@ -191,17 +180,12 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-	console.log('event request:', event.request);
 	event.respondWith(
 		fetch(event.request)
 			.then((networkResponse) => {
-				console.log('networkResponse: ', networkResponse);
 				// Cache the network response for future use
 				caches.open(cacheName).then((cache) => {
-					console.log('event request inside caches.open: ', event.request);
-					console.log('networkResponse in caches.open: ', networkResponse);
-					console.log('networkResponse.clone() in caches.open: ', networkResponse.clone());
-					console.log('Cache object inside caches.open: ', cache);
+				
 					cache.put(event.request, networkResponse.clone());
 				});
 

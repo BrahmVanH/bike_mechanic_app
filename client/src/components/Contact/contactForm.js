@@ -18,14 +18,12 @@ function ContactForm() {
 			)
 			.then(
 				(result) => {
-					console.log(result.test);
 					Swal.fire({
 						icon: 'success',
 						title: 'Message Sent Successfully',
 					});
 				},
 				(error) => {
-					console.log(error.text);
 					Swal.fire({
 						icon: 'error',
 						title: 'Something went wrong!',
