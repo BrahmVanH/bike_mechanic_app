@@ -127,7 +127,10 @@ const fetchAndCacheData = async () => {
 	});
 
 	try {
+
+
 		// query rockshox data
+
 		const {
 			loading: loadingRockshoxForkData,
 			data: allRockshoxForkData,
@@ -136,7 +139,9 @@ const fetchAndCacheData = async () => {
 			query: rockshoxForkInformation,
 		});
 
+
 		// query fox data
+
 		const {
 			loading: loadingFoxForkData,
 			data: allFoxForkData,
@@ -157,7 +162,6 @@ const fetchAndCacheData = async () => {
 				cache.put(cacheKey, new Response(JSON.stringify(allRockshoxForkData)));
 			});
 		} else {
-			console.log('rockshox data not ready yet');
 		}
 
 		// cache data if available
@@ -165,8 +169,6 @@ const fetchAndCacheData = async () => {
 			caches.open(cacheName).then((cache) => {
 				cache.put(cacheKey, new Response(JSON.stringify(allFoxForkData)));
 			});
-		} else {
-			console.log('fox data not available yet');
 		}
 
 		// error handling
@@ -197,6 +199,7 @@ self.addEventListener('fetch', (event) => {
 			.then((networkResponse) => {
 				// Cache the network response for future use
 				caches.open(cacheName).then((cache) => {
+
 					cache.put(event.request, networkResponse.clone());
 				});
 

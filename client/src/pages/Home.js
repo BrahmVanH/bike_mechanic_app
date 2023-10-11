@@ -207,8 +207,6 @@ function HomeRedo() {
 			queryFoxProductsByYear(selectedYear);
 			setIsOkayToDisplaySearchResults(true);
 			setIsOkayToSetFoxAsQueryResponse(true);
-		} else if (selectedManufacturer === '' || selectedYear === '') {
-			console.log('No manufacturer or year has been set');
 		} else {
 			setError(true);
 		}
