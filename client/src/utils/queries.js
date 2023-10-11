@@ -86,8 +86,8 @@ export const foxProductsByYear = gql`
 	}
 `;
 export const queryErrorLog = gql`
- queryErrorLog() {
-	queryErrorLog() {
+ query queryErrorLog {
+	queryErrorLog {
 		_id
     message
     level

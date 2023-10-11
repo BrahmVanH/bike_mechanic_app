@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { LOG_ERROR } from '../../utils/mutations';
 
+const client = new ApolloClient({
+	uri: '/graphql',
+	cache: new InMemoryCache(),
+});
+
 class ErrorBoundary extends Component {
+
 	constructor(props) {
 		super(props);
 		this.state = { hasError: false };
 	}
-
+	
 	static getDerivedStateFromError(error) {
 		// Update state so the next render will show the fallback UI.
 		return { hasError: true };
@@ -36,7 +43,7 @@ class ErrorBoundary extends Component {
 	render() {
 		if (this.state.hasError) {
 			// You can render any custom fallback UI
-			return <h1>Something went wrong, please try again later.</h1>;
+			return <h1>Something went wrong, please come back later.</h1>;
 		}
 
 		return this.props.children;
