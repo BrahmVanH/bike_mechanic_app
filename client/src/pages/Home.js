@@ -277,13 +277,13 @@ function HomeRedo() {
 	return (
 		<>
 			{error ? (
-				<div className='d-flex justify-content-center align-items-center p-1 m-1'>
+				<div className='welcome-message d-flex justify-content-center align-items-center p-1 m-1'>
 					<h2>Oops... Something went wrong. Please try again later.</h2>
 				</div>
 			) : (
 				<div className='main-container'>
 					{!hideSearchOptions ? (
-						<div className='welcome-message'>
+						<div className='welcome-message col-8 col-md-4 col-lg-4'>
 							<p>Welcome to Plush Lab. Please search for your suspension fork below.</p>
 						</div>
 					) : (
@@ -323,9 +323,11 @@ function HomeRedo() {
 								) : (
 									<></>
 								)}
-								<Button style={{ padding: '.3rem' }} className='btn-sm btn-dark' disabled={searchButtonDisabled} onClick={initiateInitialQuery}>
-									Search{' '}
-								</Button>
+								<div className='search-btn-container'>
+									<Button className='btn-sm btn-dark' disabled={searchButtonDisabled} onClick={initiateInitialQuery}>
+										Search{' '}
+									</Button>
+								</div>
 							</Form>
 						</div>
 					) : (

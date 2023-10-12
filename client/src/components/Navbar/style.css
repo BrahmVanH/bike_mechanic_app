@@ -2,10 +2,11 @@
   display: flex;
   justify-content: space-between;
   align-content: center;
-  background-color: #959D8A;
+  background-color: #000000;
   color: black;
   height: 44px;
   padding: 1rem;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .brand {
