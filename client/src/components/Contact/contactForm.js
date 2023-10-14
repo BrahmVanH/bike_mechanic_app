@@ -1,6 +1,6 @@
 import React from 'react';
 import emailjs from '@emailjs/browser';
-import { Form, Input, TextArea, Button, FormLabel } from 'semantic-ui-react';
+import { Form, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
 import './style.css';
@@ -32,17 +32,23 @@ function ContactForm() {
 	};
 
 	return (
-		<div className='contact-cards p-sm-5 col-8 col-md-4 col-lg-2'>
+		<div className='contact-cards p-sm-5 col-8 col-md-4 col-lg-4'>
 			<h2 className='contact-header-text text-center mb-4'>Contact</h2>
 			<Form className='contact-form d-flex' onSubmit={handleOnSubmit}>
-				<div className='contact-form mb-3'>
-					<Form.Field id='form-input-control-last-name' control={Input} name='from_name' placeholder='Name' required icon='user_circle' iconPosition='left' />
+				<div className='mb-3'>
+					<Form.Group controlId='formBasicName' required>
+						<Form.Control type='name' name='from_name' placeholder='Name' />
+					</Form.Group>
 				</div>
 				<div className='mb-3'>
-					<Form.Field id='form-input-control-email' className='email-text' control={Input} name='from_email' placeholder='Email Address' required icon='mail' iconPosition='left' />
+					<Form.Group controlId='formBasicEmail' required>
+						<Form.Control type='email' name='from_email' placeholder='Email Address' />
+					</Form.Group>
 				</div>
 				<div className='mb-3'>
-					<Form.Field id='form-textarea-control-opinion' control={TextArea} name='message' placeholder='Message' required />
+					<Form.Group controlId='basicTextArea' required>
+						<Form.Control as='textarea' rows={4} placeholder='Your message here' name='message' />
+					</Form.Group>
 				</div>
 				<div>
 					<Button className='btn btn-dark d-block w-100' type='submit'>
