@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Contact from './components/Contact';
 
+import "./App.css";
+
 const client = new ApolloClient({
 	uri: '/graphql',
 	cache: new InMemoryCache(),
