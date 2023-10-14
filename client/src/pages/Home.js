@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Dropdown, Alert } from 'react-bootstrap';
+import { Button, Form, Alert } from 'react-bootstrap';
 
 import { listSupportedModelYears } from '../utils/helpers';
 
