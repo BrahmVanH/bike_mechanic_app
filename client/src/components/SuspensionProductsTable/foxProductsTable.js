@@ -6,20 +6,21 @@ import 'handsontable/dist/handsontable.full.min.css';
 
 const FoxProductTable = (props) => {
 
-	const customButtonRenderer = (instance, td, row, col, prop, value, cellProperties) => {
-		const button = document.createElement('button');
-		const searchIcon = <FaSearch size={12} />;
-		button.addEventListener('click', () => {
-			props.sendSelectedProductInformation(instance.getSourceDataAtRow(row));
-		});
-		ReactDOM.render(searchIcon, button);
+const customButtonRenderer = (instance, td, row, col, prop, value, cellProperties) => {
+	const button = document.createElement('button');
+	const searchIcon = <FaSearch style={{ backgroundColor: 'black', color: 'white' }} size={12} />;
+	button.addEventListener('click', () => {
+		props.sendSelectedProductInformation(instance.getSourceDataAtRow(row));
+	});
+	button.style.borderRadius = '5px';
+	ReactDOM.render(searchIcon, button);
 
-		// Clear the cell content
-		td.innerHTML = '';
+	// Clear the cell content
+	td.innerHTML = '';
 
-		// Append the button to the cell
-		td.appendChild(button);
-	};
+	// Append the button to the cell
+	td.appendChild(button);
+};
 
 	const containerRef = useRef(null);
 
@@ -34,7 +35,7 @@ const FoxProductTable = (props) => {
 
 		// Define the columns for Handsontable
 		const hotColumns = [
-			{ data: 'year', title: 'Year', width: '45px'},
+			{ data: 'year', title: 'Year', width: '45px', backgroundColor: 'black', color: 'white'},
 			{ data: 'model', title: 'Model', width: '135px' },
 			{ data: 'damperType', title: 'Damper' },
 			{ data: 'springType', title: 'Spring' },
@@ -43,10 +44,13 @@ const FoxProductTable = (props) => {
 
 		// Initialize the Handsontable instance
 		const hot = new Handsontable(containerRef.current, {
+			className: 'product-table',
 			data: hotData,
 			columns: hotColumns,
 			colHeaders: true, 
 			readOnly: true,
+			tableClassName: 'custom-handsontable-selection',
+			outsideClickDeselects: false,
 			licenseKey: 'non-commercial-and-evaluation', 
 		});
 

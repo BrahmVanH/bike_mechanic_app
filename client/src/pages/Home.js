@@ -66,6 +66,9 @@ function HomeRedo() {
 		springLowerOilWt: '',
 	});
 
+	// Style object for user inputs
+	const inputStyle = { userSelect: 'all', backgroundColor: 'black', color: 'white' };
+
 	// Mutation for logging error messages
 
 	const [logError] = useMutation(LOG_ERROR);
@@ -296,13 +299,7 @@ function HomeRedo() {
 									You must complete all fields before searching
 								</Alert>
 								<Form.Group style={{ padding: '.25rem' }}>
-									<Form.Select
-										style={{ userSelect: 'all' }}
-										type='text'
-										size='sm'
-										name='manufacturer'
-										value={selectedManufacturer}
-										onChange={(event) => handleManufacturerMenuSelect(event.target.value)}>
+									<Form.Select style={inputStyle} type='text' size='sm' name='manufacturer' value={selectedManufacturer} onChange={(event) => handleManufacturerMenuSelect(event.target.value)}>
 										<option value=''>Manufacturer</option>
 										<option value='fox'>Fox</option>
 										{/* <option value='marzocchi'>Marzocchi</option> */}
@@ -311,7 +308,7 @@ function HomeRedo() {
 								</Form.Group>
 								{supportedModelYears.length > 0 ? (
 									<Form.Group style={{ padding: '.25rem' }}>
-										<Form.Select style={{ userSelect: 'all' }} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
+										<Form.Select style={inputStyle} type='text' size='sm' name='year' value={selectedYear} onChange={(event) => handleYearSelect(event.target.value)}>
 											<option value=''>Year</option>
 											{supportedModelYears.map((year) => (
 												<option key={year} value={year}>

@@ -8,10 +8,11 @@ import './style.css';
 const RockshoxProductTable = (props) => {
 	const customButtonRenderer = (instance, td, row, col, prop, value, cellProperties) => {
 		const button = document.createElement('button');
-		const searchIcon = <FaSearch size={12} />;
+		const searchIcon = <FaSearch style={{backgroundColor: 'black', color: 'white'}} size={12} />;
 		button.addEventListener('click', () => {
 			props.sendSelectedProductInformation(instance.getSourceDataAtRow(row));
 		});
+		button.style.borderRadius = '5px'
 		ReactDOM.render(searchIcon, button);
 
 		// Clear the cell content
@@ -45,8 +46,9 @@ const RockshoxProductTable = (props) => {
 
 		// Initialize the Handsontable instance
 		const hot = new Handsontable(containerRef.current, {
+			className: 'product-table',
 			data: hotData,
-			// tableClassName: 'search-results-table',
+			// tableClassName: 'product-table',
 			columns: hotColumns,
 			colHeaders: true,
 			readOnly: true,
@@ -59,11 +61,7 @@ const RockshoxProductTable = (props) => {
 		};
 	}, [props.searchResults]);
 
-	return (
-		
-				<div ref={containerRef}></div>
-			
-	);
+	return <div ref={containerRef}></div>;
 };
 
 export default RockshoxProductTable;

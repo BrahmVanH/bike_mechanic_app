@@ -1,9 +1,24 @@
-.search-results-table {
-  margin: auto;
-  width: 50%;
+.product-table {
+  background-color: black;
+  color: white;
 }
 
+.product-table td {
+  background-color: black;
+  color: white;
+}
+.product-table th {
+  background-color: black;
+  color: white;
+}
 
+/* style.css */
+.custom-handsontable-selection {
+  background-color: transparent !important;
+  /* or set it to your desired background color */
+  color: inherit !important;
+  /* retain the text color */
+}
 
 
 
