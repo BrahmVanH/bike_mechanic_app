@@ -1,8 +1,10 @@
 .damper-spring-headers {
   font-size: 15px;
+ 
 }
 .oil-bath-cells {
   font-size: 14px;
+
 }
 
 .oil-bath-table-container {
@@ -17,3 +19,11 @@
   margin: auto;
 }
 
+.oil-bath-table td {
+  background-color: black;
+  color: white;
+}
+.oil-bath-table th {
+  background-color: black;
+  color: white;
+}

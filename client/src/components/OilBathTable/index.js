@@ -56,9 +56,9 @@ const OilBathTable = (selectedSuspensionFork) => {
 							Handsontable.renderers.TextRenderer.apply(this, arguments);
 							if (value === 'Damper' || value === 'Spring') {
 								// Apply custom CSS style for Male cells
-								td.style.color = 'black';
+								td.style.color = 'white';
 								td.style.fontWeight = '400';
-								td.style.backgroundColor = '#f0f0f0';
+								td.style.backgroundColor = 'black';
 							}
 						},
 					},
@@ -68,13 +68,20 @@ const OilBathTable = (selectedSuspensionFork) => {
 					{ width: 75 },
 				],
 				nestedHeaders: nestedHeaders,
-				afterGetColHeader: (col, TH) => {
+				afterGetColHeader: (col, TH, row) => {
 					// Check the column index you want to change the background color for
 					TH.style.fontSize = '15px';
-					if (col === 0) {
-						TH.style.backgroundColor = 'white';
-						TH.style.color = 'white';
-						TH.style.border = 'none';
+					if (col === 0 && row === 2) {
+						TH.style.borderBottom = '1px solid white';
+					} else if (col === 0) {
+						TH.style.backgroundColor = 'black';
+						TH.style.color = 'black';
+						TH.style.borderRight = '1px solid white';
+						TH.style.borderTop = 'none';
+						TH.style.borderBottom = 'none';
+						TH.style.borderLeft = 'none';
+					} else {
+						TH.style.borderBottom = '1px solid white'
 					}
 				},
 				cell: [
