@@ -57,3 +57,8 @@
 .featured-marzocchi-fork {
   margin: .5rem 0rem;
 }
+
+.handsontable .wtHolder {
+  display: flex;
+  justify-content: center;
+}

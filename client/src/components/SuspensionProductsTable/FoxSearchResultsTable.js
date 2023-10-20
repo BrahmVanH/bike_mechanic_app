@@ -1,29 +1,17 @@
-import React, { useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button } from 'react-bootstrap';
-import {FaSearch} from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import './style.css';
 
+import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
-
-const columnHelper = createColumnHelper()
+const columnHelper = createColumnHelper();
 
 const columns = [
 	columnHelper.accessor('year', {
 		header: () => <span>Year</span>,
 		cell: (info) => info.getValue(),
 		width: '45px',
-	}),
-	columnHelper.accessor('fork', {
-		id: 'fork',
-		cell: (info) => info.renderValue(),
-		header: () => <span>Fork</span>,
-		width: '65px',
 	}),
 	columnHelper.accessor('model', {
 		header: () => 'Model',
@@ -40,22 +28,21 @@ const columns = [
 	}),
 ];
 
-const RockshoxSearchResultsTable = (props) => {
-  const [data, setData] = React.useState(() => [...props.searchResults])
-  const rerender = React.useReducer(() => ({}), {})[1]
+const FoxSearchResultsTable = (props) => {
+	const [data, setData] = React.useState(() => [...props.searchResults]);
+	const rerender = React.useReducer(() => ({}), {})[1];
 
+	const handleClick = (rowData) => {
+		console.log(rowData);
+	};
 
-const handleClick = (rowData) => {
- console.log(rowData);
-}
+	const table = useReactTable({
+		data,
+		columns,
+		getCoreRowModel: getCoreRowModel(),
+	});
 
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  })
-
-  return (
+	return (
 		<div className='p-2'>
 			<table style={{ backgroundColor: 'black', color: 'white', border: '1px solid whitesmoke', borderRadius: '5px' }}>
 				<thead>
@@ -95,5 +82,5 @@ const handleClick = (rowData) => {
 			</table>
 		</div>
 	);
-}
-export default RockshoxSearchResultsTable;
+};
+export default FoxSearchResultsTable;

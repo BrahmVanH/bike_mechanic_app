@@ -4,6 +4,7 @@ import { Button, Form, Alert } from 'react-bootstrap';
 import { listSupportedModelYears } from '../utils/helpers';
 
 import RockshoxSearchResultsTable from '../components/SuspensionProductsTable/RockshoxSearchResultsTable';
+import FoxSearchResultsTable from '../components/SuspensionProductsTable/FoxSearchResultsTable';
 import RockshoxProductTable from '../components/SuspensionProductsTable/rockshoxProductTable';
 import FoxProductTable from '../components/SuspensionProductsTable/foxProductsTable';
 import OilBathTable from '../components/OilBathTable';
@@ -350,7 +351,7 @@ function HomeRedo() {
 								<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchParameters}>
 									Go Back
 								</Button>
-								<FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
+								<FoxSearchResultsTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
 							</div>
 						) : (
 							<></>
