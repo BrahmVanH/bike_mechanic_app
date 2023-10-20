@@ -44,9 +44,9 @@ const RockshoxSearchResultsTable = (props) => {
   const [data, setData] = React.useState(() => [...props.searchResults])
   const rerender = React.useReducer(() => ({}), {})[1]
 
-const sendSelectedProductInformation = (rowData) => {
-  console.log(rowData);
-}
+// const sendSelectedProductInformation = (rowData) => {
+//   console.log(rowData);
+// }
 
 const handleClick = (rowData) => {
  console.log(rowData);
@@ -79,7 +79,7 @@ const handleClick = (rowData) => {
 								</td>
 							))}
 							<td style={{ width: '30px' }}>
-								<Button className='btn-dark' onClick={() => sendSelectedProductInformation(row.original)}>
+								<Button className='btn-dark' onClick={() => props.sendSelectedProductInformation(row.original)}>
 									<FaSearch style={{ backgroundColor: 'transparent', color: 'white' }} size={12} />
 								</Button>
 							</td>
