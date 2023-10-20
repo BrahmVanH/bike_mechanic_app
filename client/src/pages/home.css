@@ -13,7 +13,7 @@
   padding: .5rem;
   margin: 1rem;
   color: white;
-  border: 0.5px solid whitesmoke;
+  border: 0.5px solid #b87333;
   border-radius: 10px;
   font-family: 'Ubuntu', sans-serif;
 }
@@ -23,7 +23,7 @@
   margin: 1rem;
   padding: 1rem;
   background-color: black;
-  border: 0.5px solid whitesmoke;
+  border: 0.5px solid #b87333;
   border-radius: 10px;
 }
 
@@ -56,4 +56,9 @@
 
 .featured-marzocchi-fork {
   margin: .5rem 0rem;
+}
+
+.handsontable .wtHolder {
+  display: flex;
+  justify-content: center;
 }

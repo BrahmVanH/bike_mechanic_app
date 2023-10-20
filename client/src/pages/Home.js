@@ -4,6 +4,7 @@ import { Button, Form, Alert } from 'react-bootstrap';
 import { listSupportedModelYears } from '../utils/helpers';
 
 import RockshoxSearchResultsTable from '../components/SuspensionProductsTable/RockshoxSearchResultsTable';
+import FoxSearchResultsTable from '../components/SuspensionProductsTable/FoxSearchResultsTable';
 import RockshoxProductTable from '../components/SuspensionProductsTable/rockshoxProductTable';
 import FoxProductTable from '../components/SuspensionProductsTable/foxProductsTable';
 import OilBathTable from '../components/OilBathTable';
@@ -14,6 +15,7 @@ import { rockshoxProductsByYear, foxProductsByYear } from '../utils/queries';
 import { LOG_ERROR } from '../utils/mutations';
 
 import './home.css';
+// import polishedCopper from'../../public/assets/img/polished-copper.jpg';
 
 function HomeRedo() {
 	const [showAlert, setShowAlert] = useState(false);
@@ -68,7 +70,7 @@ function HomeRedo() {
 	});
 
 	// Style object for user inputs
-	const inputStyle = { userSelect: 'all', backgroundColor: 'black', color: 'white' };
+	const inputStyle = { userSelect: 'all', backgroundColor: 'black', color: 'white', border: '1px solid #2f2f2f' };
 
 	// Mutation for logging error messages
 
@@ -287,9 +289,9 @@ function HomeRedo() {
 			) : (
 				<div className='main-container'>
 					{!hideSearchOptions ? (
-						<div className='welcome-message col-8 col-md-4 col-lg-4'>
-							<p>Welcome to Plush Lab. Please search for your suspension fork below.</p>
-						</div>
+							<div className='welcome-message col-8 col-md-4 col-lg-4'>
+								<p className=''>Welcome to Plush Lab. Please search for your suspension fork below.</p>
+						 </div>
 					) : (
 						<></>
 					)}
@@ -349,7 +351,7 @@ function HomeRedo() {
 								<Button className='btn-sm btn-dark' style={{ margin: '0.5rem 0rem' }} onClick={handleGoBackToSearchParameters}>
 									Go Back
 								</Button>
-								<FoxProductTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
+								<FoxSearchResultsTable searchResults={initialQueryResponse} sendSelectedProductInformation={sendSelectedProductInformation} />{' '}
 							</div>
 						) : (
 							<></>
