@@ -9,14 +9,9 @@
   flex-direction: column;
   padding: 1rem;
   margin: 1rem;
-  border: 1px solid whitesmoke;
+  border: 1px solid #b87333;
   border-radius: 10px;
- 
 }
-
-/* .contact-form button {
-  background-color: black;
-} */
 
 .contact-header-text {
   padding: 1rem 0rem 0rem 0rem
